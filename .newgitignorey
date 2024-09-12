@@ -1,0 +1,66 @@
+# Dependencies
+node_modules/
+
+# Compiled output
+/dist
+/tmp
+/out-tsc
+
+# Environment variables
+.env
+
+# IDE files
+.vscode/
+.idea/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Angular cache
+.angular/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Ignore all files with the .spec extension
+*.spec.ts
+
+*.md
+
+#workspace not needed files
+backend/src/controllers/credit.controller.ts
+backend/src/controllers/credit-package.controller.ts
+backend/src/controllers/payment.controller.ts
+backend/src/controllers/subscription.controller.ts
+backend/src/models/credit-package.model.ts
+backend/src/routes/credit-package.routes.ts
+backend/src/routes/credit.routes.ts
+backend/src/routes/payment.routes.ts
+backend/src/routes/subscription.routes.ts
+backend/src/services/stripe.service.ts
+backend/src/services/subscription-analytics.service.ts
+
+#Frontend files:
+frontend/src/app/components/credits/credits.component.ts
+frontend/src/app/components/credit-package/credit-package.component.ts
+frontend/src/app/components/subscription-management/subscription-management.component.ts
+frontend/src/app/services/credit.service.ts
+frontend/src/app/services/credit-package.service.ts
+frontend/src/app/services/stripe.service.ts
+frontend/src/app/services/subscription.service.ts
+
+# Additional files to ignore
+frontend/src/app/components/admin/**
+backend/src/controllers/admin.controller.ts
+backend/src/routes/admin.routes.ts
+frontend/src/environments/environment.prod.ts
+frontend/e2e/**
+backend/test/**
+*.log
+*.lock
+*.bak
+*.swp
+*.swo

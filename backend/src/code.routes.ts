@@ -1,11 +1,10 @@
-import express from 'express';
+// code.routes.ts
 
-const router = express.Router();
+import { Router } from 'express';
+import { interpretCode } from '../src/controllers/code.controller';
 
-router.post('/submit', (req, res) => {
-  const { code } = req.body;
-  console.log('Received code:', code);
-  res.json({ message: 'Code received', codeLength: code.length });
-});
+const router = Router();
+
+router.post('/interpret', interpretCode);
 
 export default router;
