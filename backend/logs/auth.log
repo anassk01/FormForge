@@ -833,8 +833,6 @@
 {"level":"info","message":{"event":"successful_login","rememberMe":false,"role":"admin","userId":"66d0e15f157eff804d59a664"},"timestamp":"2024-09-12T03:39:34.146Z"}
 {"level":"info","message":{"balance":9887,"event":"credit_balance_check","userId":"66d0e15f157eff804d59a664"},"timestamp":"2024-09-12T03:39:46.024Z"}
 {"level":"info","message":{"amount":1,"event":"credits_used","newBalance":9886,"userId":"66d0e15f157eff804d59a664"},"timestamp":"2024-09-12T03:39:53.256Z"}
-<<<<<<< HEAD
-=======
 {"level":"info","message":{"event":"successful_login","rememberMe":false,"role":"admin","userId":"66d0e15f157eff804d59a664"},"timestamp":"2024-09-14T18:01:46.850Z"}
 {"level":"info","message":{"balance":9829,"event":"credit_balance_check","userId":"66d0e15f157eff804d59a664"},"timestamp":"2024-09-14T18:01:51.819Z"}
 {"level":"info","message":{"amount":1,"event":"credits_used","newBalance":9828,"userId":"66d0e15f157eff804d59a664"},"timestamp":"2024-09-14T18:02:28.116Z"}
@@ -845,4 +843,3 @@
 {"level":"info","message":{"amount":1,"event":"credits_used","newBalance":9826,"userId":"66d0e15f157eff804d59a664"},"timestamp":"2024-09-14T20:15:10.847Z"}
 {"level":"info","message":{"event":"successful_login","rememberMe":false,"role":"admin","userId":"66d0e15f157eff804d59a664"},"timestamp":"2024-09-14T20:16:46.057Z"}
 {"level":"info","message":{"balance":9826,"event":"credit_balance_check","userId":"66d0e15f157eff804d59a664"},"timestamp":"2024-09-14T20:16:55.618Z"}
->>>>>>> 643a323 (V1.0)

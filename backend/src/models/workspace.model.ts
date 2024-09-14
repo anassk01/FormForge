@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-//backend/src/models/workspace.model.ts
-import mongoose, { Schema, Document } from 'mongoose';
-import { IUser } from './user.model';
-
-=======
 
 
 import mongoose, { Schema, Document } from 'mongoose';
@@ -26,41 +20,10 @@ export interface IFormSubmission {
   values: Record<string, any | ITimeManagementData>;
   submissionDate: Date;
 }
->>>>>>> 643a323 (V1.0)
 
 export interface IForm {
   _id: mongoose.Types.ObjectId;
   name: string;
-<<<<<<< HEAD
-  structure: any;
-  values?: Record<string, any>;
-  submissions?: {
-    _id: mongoose.Types.ObjectId;
-    values: any;
-    submissionDate: Date;
-    createdAt: Date;
-    updatedAt: Date;
-  }[];
-  createdAt: Date;
-  updatedAt: Date;
-  isTemplate: boolean;
-  parentTemplateId?: mongoose.Types.ObjectId;
-}
-
-
-
-export interface IFolder {
-  _id: mongoose.Types.ObjectId;
-  name: string;
-  createdAt: Date;
-  updatedAt: Date;
-  forms: IForm[];
-  subfolders: IFolder[];
-}
-
-
-
-=======
   structure: any; // Make sure this is not optional
   isTemplate: boolean;
   parentTemplateId?: mongoose.Types.ObjectId;
@@ -81,7 +44,6 @@ export interface IFolder {
   updatedAt: Date;
 }
 
->>>>>>> 643a323 (V1.0)
 export interface IWorkspaceMember {
   user: IUser['_id'];
   role: 'owner' | 'admin' | 'editor' | 'viewer';
@@ -101,33 +63,6 @@ export interface IWorkspace extends Document {
   folders: IFolder[];
   createdAt: Date;
   updatedAt: Date;
-<<<<<<< HEAD
-
-}
-
-
-const FormSchema: Schema = new Schema({
-  name: { type: String, required: true },
-  structure: { type: Schema.Types.Mixed, required: true, default: {} },
-  isTemplate: { type: Boolean, default: false },
-  parentTemplateId: { type: Schema.Types.ObjectId, ref: 'Form' },
-  values: { type: Schema.Types.Mixed },
-  submissions: [{
-    values: { type: Schema.Types.Mixed },
-    submissionDate: { type: Date, default: Date.now },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
-  }]
-}, { timestamps: true });
-
-const FolderSchema: Schema = new Schema({
-  name: { type: String, required: true },
-  forms: [FormSchema], // Array of forms
-  subfolders: [{ type: Schema.Types.Mixed }], // Array of subfolders
-}, { timestamps: true });
-
-
-=======
 }
 
 const FormSubmissionSchema: Schema = new Schema({
@@ -152,7 +87,6 @@ const FolderSchema: Schema = new Schema({
   subfolders: [{ type: Schema.Types.Mixed }]
 }, { timestamps: true });
 
->>>>>>> 643a323 (V1.0)
 const WorkspaceSchema: Schema = new Schema({
   name: { type: String, required: true },
   description: { type: String, default: '' },
@@ -170,9 +104,5 @@ const WorkspaceSchema: Schema = new Schema({
   folders: [FolderSchema]
 }, { timestamps: true });
 
-<<<<<<< HEAD
-export const Workspace = mongoose.model<IWorkspace>('Workspace', WorkspaceSchema);
-=======
 export const Workspace = mongoose.model<IWorkspace>('Workspace', WorkspaceSchema);
 
->>>>>>> 643a323 (V1.0)
