@@ -1,0 +1,15 @@
+<div class="timer">
+    <div class="time-display">{{ currentTime() | formatTime }}</div>
+    <mat-progress-bar [value]="progress()"></mat-progress-bar>
+    <div class="timer-info">
+      Session {{ currentSession() }}/{{ settings().sessions }} -
+      {{ currentPhase() }}
+    </div>
+    <div class="controls">
+      <button mat-raised-button color="primary" (click)="toggleTimer()">
+        {{ isRunning() ? 'Pause' : 'Start' }} Timer
+      </button>
+      <button mat-raised-button (click)="skipPhase()" [disabled]="!isRunning()">Skip Phase</button>
+      <button mat-raised-button (click)="resetTimer()">Reset Timer</button>
+    </div>
+  </div>

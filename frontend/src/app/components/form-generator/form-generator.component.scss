@@ -1,0 +1,313 @@
+// Variables
+$primary-color: #3f51b5;
+$accent-color: #ff4081;
+$warn-color: #f44336;
+$background-color: #f5f5f5;
+$card-background: #ffffff;
+$text-color: #333333;
+$border-color: #e0e0e0;
+$shadow-color: rgba(0, 0, 0, 0.1);
+
+// Mixins
+@mixin card-style {
+  background-color: $card-background;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px $shadow-color;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+@mixin responsive-font($min-size, $max-size, $min-width: 480px, $max-width: 1200px) {
+  font-size: calc(#{$min-size} + (#{str-replace(#{$max-size}, 'px', '')} - #{str-replace(#{$min-size}, 'px', '')}) * ((100vw - #{$min-width}) / (#{str-replace(#{$max-width}, 'px', '')} - #{str-replace(#{$min-width}, 'px', '')})));
+
+  @media (max-width: #{$min-width}) {
+    font-size: $min-size;
+  }
+  @media (min-width: #{$max-width}) {
+    font-size: $max-size;
+  }
+}
+
+// Main Styles
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.form-generator {
+  flex-grow: 1;
+  width: 100%;
+  max-width: 2000px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: $background-color;
+
+  &__content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+  }
+
+  &__form-container,
+  &__result-display {
+    @include card-style;
+  }
+
+  &__form-container {
+    flex: 1 1 600px;
+  }
+
+  &__result-display {
+    flex: 1 1 400px;
+  }
+
+  &__title {
+    @include responsive-font(1.8rem, 3rem);
+    & {
+      color: $primary-color;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+  }
+
+  &__field-container {
+    @include card-style;
+
+    &--full {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &__field {
+    width: 100%;
+
+    .mat-mdc-form-field-subscript-wrapper {
+      font-size: 12px;
+    }
+  }
+
+  &__checkbox-field {
+    margin: 16px 0;
+  }
+
+  &__list,
+  &__table {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  &__list-title,
+  &__table-title {
+    @include responsive-font(1.3rem, 1.5rem);
+    & {
+      color: $primary-color;
+      margin-bottom: 15px;
+    }
+  }
+
+  &__list-description,
+  &__table-description {
+    @include responsive-font(0.9rem, 1rem);
+    & {
+      color: lighten($text-color, 20%);
+      margin-bottom: 20px;
+    }
+  }
+  
+  &__list-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  &__list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  &__list-item-fields {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+  }
+
+  &__table-container {
+    overflow-x: auto;
+    margin-bottom: 20px;
+  }
+
+  &__mat-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+
+    .mat-mdc-header-cell,
+    .mat-mdc-cell {
+      padding: 15px;
+      text-align: left;
+      vertical-align: middle;
+    }
+
+    .mat-mdc-header-cell {
+      font-weight: bold;
+      color: $primary-color;
+      background-color: lighten($primary-color, 45%);
+      border-bottom: 2px solid $primary-color;
+    }
+
+    .mat-mdc-row {
+      background-color: $card-background;
+      box-shadow: 0 2px 4px $shadow-color;
+      transition: box-shadow 0.3s ease;
+
+      &:hover {
+        box-shadow: 0 4px 8px $shadow-color;
+      }
+    }
+
+    .mat-mdc-cell {
+      &:first-child {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+      }
+
+      &:last-child {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
+    }
+
+    .mat-mdc-form-field {
+      width: 100%;
+    }
+  }
+
+  &__submit {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
+  }
+
+  // Material Design Overrides
+  .mat-mdc-form-field {
+    width: 100%;
+
+    .mat-mdc-form-field-flex {
+      background-color: transparent;
+    }
+
+    .mat-mdc-text-field-wrapper {
+      background-color: transparent !important;
+      padding-bottom: 0;
+    }
+
+    .mat-mdc-form-field-underline {
+      display: none;
+    }
+
+    .mat-mdc-form-field-infix {
+      border-top: none;
+      padding: 0.5em 0;
+    }
+
+    &.mat-focused .mat-mdc-form-field-flex {
+      background-color: rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  .mat-mdc-checkbox {
+    margin-right: 10px;
+  }
+
+  .mat-mdc-raised-button {
+    margin-right: 8px;
+  }
+
+  // Responsive adjustments
+  @media (max-width: 1200px) {
+    padding: 20px;
+
+    &__content {
+      flex-direction: column;
+    }
+
+    &__form-container,
+    &__result-display {
+      flex-basis: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    &__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 15px;
+
+    &__mat-table {
+      .mat-mdc-header-cell,
+      .mat-mdc-cell {
+        padding: 10px;
+      }
+    }
+  }
+}
+
+// Loading spinner styles
+mat-progress-spinner {
+  margin: 40px auto;
+}
+
+// Print styles
+@media print {
+  .form-generator {
+    background-color: white;
+    box-shadow: none;
+    padding: 0;
+
+    &__field-container,
+    &__list,
+    &__table {
+      box-shadow: none;
+      border: 1px solid $border-color;
+      page-break-inside: avoid;
+    }
+
+    &__mat-table .mat-mdc-row {
+      box-shadow: none;
+    }
+
+    button {
+      display: none;
+    }
+  }
+}
+
+// Helper function
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  @return $string;
+}

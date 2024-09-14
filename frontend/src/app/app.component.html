@@ -1,0 +1,51 @@
+<!-- src/app/app.component.html-->
+<div class="app-container">
+  <mat-toolbar color="primary" class="app-toolbar">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Code Interpretation Platform</span>
+    <span class="spacer"></span>
+    <app-connection-status></app-connection-status>
+    @if (authService.currentUserValue) {
+      <span class="credits" [matTooltip]="getCreditsTooltip()">
+        Credits: {{ creditInfo?.credits || 0 }}
+      </span>
+      <button mat-button (click)="logout()">Logout</button>
+    } @else {
+      <a mat-button routerLink="/login">Login</a>
+      <a mat-button routerLink="/register">Register</a>
+    }
+  </mat-toolbar>
+
+  
+    <mat-sidenav-container class="app-sidenav-container">
+      <mat-sidenav #sidenav mode="side" [opened]="isLargeScreen()" class="app-sidenav">
+        <mat-nav-list>
+          <a mat-list-item routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+            <mat-icon matListItemIcon>code</mat-icon>
+            <span matListItemTitle>Code Analysis</span>
+          </a>
+          <a mat-list-item routerLink="/workspaces" routerLinkActive="active-link">
+            <mat-icon matListItemIcon>work</mat-icon>
+            <span matListItemTitle>Workspaces</span>
+          </a>
+          <a mat-list-item routerLink="/credits" routerLinkActive="active-link">
+            <mat-icon matListItemIcon>account_balance_wallet</mat-icon>
+            <span matListItemTitle>Credits</span>
+          </a>
+          @if (authService.isAdmin()) {
+            <a mat-list-item routerLink="/admin" routerLinkActive="active-link">
+              <mat-icon matListItemIcon>dashboard</mat-icon>
+              <span matListItemTitle>Admin Dashboard</span>
+            </a>
+          }
+          
+        </mat-nav-list>
+      </mat-sidenav>
+  
+      <mat-sidenav-content class="app-content">
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>

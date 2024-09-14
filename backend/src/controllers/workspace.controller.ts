@@ -1,7 +1,11 @@
 // /backend/src/controllers/workspace.controller.ts
 import { Response ,Request} from 'express';
 import { AuthRequest } from '../middleware/auth.middleware';
+<<<<<<< HEAD
 import { Workspace, IWorkspace ,IFolder , IForm} from '../models/workspace.model';
+=======
+import { Workspace, IWorkspace ,IFolder , IForm,IFormSubmission,ITimeManagementData} from '../models/workspace.model';
+>>>>>>> 643a323 (V1.0)
 import { User } from '../models/user.model';
 import { emitWorkspaceUpdate, getIo,emitCursorPosition } from '../services/socket.service';
 import mongoose from 'mongoose';
@@ -746,6 +750,7 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
         return;
       }
   
+<<<<<<< HEAD
       const newForm: IForm = {
         _id: new mongoose.Types.ObjectId(),
         name,
@@ -755,6 +760,26 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
         },
         isTemplate,
         parentTemplateId: parentTemplateId ? new mongoose.Types.ObjectId(parentTemplateId) : undefined,
+=======
+      let parentTemplateObjectId: mongoose.Types.ObjectId | undefined;
+      if (parentTemplateId && parentTemplateId !== 'undefined' && !parentTemplateId.startsWith('temp_')) {
+        try {
+          parentTemplateObjectId = new mongoose.Types.ObjectId(parentTemplateId);
+        } catch (error) {
+          console.error('Invalid parentTemplateId:', parentTemplateId);
+          res.status(400).json({ message: 'Invalid parentTemplateId' });
+          return;
+        }
+      }
+  
+      const newForm: IForm = {
+        _id: new mongoose.Types.ObjectId(),
+        name,
+        structure: structure, // Ensure structure is passed
+        isTemplate,
+        parentTemplateId: parentTemplateObjectId,
+        state: isTemplate ? 'template' : 'new_instance',
+>>>>>>> 643a323 (V1.0)
         createdAt: new Date(),
         updatedAt: new Date(),
         submissions: []
@@ -770,7 +795,10 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
       res.status(500).json({ message: 'Error creating form', error: (error as Error).message });
     }
   };
+<<<<<<< HEAD
   
+=======
+>>>>>>> 643a323 (V1.0)
 
   export const updateForm = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -855,6 +883,7 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
       res.status(500).json({ message: 'Error deleting form', error: (error as Error).message });
     }
   };
+<<<<<<< HEAD
 
   export const submitForm = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -863,6 +892,20 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
   
       console.log('Received form submission:', { workspaceId, folderId, formId, values, structure });
   
+=======
+  export const submitForm = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { workspaceId, folderId, formId } = req.params;
+      const { values } = req.body;
+  
+      console.log('Received form submission:', { workspaceId, folderId, formId, values });
+  
+      if (!values) {
+        res.status(400).json({ message: 'Form values are required' });
+        return;
+      }
+
+>>>>>>> 643a323 (V1.0)
       const workspace = await Workspace.findById(workspaceId);
       if (!workspace) {
         res.status(404).json({ message: 'Workspace not found' });
@@ -882,31 +925,49 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
       }
   
       const currentDate = new Date();
+<<<<<<< HEAD
       const formattedDate = currentDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
   
       let submittedInstance;
+=======
+>>>>>>> 643a323 (V1.0)
   
       if (form.isTemplate) {
         // Create a new instance based on the template
         const newInstance: IForm = {
           _id: new mongoose.Types.ObjectId(),
+<<<<<<< HEAD
           name: `${form.name} - Instance ${formattedDate}`,
           structure: structure || form.structure || {},
           isTemplate: false,
           parentTemplateId: form._id,
           values: values,
+=======
+          name: `${form.name} - Instance ${currentDate.toISOString().split('T')[0]}`,
+          structure: form.structure,
+          isTemplate: false,
+          parentTemplateId: form._id,
+          values: processFormValues(values),
+          state: 'submitted_instance',
+>>>>>>> 643a323 (V1.0)
           createdAt: currentDate,
           updatedAt: currentDate,
           submissions: [{
             _id: new mongoose.Types.ObjectId(),
+<<<<<<< HEAD
             values: values,
             submissionDate: currentDate,
             createdAt: currentDate,
             updatedAt: currentDate
+=======
+            values: processFormValues(values),
+            submissionDate: currentDate
+>>>>>>> 643a323 (V1.0)
           }]
         };
   
         folder.forms.push(newInstance);
+<<<<<<< HEAD
         submittedInstance = newInstance;
       } else {
         // Submit to an existing instance
@@ -916,12 +977,26 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
           submissionDate: currentDate,
           createdAt: currentDate,
           updatedAt: currentDate
+=======
+        console.log('New instance created:', newInstance);
+        res.status(201).json({ 
+          message: 'New instance created and submitted successfully', 
+          instance: newInstance 
+        });
+      } else {
+        // Submit to an existing instance
+        const newSubmission: IFormSubmission = {
+          _id: new mongoose.Types.ObjectId(),
+          values: processFormValues(values),
+          submissionDate: currentDate
+>>>>>>> 643a323 (V1.0)
         };
   
         if (!form.submissions) {
           form.submissions = [];
         }
         form.submissions.push(newSubmission);
+<<<<<<< HEAD
         form.values = values;
         form.structure = structure || form.structure || {};
         form.updatedAt = currentDate;
@@ -936,13 +1011,97 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
         message: 'Form submitted successfully', 
         instance: submittedInstance 
       });
+=======
+        form.values = processFormValues(values);
+        form.updatedAt = currentDate;
+        form.state = 'submitted_instance';
+  
+        console.log('Existing instance updated:', form);
+        res.status(200).json({ 
+          message: 'Form submitted successfully', 
+          instance: form 
+        });
+      }
+  
+      await workspace.save();
+
+      if (values.workout_timer) {
+        console.log('Workout Timer Details:');
+        console.log('Completed Sessions:', JSON.stringify(values.workout_timer.completedSessions, null, 2));
+        console.log('Current Phase:', values.workout_timer.currentPhase);
+        console.log('Current Session:', values.workout_timer.currentSession);
+        console.log('Total Time:', values.workout_timer.totalTime);
+      }
+  
+      if (values.rest_time) {
+        console.log('Rest Time Details:');
+        console.log('Laps:', JSON.stringify(values.rest_time.laps, null, 2));
+        console.log('Total Time:', values.rest_time.totalTime);
+      }
+  
+>>>>>>> 643a323 (V1.0)
     } catch (error) {
       console.error('Error submitting form:', error);
       res.status(500).json({ message: 'Error submitting form', error: (error as Error).message });
     }
   };
 
+<<<<<<< HEAD
 
+=======
+  function processFormValues(values: any): any {
+    if (!values || typeof values !== 'object') {
+      return {};
+    }
+  
+    const processedValues: any = {};
+    for (const [key, value] of Object.entries(values)) {
+      if (isTimeManagementField(value)) {
+        processedValues[key] = processTimeManagementField(value);
+      } else if (Array.isArray(value)) {
+        processedValues[key] = value.map(item => processFormValues(item));
+      } else if (value instanceof Date) {
+        processedValues[key] = value.toISOString();
+      } else if (typeof value === 'object' && value !== null) {
+        processedValues[key] = processFormValues(value);
+      } else {
+        processedValues[key] = value;
+      }
+    }
+    return processedValues;
+  }
+  
+
+  function isTimeManagementField(value: any): value is ITimeManagementData {
+    return value && typeof value === 'object' && 'type' in value && 'data' in value &&
+      (value.type === 'STOPWATCH' || value.type === 'TIMER');
+  }
+
+
+  function processTimeManagementField(field: any): any {
+    if (field.type === 'STOPWATCH') {
+      return {
+        laps: field.laps,
+        totalTime: field.totalTime,
+        completed: field.completed
+      };
+    } else if (field.type === 'TIMER') {
+      return {
+        completedSessions: field.completedSessions,
+        currentPhase: field.currentPhase,
+        currentSession: field.currentSession,
+        totalTime: field.totalTime,
+        completed: field.completed
+      };
+    }
+    return field;
+  }
+  
+  
+  
+
+    
+>>>>>>> 643a323 (V1.0)
   export const getFormInstances = async (req: Request, res: Response): Promise<void> => {
     try {
       const { workspaceId, folderId, formId } = req.params;
@@ -1041,4 +1200,43 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
       console.error('Error fetching form submissions:', error);
       res.status(500).json({ message: 'Error fetching form submissions', error: (error as Error).message });
     }
+<<<<<<< HEAD
   };
+=======
+  };
+
+  export const getSubmittedInstance = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { workspaceId, folderId, formId } = req.params;
+  
+      const workspace = await Workspace.findById(workspaceId);
+      if (!workspace) {
+        res.status(404).json({ message: 'Workspace not found' });
+        return;
+      }
+  
+      const folder = findFolderById(workspace.folders, folderId);
+      if (!folder) {
+        res.status(404).json({ message: 'Folder not found' });
+        return;
+      }
+  
+      const form = folder.forms.find(f => f._id.toString() === formId);
+      if (!form) {
+        res.status(404).json({ message: 'Form not found' });
+        return;
+      }
+  
+      if (form.isTemplate || form.state !== 'submitted_instance') {
+        res.status(400).json({ message: 'This form is not a submitted instance' });
+        return;
+      }
+  
+      res.status(200).json(form);
+    } catch (error) {
+      console.error('Error retrieving submitted instance:', error);
+      res.status(500).json({ message: 'Error retrieving submitted instance', error: (error as Error).message });
+    }
+  };
+
+>>>>>>> 643a323 (V1.0)

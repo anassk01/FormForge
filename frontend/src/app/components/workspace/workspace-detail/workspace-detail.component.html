@@ -1,0 +1,62 @@
+
+<!-- src/app/components/workspace/workspace-detail/workspace-detail.component.html -->
+@if (loading()) {
+  <mat-spinner></mat-spinner>
+  }
+  @if (workspace()) {
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ workspace()?.name }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="workspaceForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+          <mat-label>Workspace Name</mat-label>
+          <input matInput formControlName="name" required>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" rows="3"></textarea>
+        </mat-form-field>
+      </form>
+      <h3>Active Users</h3>
+      <mat-list>
+        @for (user of activeUsers; track user) {
+          <mat-list-item>
+            <span matListItemTitle>{{ user }}</span>
+          </mat-list-item>
+        }
+      </mat-list>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+      <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>
+    </mat-card-actions>
+  </mat-card>
+  
+  <app-folder-management 
+    [workspaceId]="workspace()?._id ?? ''"
+    (folderSelected)="onFolderSelected($event)">
+  </app-folder-management>
+  
+  @if (workspace() && selectedFolderId()) {
+    <app-form-management
+      [workspaceId]="workspace()?._id ?? ''"
+      [folderId]="selectedFolderId()!"
+      [selectedForm]="selectedForm()"
+      (formSelected)="onFormSelected($event)">
+    </app-form-management>
+  }
+  
+  @if (canManageUsers()) {
+    <app-permission-management
+      [members]="workspace()?.members ?? []"
+      [workspaceId]="workspace()?._id ?? ''"
+      (permissionsUpdated)="onPermissionsUpdated()">
+    </app-permission-management>
+    <app-activity-log [workspaceId]="workspace()?._id ?? ''"></app-activity-log>
+  }
+  }
+  @if (!workspace()) {
+  <p>Workspace not found.</p>
+  }
