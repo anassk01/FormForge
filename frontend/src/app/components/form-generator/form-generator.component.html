@@ -2,11 +2,10 @@
 <div class="form-generator">
   <h1 class="form-generatortitle">{{ parsedCode?.entryName || 'Dynamic Form Generator' }}</h1>
   @if (form) {
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-generatorform">
+    <form [formGroup]="form" (ngSubmit)="onSave()" class="form-generatorform">
       <div class="form-generatorgrid">
         @for (field of fields; track field.name) {
-          <div class="form-generatorfield-container" [ngClass]="{'form-generatorfield-container--full': field.type === 'LIST' || field.type === 'TABLE' || field.type === 'STOPWATCH' || field.type === 'TIMER'}">
-            @switch (field.type) {
+          <div class="form-generatorfield-container" [ngClass]="{'form-generatorfield-container--full': field.type === 'LIST' || field.type === 'TABLE' || field.type === 'STOPWATCH' || field.type === 'TIMER'}">            @switch (field.type) {
               @case ('TEXT') {
                 <app-dynamic-field [field]="field" [control]="getFormControl(field.name)"></app-dynamic-field>
               }
@@ -50,12 +49,19 @@
                   </button>
                 </div>
               }
+
               @case ('TABLE') {
                 <div class="form-generatortable">
-                  <h3 class="form-generatortable-title">{{ field.name }}</h3>
+                  <h3 class="form-generatortable-title">
+                    {{ field.name }}
+                    @if (field.required && !isTemplate) {
+                      <span class="required-indicator">*</span>
+                    }
+                  </h3>
                   <p class="form-generatortable-description">{{ field.description }}</p>
                   <div class="form-generatortable-container">
                     <table mat-table [dataSource]="getTableDataSource(field.name)" class="form-generatormat-table">
+                      
                       @for (column of field.options.columns || []; track column.name) {
                         <ng-container [matColumnDef]="column.name">
                           <th mat-header-cell *matHeaderCellDef>{{ column.description }}</th>
@@ -76,13 +82,20 @@
                       </ng-container>
                       <tr mat-header-row *matHeaderRowDef="getTableColumns(field)"></tr>
                       <tr mat-row *matRowDef="let rowGroup; columns: getTableColumns(field);"></tr>
+                      <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="100%">No data</td>
+                      </tr>
                     </table>
                   </div>
-                  <button mat-raised-button color="accent" type="button" (click)="addTableRow(field)">
+                  <button mat-raised-button color="accent" type="button" (click)="addTableRow(field)" [disabled]="isTemplate">
                     <mat-icon>add</mat-icon> Add Row
                   </button>
+                  @if (field.required && !isTemplate && getTableDataSource(field.name).data.length === 0) {
+                    <p class="error-message">This table is required. Please add at least one row.</p>
+                  }
                 </div>
               }
+  
               @case ('STOPWATCH') {
                 <app-time-management
                   [label]="field.name"
@@ -112,14 +125,13 @@
         }
       </div>
       <div class="form-generator__actions">
-        @if (isTemplate) {
-          <button mat-raised-button color="primary" type="button" (click)="onSave()" [disabled]="form.pristine">Save Template</button>
-        } @else if (!isSubmittedInstance) {
-          <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">Submit Form</button>
-        }
+        <button mat-raised-button color="primary" type="submit" [disabled]="!isFillable()">
+          {{ isTemplate ? 'Save Template' : 'Submit Form' }}
+        </button>
       </div>
     </form>
   } @else {
     <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
   }
 </div>
+

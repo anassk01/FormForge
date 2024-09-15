@@ -91,64 +91,32 @@ import { Form, FormTemplate, FormInstance, FormSubmission } from '../../../inter
         @if (isViewingSubmittedInstance()) {
           <div class="submitted-instance-view">
             @for (field of selectedFormStructure().fields; track field.name) {
-              <div class="field-container mat-elevation-z2">
-                <h4>{{ field.description }}</h4>
-                @switch (field.type) {
-                  @case ('TEXT') {
-                    <p>{{ selectedFormSignal()?.values?.[field.name] || 'N/A' }}</p>
+              <mat-expansion-panel class="field-container">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ field.name }} ({{ field.type }})
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                @if (selectedFormSignal()?.values?.[field.name]) {
+                  @switch (field.type) {
+                    @case ('TIMER') {
+                      <ng-container *ngTemplateOutlet="timerTemplate; context: {$implicit: formatEnhancedFieldData(selectedFormSignal()?.values?.[field.name])}"></ng-container>
+                    }
+                    @case ('STOPWATCH') {
+                      <ng-container *ngTemplateOutlet="stopwatchTemplate; context: {$implicit: formatEnhancedFieldData(selectedFormSignal()?.values?.[field.name])}"></ng-container>
+                    }
+                    @case ('LIST') {
+                      <ng-container *ngTemplateOutlet="listTemplate; context: {$implicit: formatEnhancedFieldData(selectedFormSignal()?.values?.[field.name])}"></ng-container>
+                    }
+                    @default {
+                      <pre>{{ formatEnhancedFieldData(selectedFormSignal()?.values?.[field.name]) | json }}</pre>
+                    }
                   }
-                  @case ('DATE') {
-                    <p>{{ selectedFormSignal()?.values?.[field.name] | date:'mediumDate' || 'N/A' }}</p>
-                  }
-                  @case ('STOPWATCH') {
-                    <div class="stopwatch-data">
-                      <p><strong>Total Time:</strong> {{ selectedFormSignal()?.values?.[field.name]?.totalTime | formatTime:'ms' }}</p>
-                      <p><strong>Completed:</strong> {{ selectedFormSignal()?.values?.[field.name]?.completed ? 'Yes' : 'No' }}</p>
-                      <h3>Laps:</h3>
-                      <ul>
-                        @for (lap of selectedFormSignal()?.values?.[field.name]?.laps; track lap.number) {
-                          <li>Lap {{ lap.number }}: {{ lap.time | formatTime:'ms' }}</li>
-                        }
-                      </ul>
-                    </div>
-                  }
-                  @case ('TIMER') {
-                    <div class="timer-data">
-                      <p><strong>Total Time:</strong> {{ selectedFormSignal()?.values?.[field.name]?.totalTime | formatTime:'ms' }}</p>
-                      <p><strong>Current Phase:</strong> {{ selectedFormSignal()?.values?.[field.name]?.currentPhase }}</p>
-                      <p><strong>Current Session:</strong> {{ selectedFormSignal()?.values?.[field.name]?.currentSession }}</p>
-                      <p><strong>Completed:</strong> {{ selectedFormSignal()?.values?.[field.name]?.completed ? 'Yes' : 'No' }}</p>
-                      <h3>Completed Sessions:</h3>
-                      <ul>
-                        @for (session of selectedFormSignal()?.values?.[field.name]?.completedSessions; track session.id) {
-                          <li>
-                            Session {{ session.sessionNumber }}: 
-                            {{ session.label }} - 
-                            {{ session.phase }} - 
-                            {{ session.duration | formatTime:'ms' }}
-                          </li>
-                        }
-                      </ul>
-                    </div>
-                  }
-                  @case ('SCALE') {
-                    <p>{{ selectedFormSignal()?.values?.[field.name] || 'N/A' }}</p>
-                  }
-                  @case ('BOOLEAN') {
-                    <p>{{ selectedFormSignal()?.values?.[field.name] ? 'Yes' : 'No' }}</p>
-                  }
-                  @case ('LIST') {
-                    <ul>
-                      @for (item of selectedFormSignal()?.values?.[field.name]; track $index) {
-                        <li>{{ item | json }}</li>
-                      }
-                    </ul>
-                  }
-                  @default {
-                    <pre>{{ selectedFormSignal()?.values?.[field.name] | json }}</pre>
-                  }
+                } @else {
+                  <p>No data available</p>
                 }
-              </div>
+              </mat-expansion-panel>
             }
           </div>
         } @else {
@@ -185,20 +153,6 @@ import { Form, FormTemplate, FormInstance, FormSubmission } from '../../../inter
       <p>No form selected. Please select a form to view or edit.</p>
     }
 
-    <div class="debug-info">
-      <h4>Debug Information:</h4>
-      <div>
-        <strong>Selected Form:</strong>
-        <pre>{{ selectedFormSignal() | json }}</pre>
-      </div>
-      <div>
-        <strong>Form Structure:</strong>
-        <pre>{{ selectedFormStructure() | json }}</pre>
-      </div>
-      <p><strong>Is Editing Template:</strong> {{ isEditingTemplate() }}</p>
-      <p><strong>Is Editable:</strong> {{ isEditable() }}</p>
-    </div>
-
     <app-code-analysis 
       [workspaceId]="workspaceId"
       [folderId]="folderId"
@@ -208,6 +162,46 @@ import { Form, FormTemplate, FormInstance, FormSubmission } from '../../../inter
     <p>Please select a folder to manage forms.</p>
   }
 </div>
+
+<ng-template #timerTemplate let-data>
+  <h4>Timer Details</h4>
+  <p>Total Programmed Time: {{ data.details.totalProgrammedTime }}</p>
+  <p>Sessions Completed: {{ data.details.sessionsCompleted }} / {{ data.details.totalSessionsPlanned }}</p>
+  <h5>Sessions:</h5>
+  <ul>
+    @for (session of data.details.sessions; track session.sessionNumber) {
+      <li>
+        {{ session.label }}
+        <br>Programmed: {{ session.programmedTime }}
+        <br>Actual: {{ session.actualTime }}
+      </li>
+    }
+  </ul>
+</ng-template>
+
+<ng-template #stopwatchTemplate let-data>
+  <h4>Stopwatch Details</h4>
+  <p>Total Time: {{ data.details.totalTime }}</p>
+  <h5>Laps:</h5>
+  <ul>
+    @for (lap of data.details.laps; track lap.number) {
+      <li>Lap {{ lap.number }}: {{ lap.time }}</li>
+    }
+  </ul>
+</ng-template>
+
+<ng-template #listTemplate let-data>
+  <h4>List Items:</h4>
+  <ul>
+    @for (item of data.value; track $index) {
+      <li>
+        @for (key of item | keyvalue; track key.key) {
+          <strong>{{ key.key }}:</strong> {{ key.value }}<br>
+        }
+      </li>
+    }
+  </ul>
+</ng-template>
   `
   ,
   styles : [`
@@ -475,12 +469,15 @@ onEditableToggle(): void {
     const selectedForm = this.selectedFormSignal();
     if (selectedForm) {
       if (this.isEditingTemplate()) {
+        // For templates, only save structure and metadata, not values
+        const templateData = {
+          name: selectedForm.name,
+          structure: event.structure
+        };
         if (selectedForm._id.startsWith('temp_')) {
-          // This is a new template, so we need to create it
-          this.createFormTemplate(selectedForm as FormTemplate, event);
+          this.createFormTemplate(templateData);
         } else {
-          // This is an existing template, so we update it
-          this.updateFormTemplate(selectedForm as FormTemplate, event);
+          this.updateFormTemplate(selectedForm._id, templateData);
         }
       } else {
         this.createFormInstance(selectedForm as FormTemplate, event);
@@ -489,14 +486,15 @@ onEditableToggle(): void {
       this.snackBar.open('No form selected. Please select a form before saving.', 'Close', { duration: 5000 });
     }
   }
-  private createFormTemplate(template: FormTemplate, event: { formData: any, structure: any }): void {
+
+  private createFormTemplate(templateData: Omit<Partial<FormTemplate>, 'isTemplate'>): void {
     this.formManagementService.createForm(
       this.workspaceId,
       this.folderId,
       {
-        name: template.name,
-        structure: event.structure || {}, // Ensure structure is always passed
-        isTemplate: true as const
+        ...templateData,
+        isTemplate: true as const,
+        values: undefined // Ensure no values are saved for templates
       }
     ).subscribe({
       next: (createdTemplate) => {
@@ -511,45 +509,31 @@ onEditableToggle(): void {
       }
     });
   }
+  
 
   onFormSubmitted(event: { formData: any, structure: any }): void {
-    console.log('onFormSubmitted called with event:', event);
-    const workspaceId = this.workspaceId;
-    const folderId = this.folderId;
-    const selectedForm = this._selectedFormSignal();
+    console.log('Enhanced form data submitted:', event.formData);
     
-    console.log('Submission context:', { workspaceId, folderId, selectedForm });
+  const workspaceId = this.workspaceId;
+  const folderId = this.folderId;
+  const selectedForm = this._selectedFormSignal();
   
-    if (!workspaceId || !folderId || !selectedForm) {
-      this.snackBar.open('Unable to submit form: Workspace, folder, or form not selected', 'Close', { duration: 3000 });
-      return;
-    }
-  
-    const formattedData = this.formatFormData(event.formData);
-    
-    // If the form is a new template (has a temp ID), create it first
-    if (selectedForm._id.startsWith('temp_')) {
-      const newForm: Partial<FormTemplate> = {
-        name: selectedForm.name,
-        structure: selectedForm.structure,
-        isTemplate: true,
-        state: 'template'
-      };
-  
-      this.formManagementService.createForm(workspaceId, folderId, newForm).subscribe({
-        next: (createdForm) => {
-          console.log('New form created:', createdForm);
-          this.submitFormData(workspaceId, folderId, createdForm._id, formattedData);
-        },
-        error: (error) => {
-          console.error('Error creating new form:', error);
-          this.snackBar.open('Error creating new form. Please try again.', 'Close', { duration: 5000 });
-        }
-      });
-    } else {
-      this.submitFormData(workspaceId, folderId, selectedForm._id, formattedData);
-    }
+  console.log('Submission context:', { workspaceId, folderId, selectedForm });
+
+  if (!workspaceId || !folderId || !selectedForm) {
+    this.snackBar.open('Unable to submit form: Workspace, folder, or form not selected', 'Close', { duration: 3000 });
+    return;
   }
+
+  if (selectedForm.isTemplate) {
+    this.snackBar.open('Cannot submit a template. Please create an instance first.', 'Close', { duration: 3000 });
+    return;
+  }
+
+  const formattedData = this.formatFormData(event.formData);
+  
+  this.submitFormData(workspaceId, folderId, selectedForm._id, formattedData);
+}
 
   
   private formatFormData(data: any): any {
@@ -641,19 +625,6 @@ onEditableToggle(): void {
       }
     });
   }
-  private processFormData(formData: any): any {
-    const processedData: any = {};
-    for (const [key, value] of Object.entries(formData)) {
-      if (value && typeof value === 'object' && 'type' in value && 'data' in value) {
-        if (value.type === 'STOPWATCH' || value.type === 'TIMER') {
-          processedData[key] = value;
-        }
-      } else {
-        processedData[key] = value;
-      }
-    }
-    return processedData;
-  }
 
   private createFormInstance(template: FormTemplate, event: { formData: any, structure: any }): void {
     const formData = {
@@ -682,42 +653,32 @@ getInstancesForTemplate(templateId: string): FormInstance[] {
   return this.instances().filter(instance => instance.parentTemplateId === templateId);
 }
 
-  private updateFormTemplate(template: FormTemplate, event: { formData: any, structure: any }): void {
-    this.formManagementService.updateForm(
-      this.workspaceId,
-      this.folderId,
-      template._id,
-      { ...event.formData, structure: event.structure, isTemplate: true }
-    ).subscribe({
-      next: (updatedForm) => {
-        this.snackBar.open('Template updated successfully!', 'Close', { duration: 3000 });
-        this.loadForms();
-      },
-      error: (error) => {
-        console.error('Error updating template:', error);
-        this.snackBar.open(`Error updating template: ${error.message}`, 'Close', { duration: 5000 });
-      }
-    });
-  }
+private updateFormTemplate(templateId: string, templateData: Omit<Partial<FormTemplate>, 'isTemplate'>): void {
+  this.formManagementService.updateForm(
+    this.workspaceId,
+    this.folderId,
+    templateId,
+    {
+      ...templateData,
+      isTemplate: true as const,
+      values: undefined // Ensure no values are saved for templates
+    }
+  ).subscribe({
+    next: (updatedForm) => {
+      this.snackBar.open('Template updated successfully!', 'Close', { duration: 3000 });
+      this.loadForms();
+      // Use the updatedForm data
+      this._selectedFormSignal.set(updatedForm);
+      this._selectedFormStructure.set(updatedForm.structure);
+    },
+    error: (error) => {
+      console.error('Error updating template:', error);
+      this.snackBar.open(`Error updating template: ${error.message}`, 'Close', { duration: 5000 });
+    }
+  });
+}
 
-  private updateFormInstance(instance: FormInstance, event: { formData: any, structure: any }): void {
-    this.formManagementService.updateForm(
-      this.workspaceId,
-      this.folderId,
-      instance._id,
-      { ...event.formData, structure: event.structure }
-    ).subscribe({
-      next: (updatedForm) => {
-        this.snackBar.open('Instance updated successfully!', 'Close', { duration: 3000 });
-        this.loadForms();
-      },
-      error: (error) => {
-        console.error('Error updating instance:', error);
-        this.snackBar.open('Error updating instance. Please try again.', 'Close', { duration: 5000 });
-      }
-    });
-  }
-  
+
   addForm(): void {
     if (!this.workspaceId || !this.folderId) {
       this.snackBar.open('Unable to add form: Workspace or folder not selected', 'Close', { duration: 3000 });
@@ -1024,5 +985,76 @@ getFieldSettings(field: any): any {
 
 
 
-  
+formatEnhancedFieldData(fieldData: any): any {
+  let formattedData: any = {
+    type: fieldData.type,
+    value: this.formatValue(fieldData.value, fieldData.type),
+    options: fieldData.options,
+    details: fieldData.details
+  };
+
+  if (fieldData.range) {
+    formattedData.range = fieldData.range;
+  }
+
+  if (fieldData.type === 'TIMER') {
+    formattedData.details = this.formatTimerDetails(fieldData.details);
+  } else if (fieldData.type === 'STOPWATCH') {
+    formattedData.details = this.formatStopwatchDetails(fieldData.details);
+  }
+
+  return formattedData;
+}
+
+
+private formatValue(value: any, type: string): any {
+  if (type === 'TIMER') {
+    return {
+      ...value,
+      completedSessions: value.completedSessions.map((session: any) => ({
+        ...session,
+        duration: this.formatTime(session.duration)
+      })),
+      totalTime: this.formatTime(value.totalTime)
+    };
+  } else if (type === 'STOPWATCH') {
+    return {
+      ...value,
+      laps: value.laps.map((lap: any) => ({
+        ...lap,
+        time: this.formatTime(lap.time)
+      })),
+      totalTime: this.formatTime(value.totalTime)
+    };
+  }
+  return value;
+}
+
+private formatTimerDetails(details: any): any {
+  return {
+    ...details,
+    totalProgrammedTime: this.formatTime(details.totalProgrammedTime),
+    sessions: details.sessions.map((session: any) => ({
+      ...session,
+      programmedTime: this.formatTime(session.programmedTime),
+      actualTime: this.formatTime(session.actualTime)
+    }))
+  };
+}
+
+private formatStopwatchDetails(details: any): any {
+  return {
+    ...details,
+    totalTime: this.formatTime(details.totalTime),
+    laps: details.laps.map((lap: any) => ({
+      ...lap,
+      time: this.formatTime(lap.time)
+    }))
+  };
+}
+
+private formatTime(time: number): string {
+  // Use the FormatTimePipe to format the time
+  return new FormatTimePipe().transform(time, 'ms');
+}
 }

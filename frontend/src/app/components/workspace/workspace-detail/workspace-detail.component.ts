@@ -42,6 +42,56 @@ import { Workspace, Form, FormTemplate, FormInstance } from '../../../interfaces
     FormGeneratorComponent
   ],
   templateUrl: './workspace-detail.component.html',
+  styles: [`
+    .workspace-detail-container {
+      padding: 24px;
+    }
+
+    .loading-spinner {
+      margin: 24px auto;
+    }
+
+    .workspace-card {
+      margin-bottom: 24px;
+    }
+
+    .workspace-title {
+      font-size: 24px;
+    }
+
+    .form-field {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .active-users {
+      margin-top: 24px;
+    }
+
+    .active-users-title {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .active-users-list {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .workspace-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .workspace-actions button {
+      margin-left: 8px;
+    }
+
+    .not-found-message {
+      text-align: center;
+      color: #999;
+    }
+  `]
 })
 export class WorkspaceDetailComponent implements OnInit, OnDestroy {
   workspace = signal<Workspace | null>(null);
@@ -51,7 +101,7 @@ export class WorkspaceDetailComponent implements OnInit, OnDestroy {
   activeUsers: string[] = [];
   selectedFolderId = signal<string | null>(null);
   selectedForm = signal<any | null>(null);
-  
+
   private workspaceUpdateSubscription: Subscription | null = null;
   private activeUsersSubscription: Subscription | null = null;
   private route = inject(ActivatedRoute);
@@ -63,15 +113,17 @@ export class WorkspaceDetailComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   private authService = inject(AuthService);
   private formManagementService = inject(FormManagementService);
-  
+
   templates = signal<FormTemplate[]>([]);
   instances = signal<FormInstance[]>([]);
+
   constructor() {
     this.workspaceForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: ['']
     });
   }
+
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -84,6 +136,7 @@ export class WorkspaceDetailComponent implements OnInit, OnDestroy {
       this.loading.set(false);
     }
   }
+
   ngOnDestroy(): void {
     const currentWorkspace = this.workspace();
     if (currentWorkspace) {

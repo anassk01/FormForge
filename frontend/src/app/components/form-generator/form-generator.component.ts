@@ -89,7 +89,8 @@ export class FormGeneratorComponent implements OnChanges {
       this.entryName = this.parsedCode.entryName || 'Dynamic Form';
       this.fields = this.parsedCode.parsedFields || this.parsedCode.fields || [];
       this.createForm();
-
+      this.initializeTableData();
+      
       if (this.initialValues) {
         console.log('FormGeneratorComponent: Applying initial values:', this.initialValues);
         this.applyInitialValues();
@@ -169,7 +170,6 @@ export class FormGeneratorComponent implements OnChanges {
     console.error(`Control ${listName}[${index}].${fieldName} not found`);
     return new FormControl(); // Return a new FormControl as a fallback
   }
-
   createForm(): void {
     console.log('FormGeneratorComponent: Creating form');
     const group: { [key: string]: AbstractControl } = {};
@@ -200,9 +200,13 @@ export class FormGeneratorComponent implements OnChanges {
         case 'LIST':
           group[field.name] = this.createListFormArray(field);
           break;
-        case 'TABLE':
-          group[field.name] = this.createTableFormArray(field);
-          break;
+          case 'TABLE':
+            group[field.name] = this.createTableFormArray(field);
+            if (field.required && !this.isTemplate) {
+              group[field.name].setValidators(this.tableRequiredValidator());
+            }
+            break;
+
         case 'STOPWATCH':
           group[field.name] = new FormControl({
             laps: [],
@@ -226,19 +230,69 @@ export class FormGeneratorComponent implements OnChanges {
     console.log('FormGeneratorComponent: Created form:', this.form);
   }
 
+  tableRequiredValidator(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const tableArray = control as FormArray;
+      return tableArray.length === 0 ? { 'requiredTable': true } : null;
+    };
+  }
+
+
   onSave(): void {
-    if (this.form.valid) {
+    if (this.isFillable()) {
       const formData = this.prepareFormData();
       const structure = {
         entryName: this.parsedCode?.entryName || 'Untitled Form',
         fields: this.fields
       };
-      this.templateSaved.emit({ formData, structure });
+      
+      if (this.isTemplate) {
+        const defaultValues = this.getDefaultValues(this.fields);
+        this.templateSaved.emit({ formData: defaultValues, structure });
+      } else {
+        this.instanceSubmitted.emit({ formData, structure });
+      }
     } else {
       this.form.markAllAsTouched();
       this.snackBar.open('Please fill all required fields correctly.', 'Close', { duration: 3000 });
     }
   }
+
+  isFillable(): boolean {
+    if (this.isTemplate) {
+      // For templates, we consider the form fillable as long as all non-table fields are valid
+      return this.areNonTableFieldsValid();
+    } else {
+      // For instances, we require all fields to be valid and required tables to have data
+      return this.form.valid && this.areRequiredTablesFilled();
+    }
+  }
+
+
+  isValidForm(): boolean {
+    if (this.isTemplate) {
+      // For templates, we don't require table data
+      return this.form.valid;
+    } else {
+      // For instances, we need to check if required tables have data
+      return this.form.valid && this.areRequiredTablesFilled();
+    }
+  }
+
+
+  areRequiredTablesFilled(): boolean {
+    let allTablesFilled = true;
+    this.fields.forEach(field => {
+      if (field.type === 'TABLE' && field.required) {
+        const tableArray = this.form.get(field.name) as FormArray;
+        if (tableArray.length === 0) {
+          allTablesFilled = false;
+        }
+      }
+    });
+    return allTablesFilled;
+  }
+
 
   onSubmit(): void {
     if (this.form.valid) {
@@ -257,15 +311,79 @@ export class FormGeneratorComponent implements OnChanges {
 
   private prepareFormData(): any {
     const formData: any = {};
-    Object.keys(this.form.controls).forEach(key => {
-      const control = this.form.get(key);
+    this.fields.forEach(field => {
+      const control = this.form.get(field.name);
       if (control) {
-        formData[key] = control.value;
+        formData[field.name] = {
+          type: field.type,
+          value: control.value,
+          options: field.options || {},
+        };
+  
+        // Add specific details based on field type
+        switch (field.type) {
+          case 'TIMER':
+            formData[field.name].details = this.prepareTimerDetails(control.value, field.options);
+            break;
+          case 'STOPWATCH':
+            formData[field.name].details = this.prepareStopwatchDetails(control.value, field.options);
+            break;
+          case 'SCALE':
+          case 'NUMBER':
+            formData[field.name].range = field.options?.range;
+            break;
+          // Add cases for other field types as needed
+        }
       }
     });
     return formData;
   }
 
+  
+  private prepareTimerDetails(value: any, options: any): any {
+    return {
+      totalProgrammedTime: this.calculateTotalProgrammedTime(options),
+      sessionsCompleted: value.completedSessions.length,
+      totalSessionsPlanned: options.sessions,
+      sessions: value.completedSessions.map((session: any, index: number) => ({
+        sessionNumber: index + 1,
+        label: this.getSessionLabel(options, index + 1, session.phase),
+        programmedTime: this.getSessionProgrammedTime(options, session.phase),
+        actualTime: session.duration
+      }))
+    };
+  }
+  
+  private prepareStopwatchDetails(value: any, options: any): any {
+    return {
+      totalTime: value.totalTime,
+      laps: value.laps,
+      minLaps: options.minLaps,
+      maxLaps: options.maxLaps
+    };
+  }
+
+
+  private calculateTotalProgrammedTime(options: any): number {
+    return (options.workDuration + options.breakDuration) * options.sessions 
+           + (Math.floor((options.sessions - 1) / options.longBreakInterval) * options.longBreakDuration);
+  }
+  
+  private getSessionLabel(options: any, sessionNumber: number, phase: string): string {
+    if (options.sessionLabels && options.sessionLabels[sessionNumber]) {
+      return options.sessionLabels[sessionNumber][phase] || `Session ${sessionNumber} ${phase}`;
+    }
+    return `Session ${sessionNumber} ${phase}`;
+  }
+  
+  private getSessionProgrammedTime(options: any, phase: string): number {
+    switch (phase) {
+      case 'work': return options.workDuration;
+      case 'break': return options.breakDuration;
+      case 'long break': return options.longBreakDuration;
+      default: return 0;
+    }
+  }
   //others methods not necesary for our work
   createListItemGroup(field: FieldConfig): FormGroup {
     console.log('Creating list item group for field:', field.name);
@@ -494,27 +612,40 @@ export class FormGeneratorComponent implements OnChanges {
     if (field.options?.columns) {
       const initialRow = this.createTableRowGroup(field);
       tableArray.push(initialRow);
+      
+      // Initialize the data source with the initial row
+      this.initializeTableDataSource(field.name, [initialRow]);
     } else {
-      console.error(`Missing columns for TABLE field: ${field.name}, field`);
+      console.error(`Missing columns for TABLE field: ${field.name}`);
     }
   
     return tableArray;
   }
   
-  getTableDataSource(fieldName: string): MatTableDataSource<FormGroup> {
-    return this.tableDataSources[fieldName];
-  }
-  
-  updateTableDataSource(fieldName: string): void {
+
+private initializeTableDataSource(fieldName: string, initialData: FormGroup[]): void {
+  this.tableDataSources[fieldName] = new MatTableDataSource<FormGroup>(initialData);
+}
+
+getTableDataSource(fieldName: string): MatTableDataSource<FormGroup> {
+  if (!this.tableDataSources[fieldName]) {
     const tableArray = this.form.get(fieldName) as FormArray;
-  
-    if (tableArray) {
-      if (!this.tableDataSources[fieldName]) {
-        this.tableDataSources[fieldName] = new MatTableDataSource<FormGroup>();
-      }
+    this.initializeTableDataSource(fieldName, tableArray?.controls as FormGroup[] || []);
+  }
+  return this.tableDataSources[fieldName];
+}
+
+updateTableDataSource(fieldName: string): void {
+  const tableArray = this.form.get(fieldName) as FormArray;
+
+  if (tableArray) {
+    if (!this.tableDataSources[fieldName]) {
+      this.initializeTableDataSource(fieldName, tableArray.controls as FormGroup[]);
+    } else {
       this.tableDataSources[fieldName].data = tableArray.controls as FormGroup[];
     }
   }
+}
   
   addTableRow(field: FieldConfig): void {
     const tableArray = this.form.get(field.name) as FormArray;
@@ -528,6 +659,13 @@ export class FormGeneratorComponent implements OnChanges {
     } else {
       console.error(`FormArray not found for field: ${field.name}`);
     }
+  }
+  initializeTableData(): void {
+    this.fields.forEach(field => {
+      if (field.type === 'TABLE') {
+        this.updateTableDataSource(field.name);
+      }
+    });
   }
   
   removeTableRow(field: FieldConfig, index: number): void {
@@ -545,6 +683,18 @@ export class FormGeneratorComponent implements OnChanges {
   
   getTableColumns(field: FieldConfig): string[] {
     return [...(field.options.columns?.map((column: FieldConfig) => column.name) || []), 'actions'];
+  }
+
+  areNonTableFieldsValid(): boolean {
+    let allValid = true;
+    Object.keys(this.form.controls).forEach(key => {
+      const control = this.form.get(key);
+      const field = this.fields.find(f => f.name === key);
+      if (field && field.type !== 'TABLE' && control && control.invalid) {
+        allValid = false;
+      }
+    });
+    return allValid;
   }
   
   getScaleRange(range?: { min: number; max: number }): number[] {
@@ -618,4 +768,20 @@ export class FormGeneratorComponent implements OnChanges {
   
     return settings;
   }
+  private getDefaultValues(fields: FieldConfig[]): any {
+    const defaultValues: any = {};
+    fields.forEach(field => {
+      if (field.options && field.options.default !== undefined) {
+        defaultValues[field.name] = field.options.default;
+      }
+      if (field.type === 'LIST' && field.options && field.options.listFields) {
+        defaultValues[field.name] = [this.getDefaultValues(field.options.listFields)];
+      }
+      if (field.type === 'TABLE' && field.options && field.options.columns) {
+        defaultValues[field.name] = [this.getDefaultValues(field.options.columns)];
+      }
+    });
+    return defaultValues;
+  }
+  
 }

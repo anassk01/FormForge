@@ -760,7 +760,7 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
       const newForm: IForm = {
         _id: new mongoose.Types.ObjectId(),
         name,
-        structure: structure, // Ensure structure is passed
+        structure: structure,
         isTemplate,
         parentTemplateId: parentTemplateObjectId,
         state: isTemplate ? 'template' : 'new_instance',
@@ -768,6 +768,11 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
         updatedAt: new Date(),
         submissions: []
       };
+  
+      // If it's a template, only save default values
+      if (isTemplate) {
+        newForm.values = getDefaultValues(structure.fields);
+      }
   
       folder.forms.push(newForm);
       await workspace.save();
@@ -780,11 +785,29 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
     }
   };
 
-  export const updateForm = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const { workspaceId, folderId, formId } = req.params;
-      const formData = req.body;
-      
+  // Add this helper function in the workspace.controller.ts file
+function getDefaultValues(fields: any[]): any {
+  const defaultValues: any = {};
+  fields.forEach(field => {
+    if (field.options && field.options.default !== undefined) {
+      defaultValues[field.name] = field.options.default;
+    }
+    if (field.type === 'LIST' && field.options && field.options.listFields) {
+      defaultValues[field.name] = [getDefaultValues(field.options.listFields)];
+    }
+    if (field.type === 'TABLE' && field.options && field.options.columns) {
+      defaultValues[field.name] = [getDefaultValues(field.options.columns)];
+    }
+  });
+  return defaultValues;
+}
+
+
+export const updateForm = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { workspaceId, folderId, formId } = req.params;
+    const formData = req.body;
+
       console.log('Received form update request:', { workspaceId, folderId, formId, formData });
 
       const workspace = await Workspace.findById(workspaceId);
@@ -804,22 +827,31 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
         res.status(404).json({ message: 'Form not found' });
         return;
       }
-
+    if (folder.forms[formIndex].isTemplate) {
+      // If updating a template, only update with default values
+      folder.forms[formIndex] = {
+        ...folder.forms[formIndex],
+        ...formData,
+        values: getDefaultValues(formData.structure.fields),
+        updatedAt: new Date()
+      };
+    } else {
+      // For non-templates, update as usual
       folder.forms[formIndex] = {
         ...folder.forms[formIndex],
         ...formData,
         updatedAt: new Date()
       };
-
-      await workspace.save();
-
-      console.log('Form updated successfully:', folder.forms[formIndex]);
-      res.json({ message: 'Form updated successfully', form: folder.forms[formIndex] });
-    } catch (error) {
-      console.error('Error updating form:', error);
-      res.status(500).json({ message: 'Error updating form', error: (error as Error).message });
     }
-  };
+
+    await workspace.save();
+    console.log('Form updated successfully:', folder.forms[formIndex]);
+    res.json({ message: 'Form updated successfully', form: folder.forms[formIndex] });
+  } catch (error) {
+    console.error('Error updating form:', error);
+    res.status(500).json({ message: 'Error updating form', error: (error as Error).message });
+  }
+};
 
 
 
