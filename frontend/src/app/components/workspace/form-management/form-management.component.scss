@@ -1,0 +1,229 @@
+// form-management.component.scss
+
+// Variables
+$primary-color: #38B2AC; // Teal 500
+$primary-dark: #2C7A7B; // Teal 600
+$danger-color: #F56565; // Red 500
+$danger-dark: #C53030; // Red 600
+$text-primary: #2D3748; // Gray 800
+$text-secondary: #4A5568; // Gray 700
+$bg-light: #F7FAFC; // Gray 100
+$border-color: #E2E8F0; // Gray 200
+
+.form-management {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+
+  .section-title, .form-title {
+    color: $text-primary;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .templates-accordion {
+    margin-bottom: 2rem;
+  }
+
+  .template-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+  }
+
+  .selected-form {
+    background-color: $bg-light;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    border: 1px solid $border-color;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  }
+
+  .submitted-instance-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .field-container {
+    background-color: white;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    border: 1px solid $border-color;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+    .field-title {
+      color: $text-primary;
+      font-size: 1.125rem;
+      font-weight: 600;
+      border-bottom: 1px solid $border-color;
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .field-content {
+      font-size: 0.875rem;
+      color: $text-secondary;
+    }
+  }
+
+  .stopwatch-data, .timer-data, .list-data {
+    ul {
+      padding-left: 1.25rem;
+      margin-bottom: 0.75rem;
+      list-style-type: disc;
+
+      li {
+        margin-bottom: 0.25rem;
+      }
+    }
+  }
+
+  .json-data {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    background-color: $bg-light;
+    padding: 0.75rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-family: monospace;
+  }
+
+  .submissions-title {
+    margin-top: 2rem;
+    color: $text-primary;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+
+  .submissions-list {
+    margin-top: 1rem;
+  }
+
+  .submission-item {
+    background-color: white;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid $border-color;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+
+    .submission-date {
+      color: $text-secondary;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+    }
+
+    .submission-values {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      background-color: $bg-light;
+      padding: 0.75rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-family: monospace;
+    }
+  }
+
+  .no-fields-message, .no-submissions-message, .no-form-selected-message, .no-folder-selected-message {
+    color: $text-secondary;
+    font-style: italic;
+  }
+
+  .debug-info {
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: $bg-light;
+    border-radius: 0.375rem;
+
+    pre {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-size: 0.75rem;
+      font-family: monospace;
+    }
+  }
+}
+
+// Button Styles
+.btn {
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  border-radius: 0.375rem;
+  transition: all 150ms ease-in-out;
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.5);
+  }
+  
+  &-primary {
+    @extend .btn;
+    background-color: $primary-color;
+    color: white;
+    
+    &:hover {
+      background-color: $primary-dark;
+    }
+  }
+  
+  &-secondary {
+    @extend .btn;
+    background-color: white;
+    color: $primary-color;
+    border: 1px solid $primary-color;
+    
+    &:hover {
+      background-color: rgba($primary-color, 0.1);
+    }
+  }
+  
+  &-danger {
+    @extend .btn;
+    background-color: $danger-color;
+    color: white;
+    
+    &:hover {
+      background-color: $danger-dark;
+    }
+  }
+  
+  &-icon {
+    padding: 0.5rem;
+    color: $primary-color;
+    border-radius: 9999px;
+    
+    &:hover {
+      background-color: rgba($primary-color, 0.1);
+    }
+  }
+}
+
+// Material Component Overrides
+mat-expansion-panel {
+  margin-bottom: 0.5rem;
+  border: 1px solid $border-color;
+  border-radius: 0.375rem;
+  overflow: hidden;
+
+  mat-expansion-panel-header {
+    background-color: $bg-light;
+
+    &:hover {
+      background-color: darken($bg-light, 5%);
+    }
+  }
+
+  mat-panel-title {
+    color: $primary-color;
+    font-weight: 600;
+  }
+}
+
+mat-slide-toggle {
+  margin-bottom: 1rem;
+}

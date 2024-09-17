@@ -12,13 +12,7 @@ import * as monaco from 'monaco-editor';
     <div class="editor-container" #editorContainer></div>
     <button mat-raised-button color="primary" (click)="submitCode()">Analyze Code</button>
   `,
-  styles: [`
-    .editor-container {
-      height: 400px;
-      border: 1px solid #ccc;
-      margin-bottom: 10px;
-    }
-  `]
+  styleUrls : ['./code-input.component.scss']
 })
 export class CodeInputComponent implements AfterViewInit {
   @ViewChild('editorContainer', { static: true }) editorContainer!: ElementRef;

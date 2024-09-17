@@ -1,0 +1,163 @@
+<div class="form-management">
+  @if (folderId) {
+    <h3>Forms in {{folderName()}}</h3>
+    <button mat-raised-button color="primary" (click)="addForm()">Add Form Template</button>
+    
+    <mat-accordion>
+      @for (template of templates(); track template._id) {
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{template.name}} (Template)
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="template-actions">
+            <button mat-button (click)="viewForm(template, true)">View</button>
+            <button mat-button (click)="editForm(template)">Edit</button>
+            <button mat-button (click)="deleteForm(template)">Delete</button>
+            <button mat-button (click)="createInstance(template)">Create Instance</button>
+          </div>
+          <div class="instances">
+            <h4>Instances</h4>
+            @if (getInstancesForTemplate(template._id).length > 0) {
+              <mat-list>
+                @for (instance of getInstancesForTemplate(template._id); track instance._id) {
+                  <mat-list-item>
+                    <span matListItemTitle>{{instance.name}}</span>
+                    <button mat-icon-button (click)="viewForm(instance, false)">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                  </mat-list-item>
+                }
+              </mat-list>
+            } @else {
+              <p>No instances for this template.</p>
+            }
+          </div>
+        </mat-expansion-panel>
+      }
+    </mat-accordion>
+
+    @if (selectedFormSignal()) {
+      <h3>{{ selectedFormSignal()?.name || selectedFormSignal()?.structure?.entryName || 'Untitled Form' }}</h3>
+      
+      <mat-slide-toggle [ngModel]="isEditable()" (ngModelChange)="onEditableToggle()" 
+                        [disabled]="selectedFormSignal()?.state === 'submitted_instance'">
+        {{ isEditable() ? 'Editable' : 'Read-only' }}
+      </mat-slide-toggle>
+
+      @if (selectedFormStructure() && selectedFormStructure().fields?.length > 0) {
+        @if (isViewingSubmittedInstance()) {
+          <div class="submitted-instance-view">
+            @for (field of selectedFormStructure().fields; track field.name) {
+              <mat-expansion-panel class="field-container">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ field.name }} ({{ field.type }})
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                @if (selectedFormSignal()?.values?.[field.name]) {
+                  @switch (field.type) {
+                    @case ('TIMER') {
+                      <ng-container *ngTemplateOutlet="timerTemplate; context: {$implicit: formatEnhancedFieldData(selectedFormSignal()?.values?.[field.name])}"></ng-container>
+                    }
+                    @case ('STOPWATCH') {
+                      <ng-container *ngTemplateOutlet="stopwatchTemplate; context: {$implicit: formatEnhancedFieldData(selectedFormSignal()?.values?.[field.name])}"></ng-container>
+                    }
+                    @case ('LIST') {
+                      <ng-container *ngTemplateOutlet="listTemplate; context: {$implicit: formatEnhancedFieldData(selectedFormSignal()?.values?.[field.name])}"></ng-container>
+                    }
+                    @default {
+                      <pre>{{ formatEnhancedFieldData(selectedFormSignal()?.values?.[field.name]) | json }}</pre>
+                    }
+                  }
+                } @else {
+                  <p>No data available</p>
+                }
+              </mat-expansion-panel>
+            }
+          </div>
+        } @else {
+          <app-form-generator
+            [parsedCode]="selectedFormStructure()"
+            [initialValues]="selectedFormSignal()?.values"
+            [isTemplate]="selectedFormSignal()?.isTemplate ?? false"
+            [readOnly]="!isEditable() || selectedFormSignal()?.state === 'submitted_instance'"
+            (templateSaved)="onFormSaved($event)"
+            (instanceSubmitted)="onFormSubmitted($event)">
+          </app-form-generator>
+        }
+      } @else {
+        <p>No form structure available or no fields defined. Please try reloading the form or add fields to the form structure.</p>
+      }
+
+      @if (!selectedFormSignal()?.isTemplate) {
+        <h4>Submissions</h4>
+        
+        @if (submissions().length > 0) {
+          <mat-list>
+            @for (submission of submissions(); track submission._id) {
+              <mat-list-item>
+                <span matListItemTitle>Submitted on: {{ submission.submissionDate | date:'medium' }}</span>
+                <pre matListItemLine>{{ submission.values | json }}</pre>
+              </mat-list-item>
+            }
+          </mat-list>
+        } @else {
+          <p>No submissions for this form yet.</p>
+        }
+      }
+    } @else {
+      <p>No form selected. Please select a form to view or edit.</p>
+    }
+
+    <app-code-analysis 
+      [workspaceId]="workspaceId"
+      [folderId]="folderId"
+      (formGenerated)="onFormGenerated($event)">
+    </app-code-analysis>
+  } @else {
+    <p>Please select a folder to manage forms.</p>
+  }
+</div>
+
+<ng-template #timerTemplate let-data>
+  <h4>Timer Details</h4>
+  <p>Total Programmed Time: {{ data.details.totalProgrammedTime }}</p>
+  <p>Sessions Completed: {{ data.details.sessionsCompleted }} / {{ data.details.totalSessionsPlanned }}</p>
+  <h5>Sessions:</h5>
+  <ul>
+    @for (session of data.details.sessions; track session.sessionNumber) {
+      <li>
+        {{ session.label }}
+        <br>Programmed: {{ session.programmedTime }}
+        <br>Actual: {{ session.actualTime }}
+      </li>
+    }
+  </ul>
+</ng-template>
+
+<ng-template #stopwatchTemplate let-data>
+  <h4>Stopwatch Details</h4>
+  <p>Total Time: {{ data.details.totalTime }}</p>
+  <h5>Laps:</h5>
+  <ul>
+    @for (lap of data.details.laps; track lap.number) {
+      <li>Lap {{ lap.number }}: {{ lap.time }}</li>
+    }
+  </ul>
+</ng-template>
+
+<ng-template #listTemplate let-data>
+  <h4>List Items:</h4>
+  <ul>
+    @for (item of data.value; track $index) {
+      <li>
+        @for (key of item | keyvalue; track key.key) {
+          <strong>{{ key.key }}:</strong> {{ key.value }}<br>
+        }
+      </li>
+    }
+  </ul>
+</ng-template>

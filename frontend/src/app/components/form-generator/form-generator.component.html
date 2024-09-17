@@ -38,15 +38,17 @@
                             }
                           }
                         </div>
-                        <button mat-icon-button color="warn" (click)="removeListItem(field.name, $index)" type="button">
+                        <button mat-icon-button color="warn" (click)="removeListItem(field.name, $index)" type="button" [disabled]="isTemplate || readOnly">
                           <mat-icon>delete</mat-icon>
                         </button>
+                        
                       </div>
                     }
                   </div>
-                  <button mat-raised-button color="primary" (click)="addListItem(field)" type="button">
+                  <button mat-raised-button color="primary" (click)="addListItem(field)" type="button" [disabled]="isTemplate || readOnly">
                     Add Item
                   </button>
+                  
                 </div>
               }
 
@@ -75,9 +77,10 @@
                       <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef>Actions</th>
                         <td mat-cell *matCellDef="let rowGroup; let rowIndex = index">
-                          <button mat-icon-button color="warn" type="button" (click)="removeTableRow(field, rowIndex)">
+                          <button mat-icon-button color="warn" type="button" (click)="removeTableRow(field, rowIndex)" [disabled]="isTemplate || readOnly">
                             <mat-icon>delete</mat-icon>
                           </button>
+                        
                         </td>
                       </ng-container>
                       <tr mat-header-row *matHeaderRowDef="getTableColumns(field)"></tr>

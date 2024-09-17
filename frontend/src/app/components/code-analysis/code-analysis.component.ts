@@ -6,7 +6,6 @@ import { CodeService } from '../../services/code.service';
 import { CreditService } from '../../services/credit.service';
 import { CodeInputComponent } from '../code-input/code-input.component';
 import { ResultDisplayComponent } from '../result-display/result-display.component';
-import { FormGeneratorComponent } from '../form-generator/form-generator.component';
 import { Form  } from '../../interfaces/workspace.interface';
 export interface ParsedStructure {
   entryName: string;
@@ -39,7 +38,7 @@ interface FieldOptions {
 @Component({
   selector: 'app-code-analysis',
   standalone: true,
-  imports: [CommonModule, CodeInputComponent, ResultDisplayComponent, FormGeneratorComponent, MatSnackBarModule],
+  imports: [CommonModule, CodeInputComponent, ResultDisplayComponent, MatSnackBarModule],
   template: `
     @if (loading()) {
       <div class="loading">Interpreting code...</div>
@@ -48,17 +47,7 @@ interface FieldOptions {
       <app-code-input (codeSubmitted)="interpretCode($event)"></app-code-input>
       @if (interpretedStructure()) {
         <app-result-display [result]="interpretedStructure()"></app-result-display>
-        <app-form-generator [parsedCode]="interpretedStructure()"></app-form-generator>
-        @if (hasTables()) {
-          <div class="table-info">
-            <h3>Table Information:</h3>
-            <ul>
-              @for (table of tables(); track table.name) {
-                <li>{{ table.name }}: {{ table.options.columns?.length || 0 }} columns</li>
-              }
-            </ul>
-          </div>
-        }
+
       }
       @if (error()) {
         <div class="error">{{ error() }}</div>
@@ -82,11 +71,7 @@ export class CodeAnalysisComponent {
   error = computed(() => this.errorSignal());
   loading = computed(() => this.loadingSignal());
   credits = computed(() => this.creditsSignal());
-  tables = computed(() => {
-    if (!this.interpretedStructure()) return [];
-    return this.getAllTables(this.interpretedStructure()!.fields);
-  });
-  hasTables = computed(() => this.tables().length > 0);
+
   private codeService = inject(CodeService);
   private creditService = inject(CreditService);
   private snackBar = inject(MatSnackBar);
@@ -96,11 +81,13 @@ export class CodeAnalysisComponent {
   interpretCode(code: string): void {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
+
     if (this.credits() < 1) {
       this.snackBar.open('Insufficient credits. Please purchase more credits to continue.', 'Close', { duration: 5000 });
       this.loadingSignal.set(false);
       return;
     }
+
     this.codeService.interpretCode(code).subscribe({
       next: (response) => {
         this.processInterpretedStructure(response.structure);
@@ -116,6 +103,7 @@ export class CodeAnalysisComponent {
       }
     });
   }
+
   private loadCredits(): void {
     this.creditService.getCreditBalance().subscribe({
       next: (response) => {
@@ -154,7 +142,7 @@ export class CodeAnalysisComponent {
       name: structure.entryName || 'New Template',
       structure: structure,
       isTemplate: true,
-      state: 'template', // Add this line
+      state: 'template',
       createdAt: new Date(),
       updatedAt: new Date()
     };
@@ -195,18 +183,8 @@ export class CodeAnalysisComponent {
     }
     return field;
   }
-  private getAllTables(fields: ParsedField[]): ParsedField[] {
-    let tables: ParsedField[] = [];
-    for (const field of fields) {
-      if (field.type.toUpperCase() === 'TABLE') {
-        tables.push(field);
-      }
-      if (field.fields) {
-        tables = tables.concat(this.getAllTables(field.fields));
-      }
-    }
-    return tables;
-  }
+
+
   private getDetailedErrorMessage(error: any): string {
     if (error.name === 'ParserError' || error.name === 'LexerError') {
       return `${error.name} at line ${error.line}, column ${error.column}: ${error.message}`;

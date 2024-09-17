@@ -1,9 +1,7 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal, ElementRef,ViewChild ,computed} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -19,90 +17,114 @@ import { NotificationService } from '../../services/notification.service';
   imports: [
     CommonModule,
     FormsModule,
-    MatCardModule,
     MatButtonModule,
-    MatInputModule,
     MatTableModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
     RouterModule
   ],
   template: `
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Your Credits</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <h2>Current Balance: {{ creditInfo?.credits || 0 }} credits</h2>
-        <p>Last Updated: {{ creditInfo?.lastUpdated | date:'medium' }}</p>
+    <div class="max-w-6xl mx-auto p-6 bg-gray-100 min-h-screen">
+      <h1 class="text-3xl font-semibold text-gray-800 mb-6">Your Credits</h1>
+      
+      <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+        <div class="flex justify-between items-center mb-6">
+          <div>
+            <h2 class="text-2xl font-semibold text-cyan-600">Current Balance: {{ creditInfo()?.credits || 0 }} credits</h2>
+            <p class="text-sm text-gray-600">Last Updated: {{ creditInfo()?.lastUpdated | date:'medium' }}</p>
+          </div>
+          <button 
+            class="bg-cyan-500 hover:bg-cyan-600 text-white font-medium py-2 px-4 rounded transition duration-150 ease-in-out"
+            (click)="scrollToPackages()"
+          >
+            Buy More Credits
+          </button>
+        </div>
         
-        <h3>Available Packages</h3>
-        <div class="package-summary">
-          @for (package of topPackages; track package._id) {
-            <mat-card>
-              <mat-card-title>{{ package.name }}</mat-card-title>
-              <mat-card-content>
-                <p>Credits: {{ package.credits }}</p>
-                <p>Price: {{ package.price | currency }}</p>
-              </mat-card-content>
-            </mat-card>
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Available Packages</h3>
+        <div id="packages" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
+          @for (package of topPackages(); track package._id) {
+            <div class="bg-white rounded-lg p-6 shadow-md transition-all duration-300 hover:shadow-lg border-2 {{ package === bestValuePackage() ? 'border-cyan-500' : 'border-transparent' }} relative">
+              @if (package === bestValuePackage()) {
+                <div class="absolute top-0 right-0 bg-cyan-500 text-white text-xs font-bold px-2 py-1 rounded-tr">Best Value</div>
+              }
+              <h4 class="text-xl font-semibold text-gray-800 mb-2">{{ package.name }}</h4>
+              <p class="text-3xl font-bold text-cyan-600 mb-2">{{ package.credits }} Credits</p>
+              <p class="text-lg text-gray-700 mb-4">{{ package.price | currency }}</p>
+              @if (package.isSubscription) {
+                <p class="text-sm text-gray-600 mb-3">Renews every {{ package.durationDays }} days</p>
+              }
+              <button 
+                class="w-full bg-cyan-500 hover:bg-cyan-600 text-white font-medium py-3 px-4 rounded transition duration-150 ease-in-out"
+                (click)="purchasePackage(package)"
+              >
+                {{ package.isSubscription ? 'Subscribe' : 'Purchase' }} Now
+              </button>
+            </div>
           }
         </div>
-        <a mat-raised-button color="primary" routerLink="/credit-packages">View All Packages</a>
 
-        <h3>Credit History</h3>
-        @if (isLoading) {
-          <mat-spinner diameter="40"></mat-spinner>
-        } @else if (creditHistory.length) {
-          <table mat-table [dataSource]="creditHistory">
-            <ng-container matColumnDef="date">
-              <th mat-header-cell *matHeaderCellDef>Date</th>
-              <td mat-cell *matCellDef="let transaction">{{ transaction.date | date }}</td>
-            </ng-container>
-            <ng-container matColumnDef="amount">
-              <th mat-header-cell *matHeaderCellDef>Amount</th>
-              <td mat-cell *matCellDef="let transaction">{{ transaction.amount }}</td>
-            </ng-container>
-            <ng-container matColumnDef="description">
-              <th mat-header-cell *matHeaderCellDef>Description</th>
-              <td mat-cell *matCellDef="let transaction">{{ transaction.description }}</td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-          <mat-paginator 
-            [length]="totalTransactions"
-            [pageSize]="pageSize"
-            [pageSizeOptions]="[5, 10, 20]"
-            (page)="onPageChange($event)">
-          </mat-paginator>
-        } @else {
-          <p>No credit history available.</p>
+        <div class="text-center">
+          <a 
+            class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded transition duration-150 ease-in-out"
+            routerLink="/credit-packages"
+          >
+            View All Packages
+          </a>
+        </div>
+      </div>
+      
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-xl font-semibold text-gray-800">Credit History</h3>
+          <button 
+            class="text-cyan-500 hover:text-cyan-600 font-medium transition duration-150 ease-in-out"
+            (click)="toggleHistory()"
+          >
+            {{ showHistory() ? 'Hide' : 'Show' }} History
+          </button>
+        </div>
+        
+        @if (showHistory()) {
+          @if (isLoading()) {
+            <div class="flex justify-center items-center h-40">
+              <mat-spinner diameter="40"></mat-spinner>
+            </div>
+          } @else if (creditHistory().length) {
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                  @for (transaction of creditHistory(); track transaction.id) {
+                    <tr>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ transaction.date | date }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ transaction.amount }}</td>
+                      <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ transaction.description }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            <mat-paginator 
+              [length]="totalTransactions()"
+              [pageSize]="pageSize()"
+              [pageSizeOptions]="[5, 10, 20]"
+              (page)="onPageChange($event)"
+              class="mt-4">
+            </mat-paginator>
+          } @else {
+            <p class="text-gray-600">No credit history available.</p>
+          }
         }
-      </mat-card-content>
-    </mat-card>
-  `,
-  styles: [`
-    mat-card {
-      max-width: 800px;
-      margin: 20px auto;
-    }
-    table {
-      width: 100%;
-    }
-    mat-spinner {
-      margin: 20px auto;
-    }
-    .package-summary {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-    .package-summary mat-card {
-      width: 150px;
-    }
-  `]
+      </div>
+    </div>
+  `
 })
 export class CreditsComponent implements OnInit {
   private creditService = inject(CreditService);
@@ -110,45 +132,47 @@ export class CreditsComponent implements OnInit {
   private stripeService = inject(StripeService);
   private notificationService = inject(NotificationService);
 
-  creditInfo: CreditInfo | null = null;
-  creditHistory: CreditTransaction[] = [];
-  displayedColumns: string[] = ['date', 'amount', 'description'];
-  isLoading: boolean = false;
-  totalTransactions: number = 0;
-  pageSize: number = 10;
-  currentPage: number = 1;
-  topPackages: CreditPackage[] = [];
-  purchaseAmount: number = 1;
+  creditInfo = signal<CreditInfo | null>(null);
+  creditHistory = signal<CreditTransaction[]>([]);
+  isLoading = signal(false);
+  totalTransactions = signal(0);
+  pageSize = signal(10);
+  currentPage = signal(1);
+  topPackages = signal<CreditPackage[]>([]);
+  showHistory = signal(false);
+
 
 
   ngOnInit() {
     this.loadCreditInfo();
-    this.loadCreditHistory();
     this.loadTopPackages();
   }
+
   loadCreditInfo() {
-    this.isLoading = true;
+    this.isLoading.set(true);
     this.creditService.getCreditBalance().subscribe({
       next: (info) => {
-        this.creditInfo = info;
-        this.isLoading = false;
+        this.creditInfo.set(info);
+        this.isLoading.set(false);
       },
       error: () => {
-        this.isLoading = false;
+        this.isLoading.set(false);
+        this.notificationService.showError('Error loading credit information');
       }
     });
   }
 
   loadCreditHistory() {
-    this.isLoading = true;
-    this.creditService.getCreditHistory(this.currentPage, this.pageSize).subscribe({
+    this.isLoading.set(true);
+    this.creditService.getCreditHistory(this.currentPage(), this.pageSize()).subscribe({
       next: (response) => {
-        this.creditHistory = response.transactions;
-        this.totalTransactions = response.total;
-        this.isLoading = false;
+        this.creditHistory.set(response.transactions);
+        this.totalTransactions.set(response.total);
+        this.isLoading.set(false);
       },
       error: () => {
-        this.isLoading = false;
+        this.isLoading.set(false);
+        this.notificationService.showError('Error loading credit history');
       }
     });
   }
@@ -156,7 +180,7 @@ export class CreditsComponent implements OnInit {
   loadTopPackages() {
     this.creditPackageService.getCreditPackages().subscribe({
       next: (packages) => {
-        this.topPackages = packages.slice(0, 3); // Show top 3 packages
+        this.topPackages.set(packages.slice(0, 3)); // Show top 3 packages
       },
       error: (error) => {
         this.notificationService.showError('Error loading credit packages');
@@ -164,43 +188,61 @@ export class CreditsComponent implements OnInit {
     });
   }
 
-  
-  purchaseCredits() {
-    if (this.purchaseAmount < 1) {
-      this.notificationService.showError('Please enter a valid amount');
-      return;
-    }
-
-    this.isLoading = true;
-    this.stripeService.createPaymentIntent(this.purchaseAmount * 100).subscribe({
+  purchasePackage(creditPackage: CreditPackage) {
+    this.isLoading.set(true);
+    this.stripeService.createPaymentIntent(creditPackage.price * 100).subscribe({
       next: (response) => {
         this.stripeService.confirmPayment(response.clientSecret).then(() => {
-          this.creditService.addCredits(this.purchaseAmount, 'Credit purchase').subscribe({
+          this.creditService.addCredits(creditPackage.credits, `Purchase of ${creditPackage.name}`).subscribe({
             next: (response) => {
-              if (this.creditInfo) {
-                this.creditInfo.credits = response.credits;
-              }
+              this.creditInfo.update(info => ({ ...info!, credits: response.credits }));
               this.loadCreditHistory();
-              this.isLoading = false;
+              this.notificationService.showSuccess(`Successfully purchased ${creditPackage.name}`);
+              this.isLoading.set(false);
             },
             error: () => {
-              this.isLoading = false;
+              this.isLoading.set(false);
+              this.notificationService.showError('Error processing credit purchase');
             }
           });
         }).catch((error) => {
           this.notificationService.showError('Payment failed: ' + error.message);
-          this.isLoading = false;
+          this.isLoading.set(false);
         });
       },
       error: () => {
-        this.isLoading = false;
+        this.isLoading.set(false);
+        this.notificationService.showError('Error creating payment');
       }
     });
   }
 
   onPageChange(event: PageEvent) {
-    this.currentPage = event.pageIndex + 1;
-    this.pageSize = event.pageSize;
+    this.currentPage.set(event.pageIndex + 1);
+    this.pageSize.set(event.pageSize);
     this.loadCreditHistory();
   }
+
+  toggleHistory() {
+    this.showHistory.update(show => !show);
+    if (this.showHistory() && this.creditHistory().length === 0) {
+      this.loadCreditHistory();
+    }
+  }
+
+  bestValuePackage = computed(() => {
+    return this.topPackages().reduce((best, current) => 
+      (current.credits / current.price > best.credits / best.price) ? current : best
+    );
+  });
+
+
+  scrollToPackages() {
+    const packagesElement = document.getElementById('packages');
+    if (packagesElement) {
+      packagesElement.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+
 }

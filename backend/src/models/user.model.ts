@@ -14,10 +14,12 @@ export interface IUser extends Document {
   role: 'user' | 'admin';
   credits: number;
   creditHistory: {
+    id: string; 
     amount: number;
     description: string;
     date: Date;
   }[];
+
   subscription?: {
     packageId: mongoose.Types.ObjectId;
     startDate: Date;
@@ -59,6 +61,7 @@ const UserSchema: Schema = new Schema({
   credits: { type: Number, default: 0 },
   stripeCustomerId: { type: String },
   creditHistory: [{
+    id: { type: String, required: true, default: () => new mongoose.Types.ObjectId().toString() },
     amount: Number,
     description: String,
     date: { type: Date, default: Date.now }

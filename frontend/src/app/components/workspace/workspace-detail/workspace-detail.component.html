@@ -1,47 +1,51 @@
 
 <!-- src/app/components/workspace/workspace-detail/workspace-detail.component.html -->
+<!-- src/app/components/workspace/workspace-detail/workspace-detail.component.html -->
 <div class="workspace-detail-container">
   @if (loading()) {
-    <mat-spinner class="loading-spinner"></mat-spinner>
+    <div class="loading-spinner">
+      <svg class="animate-spin h-8 w-8 text-cyan-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </div>
   } @else {
     @if (workspace()) {
-      <mat-card class="workspace-card">
-        <mat-card-header>
-          <mat-card-title class="workspace-title">{{ workspace()?.name }}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <form [formGroup]="workspaceForm" (ngSubmit)="onSubmit()">
-            <mat-form-field class="form-field">
-              <mat-label>Workspace Name</mat-label>
-              <input matInput formControlName="name" required>
-            </mat-form-field>
-            <mat-form-field class="form-field">
-              <mat-label>Description</mat-label>
-              <textarea matInput formControlName="description" rows="3"></textarea>
-            </mat-form-field>
-          </form>
-          <div class="active-users">
-            <h3 class="active-users-title">Active Users</h3>
-            <mat-list class="active-users-list">
-              @for (user of activeUsers; track user) {
-                <mat-list-item>
-                  <span matListItemTitle>{{ user }}</span>
-                </mat-list-item>
-              }
-            </mat-list>
+      <div class="workspace-card bg-white shadow-sm rounded-lg p-6 hover:shadow-md transition duration-150 ease-in-out">
+        <h2 class="workspace-title text-2xl font-semibold mb-4">{{ workspace()?.name }}</h2>
+        <form [formGroup]="workspaceForm" (ngSubmit)="onSubmit()" class="space-y-4">
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Workspace Name</label>
+            <input id="name" type="text" formControlName="name" required
+                   class="mt-1 block w-full px-3 py-2 bg-gray-100 border-b-2 border-gray-300 focus:border-cyan-500 focus:outline-none transition duration-150 ease-in-out rounded-md shadow-sm">
           </div>
-        </mat-card-content>
-        <mat-card-actions class="workspace-actions">
-          <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
-          <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>
-        </mat-card-actions>
-      </mat-card>
-
+          <div>
+            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+            <textarea id="description" formControlName="description" rows="3"
+                      class="mt-1 block w-full px-3 py-2 bg-gray-100 border-b-2 border-gray-300 focus:border-cyan-500 focus:outline-none transition duration-150 ease-in-out rounded-md shadow-sm"></textarea>
+          </div>
+        </form>
+        <div class="active-users mt-6">
+          <h3 class="text-lg font-medium mb-2">Active Users</h3>
+          <ul class="space-y-1">
+            @for (user of activeUsers; track user) {
+              <li class="px-3 py-2 bg-gray-100 rounded-md text-sm">{{ user }}</li>
+            }
+          </ul>
+        </div>
+        <div class="workspace-actions mt-6 flex justify-end space-x-2">
+          <button (click)="onSubmit()" class="bg-cyan-500 hover:bg-cyan-600 text-white font-medium py-2 px-4 rounded transition duration-150 ease-in-out">
+            Save
+          </button>
+          <button (click)="onDelete()" class="bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded transition duration-150 ease-in-out">
+            Delete
+          </button>
+        </div>
+      </div>
       <app-folder-management 
         [workspaceId]="workspace()?._id ?? ''"
         (folderSelected)="onFolderSelected($event)">
       </app-folder-management>
-
       @if (workspace() && selectedFolderId()) {
         <app-form-management
           [workspaceId]="workspace()?._id ?? ''"
@@ -50,7 +54,6 @@
           (formSelected)="onFormSelected($event)">
         </app-form-management>
       }
-
       @if (canManageUsers()) {
         <app-permission-management
           [members]="workspace()?.members ?? []"
@@ -60,7 +63,7 @@
         <app-activity-log [workspaceId]="workspace()?._id ?? ''"></app-activity-log>
       }
     } @else {
-      <p class="not-found-message">Workspace not found.</p>
+      <p class="text-center text-gray-500">Workspace not found.</p>
     }
   }
 </div>

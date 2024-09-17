@@ -1,0 +1,47 @@
+// code-input.component.scss
+
+:host {
+    display: block;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .p-4 {
+    padding: 1rem;
+  }
+  
+  app-monaco-editor {
+    height: 400px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+  
+  textarea {
+    width: 100%;
+    height: 400px;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+  }
+  
+  button {
+    margin-top: 1rem;
+  }
+  
+  .error-message {
+    color: #e74c3c;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+  }
+  
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    app-monaco-editor, textarea {
+      height: 300px;
+    }
+  }

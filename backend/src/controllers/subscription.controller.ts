@@ -26,6 +26,7 @@ export const getCurrentSubscription = async (req: AuthenticatedRequest, res: Res
   }
 };
 
+
 export const subscribe = async (req: AuthenticatedRequest, res: Response) => {
   try {
     if (!req.user) {
@@ -34,19 +35,15 @@ export const subscribe = async (req: AuthenticatedRequest, res: Response) => {
     const { packageId } = req.body as SubscribeRequestBody;
     const user = await User.findById(req.user._id);
     const creditPackage = await CreditPackage.findById(packageId);
-
     if (!user || !creditPackage) {
       return res.status(404).json({ message: 'User or package not found' });
     }
-
     if (!creditPackage.isSubscription) {
       return res.status(400).json({ message: 'Selected package is not a subscription' });
     }
-
     const stripeSubscription = await StripeService.createSubscription(user, packageId);
     const startDate = new Date();
     const endDate = new Date(startDate.getTime() + (creditPackage.durationDays || 30) * 24 * 60 * 60 * 1000);
-
     user.subscription = {
       packageId: creditPackage._id as mongoose.Types.ObjectId,
       startDate,
@@ -54,20 +51,20 @@ export const subscribe = async (req: AuthenticatedRequest, res: Response) => {
       status: 'active',
       stripeSubscriptionId: stripeSubscription.id
     };
-
     user.credits += creditPackage.credits;
     user.creditHistory.push({
+      id: new mongoose.Types.ObjectId().toString(), // Add this line
       amount: creditPackage.credits,
       description: `Subscription to ${creditPackage.name}`,
       date: startDate
     });
-
     await user.save();
     res.json(user.subscription);
   } catch (error) {
     res.status(500).json({ message: 'Error creating subscription', error });
   }
 };
+
 
 export const cancelSubscription = async (req: AuthenticatedRequest, res: Response) => {
   try {
@@ -95,7 +92,6 @@ export const cancelSubscription = async (req: AuthenticatedRequest, res: Respons
   }
 };
 
-
 export const upgradeSubscription = async (req: AuthRequest, res: Response) => {
   try {
     if (!req.user) {
@@ -104,20 +100,15 @@ export const upgradeSubscription = async (req: AuthRequest, res: Response) => {
     const { packageId } = req.body;
     const user = await User.findById(req.user._id);
     const newPackage = await CreditPackage.findById(packageId);
-
     if (!user || !newPackage || !user.subscription) {
       return res.status(404).json({ message: 'User, package, or subscription not found' });
     }
-
     if (!newPackage.isSubscription) {
       return res.status(400).json({ message: 'Selected package is not a subscription' });
     }
-
     const updatedStripeSubscriptionId = await StripeService.updateSubscription(user.subscription.stripeSubscriptionId, packageId);
-
     const startDate = new Date();
     const endDate = new Date(startDate.getTime() + (newPackage.durationDays || 30) * 24 * 60 * 60 * 1000);
-
     user.subscription = {
       packageId: newPackage._id as mongoose.Types.ObjectId,
       startDate,
@@ -125,14 +116,20 @@ export const upgradeSubscription = async (req: AuthRequest, res: Response) => {
       status: 'active',
       stripeSubscriptionId: updatedStripeSubscriptionId
     };
-
+    // Add credit history entry for upgrade
+    user.creditHistory.push({
+      id: new mongoose.Types.ObjectId().toString(), 
+      amount: newPackage.credits,
+      description: `Upgraded subscription to ${newPackage.name}`,
+      date: startDate
+    });
     await user.save();
-
     res.json(user.subscription);
   } catch (error) {
     res.status(500).json({ message: 'Error upgrading subscription', error });
   }
 };
+
 
 export const downgradeSubscription = async (req: AuthRequest, res: Response) => {
   try {

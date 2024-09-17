@@ -1,0 +1,55 @@
+// monaco-editor.component.scss
+
+// Modern color palette
+$primary: #3498db;
+$primary-light: #5dade2;
+$background: #f5f5f5;
+$card-bg: #ffffff;
+$border: #e0e0e0;
+
+:host {
+  display: block;
+  font-family: 'Roboto', sans-serif;
+}
+
+.editor-container {
+  height: 400px;
+  border: 1px solid $border;
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: $card-bg;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+// Monaco Editor specific styles
+::ng-deep {
+  .monaco-editor {
+    .margin {
+      background-color: darken($card-bg, 2%);
+    }
+
+    .monaco-scrollable-element {
+      box-shadow: none;
+    }
+
+    .view-overlays .current-line {
+      border: none;
+      background-color: rgba($primary-light, 0.1);
+    }
+
+    .line-numbers {
+      color: $primary;
+    }
+
+    .cursor {
+      background-color: $primary;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .editor-container {
+    height: 300px;
+  }
+}

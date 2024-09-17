@@ -25,6 +25,7 @@
     "@angular/ssr": "^18.0.6",
     "@auth0/angular-jwt": "^5.2.0",
     "@monaco-editor/react": "^4.6.0",
+    "@ngrx/component": "^18.0.2",
     "@ngrx/effects": "^18.0.2",
     "@ngrx/entity": "^18.0.2",
     "@ngrx/store": "^18.0.2",

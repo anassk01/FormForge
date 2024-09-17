@@ -171,104 +171,6 @@ yarn-error.log*
 # System files
 .DS_Store
 Thumbs.db
-# Ignore all files with the .spec extension
-*.spec.ts
-
-*.md
-
-```
-
-# backend/tsconfig.json
-
-```json
-{
-  "compilerOptions": {
-    "target": "es2018",
-    "module": "commonjs",
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "declaration": true,
-    "typeRoots": ["./node_modules/@types", "./src/types"]
-  },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
-}
-
-```
-
-# backend/package.json
-
-```json
-{
-  "name": "code-input-tracking-platform-backend",
-  "version": "1.0.0",
-  "description": "Backend for Code-Input Tracking Platform",
-  "main": "dist/server.js",
-  "scripts": {
-    "start": "node dist/server.js",
-    "dev": "nodemon src/server.ts",
-    "build": "tsc -p .",
-    "lint": "eslint . --ext .ts",
-    "test": "jest",
-    "clean": "rm -rf dist",
-    "prebuild": "npm run clean",
-    "init-admin": "ts-node scripts/initAdminUser.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "bcrypt": "^5.1.1",
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "express-rate-limit": "^7.4.0",
-    "json2csv": "^6.0.0-alpha.2",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.5.4",
-    "node-cron": "^3.0.3",
-    "nodemailer": "^6.9.14",
-    "passport": "^0.7.0",
-    "passport-jwt": "^4.0.1",
-    "qrcode": "^1.5.4",
-    "socket.io": "^4.7.5",
-    "speakeasy": "^2.0.0",
-    "stripe": "^16.8.0",
-    "winston": "^3.14.2"
-  },
-  "devDependencies": {
-    "@types/bcrypt": "^5.0.2",
-    "@types/cors": "^2.8.17",
-    "@types/express": "^4.17.21",
-    "@types/jest": "^27.0.2",
-    "@types/json2csv": "^5.0.7",
-    "@types/jsonwebtoken": "^9.0.6",
-    "@types/mongoose": "^5.11.97",
-    "@types/node": "^16.11.6",
-    "@types/node-cron": "^3.0.11",
-    "@types/nodemailer": "^6.4.15",
-    "@types/passport": "^1.0.16",
-    "@types/passport-jwt": "^4.0.1",
-    "@types/qrcode": "^1.5.5",
-    "@types/speakeasy": "^2.0.10",
-    "@typescript-eslint/eslint-plugin": "^5.3.0",
-    "@typescript-eslint/parser": "^5.3.0",
-    "eslint": "^8.2.0",
-    "jest": "^27.3.1",
-    "nodemon": "^3.1.4",
-    "ts-jest": "^27.0.7",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.4.4"
-  }
-}
 
 ```
 
@@ -667,237 +569,98 @@ module.exports = {
 }
 ```
 
-# frontend/.stylelintrc.json
+# backend/tsconfig.json
 
 ```json
 {
-    "extends": [
-      "stylelint-config-standard-scss",
-      "stylelint-config-recommended-scss"
-    ],
-    "rules": {
-      "at-rule-no-unknown": [
-        true,
-        {
-          "ignoreAtRules": [
-            "tailwind",
-            "apply",
-            "variants",
-            "responsive",
-            "screen",
-            "layer"
-          ]
-        }
-      ]
-    }
-  }
-```
-
-# frontend/.gitignore
-
-```
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
-
-# Compiled output
-/dist
-/tmp
-/out-tsc
-/bazel-out
-
-# Node
-/node_modules
-npm-debug.log
-yarn-error.log
-
-# IDEs and editors
-.idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
-
-# Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
-
-# System files
-.DS_Store
-Thumbs.db
-
-```
-
-# frontend/.editorconfig
-
-```
-# Editor configuration, see https://editorconfig.org
-root = true
-
-[*]
-charset = utf-8
-indent_style = space
-indent_size = 2
-insert_final_newline = true
-trim_trailing_whitespace = true
-
-[*.ts]
-quote_type = single
-
-[*.md]
-max_line_length = off
-trim_trailing_whitespace = false
-
-```
-
-# backend/src/types.ts
-
-```ts
-import { Request } from 'express';
-import { IUser } from '../src/models/user.model';
-
-export interface AuthenticatedRequest extends Request {
-  user?: IUser;
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "declaration": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }
+
 ```
 
-# backend/src/server.ts
+# backend/package.json
 
-```ts
-//server.ts
-import dotenv from 'dotenv';
-dotenv.config();
-console.log('Environment variables loaded:');
-console.log('PORT:', process.env.PORT);
-console.log('MONGODB_URI:', process.env.MONGODB_URI);
-console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'Set' : 'Not set');
-import { createServer } from 'http';
-import { Server } from 'socket.io';
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import codeRoutes from './routes/code.routes';
-import authRoutes from './routes/auth.routes';
-import workspaceRoutes from './routes/workspace.routes';
-import creditRoutes from './routes/credit.routes';
-import paymentRoutes from './routes/payment.routes';
-import creditPackageRoutes from './routes/credit-package.routes';
-import subscriptionRoutes from './routes/subscription.routes';
-import userRoutes from './routes/user.routes';
-import adminRoutes from './routes/admin.routes';
-import { authMiddleware } from './middleware/auth.middleware';
-import { setupScheduledTasks } from './utils/scheduled-tasks';
-import { adminMiddleware } from './middleware/admin.middleware';
-import { initializeIo } from './services/socket.service';
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-// CORS configuration
-const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:4200',
-  credentials: true,
-  optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
-
-// Stripe webhook route should be before the express.json() middleware
-app.use('/api/payments/webhook', express.raw({type: 'application/json'}), paymentRoutes);
-
-app.use(express.json());
-
-mongoose.set('strictQuery', false);
-
-const connectToMongoDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/code_input_db');
-    console.log('Connected to MongoDB');
-  } catch (error) {
-    console.error('Failed to connect to MongoDB:', error);
-    process.exit(1);
+```json
+{
+  "name": "code-input-tracking-platform-backend",
+  "version": "1.0.0",
+  "description": "Backend for Code-Input Tracking Platform",
+  "main": "dist/server.js",
+  "scripts": {
+    "start": "node dist/server.js",
+    "dev": "nodemon src/server.ts",
+    "build": "tsc -p .",
+    "lint": "eslint . --ext .ts",
+    "test": "jest",
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean",
+    "init-admin": "ts-node scripts/initAdminUser.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "json2csv": "^6.0.0-alpha.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.4",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.14",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "qrcode": "^1.5.4",
+    "socket.io": "^4.7.5",
+    "speakeasy": "^2.0.0",
+    "stripe": "^16.8.0",
+    "winston": "^3.14.2"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^27.0.2",
+    "@types/json2csv": "^5.0.7",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^16.11.6",
+    "@types/node-cron": "^3.0.11",
+    "@types/nodemailer": "^6.4.15",
+    "@types/passport": "^1.0.16",
+    "@types/passport-jwt": "^4.0.1",
+    "@types/qrcode": "^1.5.5",
+    "@types/speakeasy": "^2.0.10",
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "eslint": "^8.2.0",
+    "jest": "^27.3.1",
+    "nodemon": "^3.1.4",
+    "ts-jest": "^27.0.7",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
   }
-};
+}
 
-connectToMongoDB();
-
-app.use('/api/auth', authRoutes);
-app.use('/api/code', authMiddleware, codeRoutes);
-app.use('/api/workspaces', workspaceRoutes);
-app.use('/api/credits', creditRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/credit-packages', creditPackageRoutes);
-app.use('/api/subscriptions', subscriptionRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/admin', authMiddleware, adminMiddleware, adminRoutes);
-app.use('/api/admin', adminRoutes);
-
-// Set up scheduled tasks
-setupScheduledTasks();
-
-const httpServer = createServer(app);
-const io = new Server(httpServer, {
-  cors: {
-    origin: process.env.FRONTEND_URL || 'http://localhost:4200',
-    methods: ['GET', 'POST']
-  }
-});
-
-initializeIo(io);
-
-io.on('connection', (socket) => {
-  console.log('A user connected');
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
-});
-
-httpServer.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
-export { httpServer, io };
-```
-
-# backend/src/declarations.d.ts
-
-```ts
-declare module 'jsonwebtoken';
-declare module 'bcrypt';
-declare module 'nodemailer';
-declare module 'node-cron'
-declare module 'express-rate-limit'
-declare module 'speakeasy'
-declare module 'winston'
-declare module 'qrcode'
-declare module 'json2csv'
-```
-
-# backend/src/code.routes.ts
-
-```ts
-// code.routes.ts
-
-import { Router } from 'express';
-import { interpretCode } from '../src/controllers/code.controller';
-
-const router = Router();
-
-router.post('/interpret', interpretCode);
-
-export default router;
 ```
 
 # frontend/src/styles.scss
@@ -1051,6 +814,457 @@ export default bootstrap;
 
 This is a binary file of the type: Binary
 
+# backend/src/types.ts
+
+```ts
+import { Request } from 'express';
+import { IUser } from '../src/models/user.model';
+
+export interface AuthenticatedRequest extends Request {
+  user?: IUser;
+}
+```
+
+# backend/src/server.ts
+
+```ts
+//server.ts
+import dotenv from 'dotenv';
+dotenv.config();
+console.log('Environment variables loaded:');
+console.log('PORT:', process.env.PORT);
+console.log('MONGODB_URI:', process.env.MONGODB_URI);
+console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'Set' : 'Not set');
+import { createServer } from 'http';
+import { Server } from 'socket.io';
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import codeRoutes from './routes/code.routes';
+import authRoutes from './routes/auth.routes';
+import workspaceRoutes from './routes/workspace.routes';
+import creditRoutes from './routes/credit.routes';
+import paymentRoutes from './routes/payment.routes';
+import creditPackageRoutes from './routes/credit-package.routes';
+import subscriptionRoutes from './routes/subscription.routes';
+import userRoutes from './routes/user.routes';
+import adminRoutes from './routes/admin.routes';
+import { authMiddleware } from './middleware/auth.middleware';
+import { setupScheduledTasks } from './utils/scheduled-tasks';
+import { adminMiddleware } from './middleware/admin.middleware';
+import { initializeIo } from './services/socket.service';
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// CORS configuration
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || 'http://localhost:4200',
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
+
+// Stripe webhook route should be before the express.json() middleware
+app.use('/api/payments/webhook', express.raw({type: 'application/json'}), paymentRoutes);
+
+app.use(express.json());
+
+mongoose.set('strictQuery', false);
+
+const connectToMongoDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/code_input_db');
+    console.log('Connected to MongoDB');
+  } catch (error) {
+    console.error('Failed to connect to MongoDB:', error);
+    process.exit(1);
+  }
+};
+
+connectToMongoDB();
+
+app.use('/api/auth', authRoutes);
+app.use('/api/code', authMiddleware, codeRoutes);
+app.use('/api/workspaces', workspaceRoutes);
+app.use('/api/credits', creditRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/credit-packages', creditPackageRoutes);
+app.use('/api/subscriptions', subscriptionRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/admin', authMiddleware, adminMiddleware, adminRoutes);
+app.use('/api/admin', adminRoutes);
+
+// Set up scheduled tasks
+setupScheduledTasks();
+
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: process.env.FRONTEND_URL || 'http://localhost:4200',
+    methods: ['GET', 'POST']
+  }
+});
+
+initializeIo(io);
+
+io.on('connection', (socket) => {
+  console.log('A user connected');
+  socket.on('disconnect', () => {
+    console.log('User disconnected');
+  });
+});
+
+httpServer.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
+export { httpServer, io };
+```
+
+# backend/src/declarations.d.ts
+
+```ts
+declare module 'jsonwebtoken';
+declare module 'bcrypt';
+declare module 'nodemailer';
+declare module 'node-cron'
+declare module 'express-rate-limit'
+declare module 'speakeasy'
+declare module 'winston'
+declare module 'qrcode'
+declare module 'json2csv'
+```
+
+# backend/src/code.routes.ts
+
+```ts
+// code.routes.ts
+
+import { Router } from 'express';
+import { interpretCode } from '../src/controllers/code.controller';
+
+const router = Router();
+
+router.post('/interpret', interpretCode);
+
+export default router;
+```
+
+# frontend/src/environments/environment.ts
+
+```ts
+// src/environments/environment.ts
+
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:3000/api',
+  stripePublicKey: 'your_stripe_public_key_here'
+};
+
+```
+
+# frontend/src/app/app.routes.ts
+
+```ts
+// src/app/app.routes.ts
+
+import { Routes } from '@angular/router';
+import { CodeAnalysisComponent } from './components/code-analysis/code-analysis.component';
+import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
+import { WorkspaceListComponent } from './components/workspace/workspace-list/workspace-list.component';
+import { WorkspaceDetailComponent } from './components/workspace/workspace-detail/workspace-detail.component';
+import { CreditsComponent } from './components/credits/credits.component';
+import { CreditPackageComponent } from './components/credit-package/credit-package.component';
+import { AdminCreditPackagesComponent } from './components/admin/admin-credit-packages.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard.component';
+import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
+import { EmailVerificationComponent } from './components/auth/email/email-verification/email-verification.component';
+import { PasswordResetRequestComponent } from './components/auth/password-reset-request/password-reset-request.component';
+import { PasswordResetComponent } from './components/auth/password-reset/password-reset.component';
+import { TwoFactorAuthComponent } from './components/auth/two-factor-auth/two-factor-auth.component';
+import { RequestVerificationEmailComponent } from './components/auth/email/request-verification-email/request-verification-email.component';
+import { WorkspaceCreateComponent } from './components/workspace/workspace-create/workspace-create.component';
+
+export const routes: Routes = [
+  { path: '', component: CodeAnalysisComponent, canActivate: [AuthGuard] },
+  { path: 'generate-form', component: FormGeneratorComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'verify-email/:token', component: EmailVerificationComponent },
+  { path: 'request-verification-email', component: RequestVerificationEmailComponent },
+  { path: 'password-reset-request', component: PasswordResetRequestComponent },
+  { path: 'password-reset/:token', component: PasswordResetComponent },
+  { 
+    path: 'two-factor-auth', 
+    component: TwoFactorAuthComponent, 
+    canActivate: [AuthGuard] 
+  },
+  { 
+    path: 'workspaces', 
+    children: [
+      { path: '', component: WorkspaceListComponent },
+      { path: 'create', component: WorkspaceCreateComponent },
+      { path: ':id', component: WorkspaceDetailComponent }
+    ],
+    canActivate: [AuthGuard] 
+  },
+    { path: 'workspaces/:id', component: WorkspaceDetailComponent, canActivate: [AuthGuard] },
+  { path: 'credits', component: CreditsComponent, canActivate: [AuthGuard] },
+  { path: 'credit-packages', component: CreditPackageComponent, canActivate: [AuthGuard] },
+  { path: 'admin/credit-packages', component: AdminCreditPackagesComponent, canActivate: [AuthGuard, AdminGuard] },
+  { path: 'admin', component: AdminDashboardComponent, canActivate: [AuthGuard, AdminGuard] },
+];
+```
+
+# frontend/src/app/app.config.ts
+
+```ts
+import { ApplicationConfig } from '@angular/core';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient, withInterceptors, withFetch } from '@angular/common/http';
+import { provideClientHydration } from '@angular/platform-browser';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+
+import { routes } from './app.routes';
+import { AuthInterceptor } from './services/auth.interceptor';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideHttpClient(withInterceptors([AuthInterceptor]), withFetch()),
+    provideClientHydration(),
+    provideAnimations(),
+    provideAnimationsAsync()
+  ]
+};
+```
+
+# frontend/src/app/app.config.server.ts
+
+```ts
+import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
+import { provideServerRendering } from '@angular/platform-server';
+import { appConfig } from './app.config';
+
+const serverConfig: ApplicationConfig = {
+  providers: [
+    provideServerRendering()
+  ]
+};
+
+export const config = mergeApplicationConfig(appConfig, serverConfig);
+
+```
+
+# frontend/src/app/app.component.ts
+
+```ts
+//src/app/app.component.ts
+import { Component, inject, PLATFORM_ID, OnInit ,ViewEncapsulation , OnDestroy} from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { AuthService } from './services/auth.service';
+import { CreditService ,CreditInfo } from '../app/services/credit.service';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { switchMap } from 'rxjs/operators';
+import { Subscription, timer } from 'rxjs';
+import { ConnectionStatusComponent } from './components/workspace/connection-status/connection-status.component';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [
+    CommonModule,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
+    MatTooltipModule,
+    ConnectionStatusComponent
+  ],
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
+  encapsulation: ViewEncapsulation.None
+
+})
+export class AppComponent implements OnInit, OnDestroy {
+  private platformId = inject(PLATFORM_ID);
+  authService = inject(AuthService);
+  private creditService = inject(CreditService);
+
+  creditInfo: CreditInfo | null = null;
+  private creditSubscription: Subscription | null = null;
+
+  credits: number = 0;
+
+  ngOnInit() {
+    this.authService.checkStoredAuthData();
+    if (this.authService.currentUserValue) {
+      this.startCreditUpdates();
+    }
+  }
+  ngOnDestroy() {
+    this.stopCreditUpdates();
+  }
+
+  private startCreditUpdates() {
+    this.creditSubscription = timer(0, 60000) // Initial call and then every minute
+      .pipe(
+        switchMap(() => this.creditService.getCreditBalance())
+      )
+      .subscribe({
+        next: (info) => this.creditInfo = info,
+        error: (error) => console.error('Error loading credits', error)
+      });
+  }
+
+  private stopCreditUpdates() {
+    if (this.creditSubscription) {
+      this.creditSubscription.unsubscribe();
+      this.creditSubscription = null;
+    }
+  }
+
+  getCreditsTooltip(): string {
+    if (!this.creditInfo) return 'Loading credit information...';
+    const lastUpdated = new Date(this.creditInfo.lastUpdated).toLocaleString();
+    return `Last updated: ${lastUpdated}\nRecent transactions: ${this.creditInfo.recentTransactions.length}`;
+  }
+
+
+  isLargeScreen(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      return window.innerWidth > 1200;
+    }
+    return true;
+  }
+
+  logout(): void {
+    this.authService.logout();
+    // Optionally, redirect to login page or home page after logout
+  }
+
+  loadCredits(): void {
+    this.creditService.getCreditBalance().subscribe({
+      next: (response) => this.credits = response.credits,
+      error: (error) => console.error('Error loading credits', error)
+    });
+  }
+}
+
+```
+
+# frontend/src/app/app.component.scss
+
+```scss
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+  }
+  
+  .app-toolbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2;
+  }
+  
+  .app-sidenav-container {
+    flex: 1;
+    margin-top: 64px;
+  }
+  
+  .app-sidenav {
+    width: 250px;
+  }
+  
+  .app-content {
+    padding: 20px;
+  }
+  
+  .active-link {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  @media (max-width: 599px) {
+    .app-sidenav-container {
+      margin-top: 56px;
+    }
+  }
+```
+
+# frontend/src/app/app.component.html
+
+```html
+<!-- src/app/app.component.html-->
+<div class="app-container">
+  <mat-toolbar color="primary" class="app-toolbar">
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Code Interpretation Platform</span>
+    <span class="spacer"></span>
+    <app-connection-status></app-connection-status>
+    @if (authService.currentUserValue) {
+      <span class="credits" [matTooltip]="getCreditsTooltip()">
+        Credits: {{ creditInfo?.credits || 0 }}
+      </span>
+      <button mat-button (click)="logout()">Logout</button>
+    } @else {
+      <a mat-button routerLink="/login">Login</a>
+      <a mat-button routerLink="/register">Register</a>
+    }
+  </mat-toolbar>
+
+  
+    <mat-sidenav-container class="app-sidenav-container">
+      <mat-sidenav #sidenav mode="side" [opened]="isLargeScreen()" class="app-sidenav">
+        <mat-nav-list>
+          <a mat-list-item routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+            <mat-icon matListItemIcon>code</mat-icon>
+            <span matListItemTitle>Code Analysis</span>
+          </a>
+          <a mat-list-item routerLink="/workspaces" routerLinkActive="active-link">
+            <mat-icon matListItemIcon>work</mat-icon>
+            <span matListItemTitle>Workspaces</span>
+          </a>
+          <a mat-list-item routerLink="/credits" routerLinkActive="active-link">
+            <mat-icon matListItemIcon>account_balance_wallet</mat-icon>
+            <span matListItemTitle>Credits</span>
+          </a>
+          @if (authService.isAdmin()) {
+            <a mat-list-item routerLink="/admin" routerLinkActive="active-link">
+              <mat-icon matListItemIcon>dashboard</mat-icon>
+              <span matListItemTitle>Admin Dashboard</span>
+            </a>
+          }
+          
+        </mat-nav-list>
+      </mat-sidenav>
+  
+      <mat-sidenav-content class="app-content">
+        <router-outlet></router-outlet>
+      </mat-sidenav-content>
+    </mat-sidenav-container>
+  </div>
+```
+
 # backend/src/utils/scheduled-tasks.ts
 
 ```ts
@@ -1085,74 +1299,6 @@ export const isStrongPassword = (password: string): boolean => {
   const hasNonalphas = /\W/.test(password);
   return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumbers && hasNonalphas;
 };
-```
-
-# backend/src/types/node-cron.d.ts
-
-```ts
-// src/types/node-cron.d.ts
-
-declare module 'node-cron' {
-    namespace cron {
-      interface ScheduledTask {
-        start: () => void;
-        stop: () => void;
-      }
-  
-      function schedule(
-        cronExpression: string,
-        func: () => void,
-        options?: { scheduled?: boolean; timezone?: string }
-      ): ScheduledTask;
-    }
-  
-    export = cron;
-  }
-```
-
-# backend/src/scripts/initAdminUser.ts
-
-```ts
-import mongoose from 'mongoose';
-import { User } from '../models/user.model';
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-const initAdminUser = async () => {
-  try {
-    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/code_input_db');
-
-    const adminEmail = process.env.ADMIN_EMAIL;
-    const adminPassword = process.env.ADMIN_PASSWORD;
-    const adminName = process.env.ADMIN_NAME || 'Admin User';
-
-    if (!adminEmail || !adminPassword) {
-      console.error('Admin email and password must be provided in environment variables.');
-      process.exit(1);
-    }
-
-    const existingAdmin = await User.findOne({ email: adminEmail });
-    if (existingAdmin) {
-      console.log('Admin user already exists');
-      return;
-    }
-
-    const adminUser = await User.createAdminUser({
-      email: adminEmail,
-      password: adminPassword,
-      name: adminName
-    });
-
-    console.log('Admin user created successfully:', adminUser.email);
-  } catch (error) {
-    console.error('Error creating admin user:', error);
-  } finally {
-    await mongoose.disconnect();
-  }
-};
-
-initAdminUser();
 ```
 
 # backend/src/services/validator.ts
@@ -2686,9 +2832,78 @@ export class AsyncTokenStream {
 }
 ```
 
+# backend/src/types/node-cron.d.ts
+
+```ts
+// src/types/node-cron.d.ts
+
+declare module 'node-cron' {
+    namespace cron {
+      interface ScheduledTask {
+        start: () => void;
+        stop: () => void;
+      }
+  
+      function schedule(
+        cronExpression: string,
+        func: () => void,
+        options?: { scheduled?: boolean; timezone?: string }
+      ): ScheduledTask;
+    }
+  
+    export = cron;
+  }
+```
+
+# backend/src/scripts/initAdminUser.ts
+
+```ts
+import mongoose from 'mongoose';
+import { User } from '../models/user.model';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const initAdminUser = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/code_input_db');
+
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const adminPassword = process.env.ADMIN_PASSWORD;
+    const adminName = process.env.ADMIN_NAME || 'Admin User';
+
+    if (!adminEmail || !adminPassword) {
+      console.error('Admin email and password must be provided in environment variables.');
+      process.exit(1);
+    }
+
+    const existingAdmin = await User.findOne({ email: adminEmail });
+    if (existingAdmin) {
+      console.log('Admin user already exists');
+      return;
+    }
+
+    const adminUser = await User.createAdminUser({
+      email: adminEmail,
+      password: adminPassword,
+      name: adminName
+    });
+
+    console.log('Admin user created successfully:', adminUser.email);
+  } catch (error) {
+    console.error('Error creating admin user:', error);
+  } finally {
+    await mongoose.disconnect();
+  }
+};
+
+initAdminUser();
+```
+
 # backend/src/routes/workspace.routes.ts
 
 ```ts
+
 //src/routes/workspace.routes.ts
 import express from 'express';
 import { authMiddleware } from '../middleware/auth.middleware';
@@ -2738,8 +2953,8 @@ router.get('/:workspaceId/folders/:folderId/forms/:formId/instances', workspaceC
 
 
 
-
 export default router;
+
 ```
 
 # backend/src/routes/user.routes.ts
@@ -2841,41 +3056,51 @@ export default router;
 # backend/src/models/workspace.model.ts
 
 ```ts
-//backend/src/models/workspace.model.ts
+
+
 import mongoose, { Schema, Document } from 'mongoose';
 import { IUser } from './user.model';
 
+export interface ITimeManagementData {
+  type: 'STOPWATCH' | 'TIMER';
+  data: {
+    laps?: { lapNumber: number; lapTime: number; cumulativeTime: number }[];
+    completedSessions?: { sessionNumber: number; phase: string; duration: number }[];
+    completed: boolean;
+    totalDuration: number;
+    currentPhase?: string;
+    currentSession?: number;
+  };
+}
+
+export interface IFormSubmission {
+  _id: mongoose.Types.ObjectId;
+  values: Record<string, any | ITimeManagementData>;
+  submissionDate: Date;
+}
 
 export interface IForm {
   _id: mongoose.Types.ObjectId;
   name: string;
-  structure: any;
-  values?: Record<string, any>;
-  submissions?: {
-    _id: mongoose.Types.ObjectId;
-    values: any;
-    submissionDate: Date;
-    createdAt: Date;
-    updatedAt: Date;
-  }[];
-  createdAt: Date;
-  updatedAt: Date;
+  structure: any; // Make sure this is not optional
   isTemplate: boolean;
   parentTemplateId?: mongoose.Types.ObjectId;
+  values?: Record<string, any>;
+  state: 'template' | 'new_instance' | 'submitted_instance';
+  submissions?: IFormSubmission[];
+  createdAt: Date;
+  updatedAt: Date;
 }
-
 
 
 export interface IFolder {
   _id: mongoose.Types.ObjectId;
   name: string;
-  createdAt: Date;
-  updatedAt: Date;
   forms: IForm[];
   subfolders: IFolder[];
+  createdAt: Date;
+  updatedAt: Date;
 }
-
-
 
 export interface IWorkspaceMember {
   user: IUser['_id'];
@@ -2896,30 +3121,29 @@ export interface IWorkspace extends Document {
   folders: IFolder[];
   createdAt: Date;
   updatedAt: Date;
-
 }
 
+const FormSubmissionSchema: Schema = new Schema({
+  values: { type: Schema.Types.Mixed, required: true },
+  submissionDate: { type: Date, default: Date.now }
+});
 
 const FormSchema: Schema = new Schema({
   name: { type: String, required: true },
-  structure: { type: Schema.Types.Mixed, required: true, default: {} },
+  structure: { type: Schema.Types.Mixed, required: true },
   isTemplate: { type: Boolean, default: false },
   parentTemplateId: { type: Schema.Types.ObjectId, ref: 'Form' },
   values: { type: Schema.Types.Mixed },
-  submissions: [{
-    values: { type: Schema.Types.Mixed },
-    submissionDate: { type: Date, default: Date.now },
-    createdAt: { type: Date, default: Date.now },
-    updatedAt: { type: Date, default: Date.now }
-  }]
+  state: { type: String, enum: ['template', 'new_instance', 'submitted_instance'], required: true },
+  submissions: [FormSubmissionSchema]
 }, { timestamps: true });
+
 
 const FolderSchema: Schema = new Schema({
   name: { type: String, required: true },
-  forms: [FormSchema], // Array of forms
-  subfolders: [{ type: Schema.Types.Mixed }], // Array of subfolders
+  forms: [FormSchema],
+  subfolders: [{ type: Schema.Types.Mixed }]
 }, { timestamps: true });
-
 
 const WorkspaceSchema: Schema = new Schema({
   name: { type: String, required: true },
@@ -2939,6 +3163,8 @@ const WorkspaceSchema: Schema = new Schema({
 }, { timestamps: true });
 
 export const Workspace = mongoose.model<IWorkspace>('Workspace', WorkspaceSchema);
+
+
 ```
 
 # backend/src/models/user.model.ts
@@ -3342,7 +3568,7 @@ export const environment = {
 // /backend/src/controllers/workspace.controller.ts
 import { Response ,Request} from 'express';
 import { AuthRequest } from '../middleware/auth.middleware';
-import { Workspace, IWorkspace ,IFolder , IForm} from '../models/workspace.model';
+import { Workspace, IWorkspace ,IFolder , IForm,IFormSubmission,ITimeManagementData} from '../models/workspace.model';
 import { User } from '../models/user.model';
 import { emitWorkspaceUpdate, getIo,emitCursorPosition } from '../services/socket.service';
 import mongoose from 'mongoose';
@@ -4087,19 +4313,33 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
         return;
       }
   
+      let parentTemplateObjectId: mongoose.Types.ObjectId | undefined;
+      if (parentTemplateId && parentTemplateId !== 'undefined' && !parentTemplateId.startsWith('temp_')) {
+        try {
+          parentTemplateObjectId = new mongoose.Types.ObjectId(parentTemplateId);
+        } catch (error) {
+          console.error('Invalid parentTemplateId:', parentTemplateId);
+          res.status(400).json({ message: 'Invalid parentTemplateId' });
+          return;
+        }
+      }
+  
       const newForm: IForm = {
         _id: new mongoose.Types.ObjectId(),
         name,
-        structure: {
-          ...structure,
-          parsedFields: structure.fields // Ensure we're storing the parsed fields
-        },
+        structure: structure,
         isTemplate,
-        parentTemplateId: parentTemplateId ? new mongoose.Types.ObjectId(parentTemplateId) : undefined,
+        parentTemplateId: parentTemplateObjectId,
+        state: isTemplate ? 'template' : 'new_instance',
         createdAt: new Date(),
         updatedAt: new Date(),
         submissions: []
       };
+  
+      // If it's a template, only save default values
+      if (isTemplate) {
+        newForm.values = getDefaultValues(structure.fields);
+      }
   
       folder.forms.push(newForm);
       await workspace.save();
@@ -4111,13 +4351,30 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
       res.status(500).json({ message: 'Error creating form', error: (error as Error).message });
     }
   };
-  
 
-  export const updateForm = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const { workspaceId, folderId, formId } = req.params;
-      const formData = req.body;
-      
+  // Add this helper function in the workspace.controller.ts file
+function getDefaultValues(fields: any[]): any {
+  const defaultValues: any = {};
+  fields.forEach(field => {
+    if (field.options && field.options.default !== undefined) {
+      defaultValues[field.name] = field.options.default;
+    }
+    if (field.type === 'LIST' && field.options && field.options.listFields) {
+      defaultValues[field.name] = [getDefaultValues(field.options.listFields)];
+    }
+    if (field.type === 'TABLE' && field.options && field.options.columns) {
+      defaultValues[field.name] = [getDefaultValues(field.options.columns)];
+    }
+  });
+  return defaultValues;
+}
+
+
+export const updateForm = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { workspaceId, folderId, formId } = req.params;
+    const formData = req.body;
+
       console.log('Received form update request:', { workspaceId, folderId, formId, formData });
 
       const workspace = await Workspace.findById(workspaceId);
@@ -4137,22 +4394,31 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
         res.status(404).json({ message: 'Form not found' });
         return;
       }
-
+    if (folder.forms[formIndex].isTemplate) {
+      // If updating a template, only update with default values
+      folder.forms[formIndex] = {
+        ...folder.forms[formIndex],
+        ...formData,
+        values: getDefaultValues(formData.structure.fields),
+        updatedAt: new Date()
+      };
+    } else {
+      // For non-templates, update as usual
       folder.forms[formIndex] = {
         ...folder.forms[formIndex],
         ...formData,
         updatedAt: new Date()
       };
-
-      await workspace.save();
-
-      console.log('Form updated successfully:', folder.forms[formIndex]);
-      res.json({ message: 'Form updated successfully', form: folder.forms[formIndex] });
-    } catch (error) {
-      console.error('Error updating form:', error);
-      res.status(500).json({ message: 'Error updating form', error: (error as Error).message });
     }
-  };
+
+    await workspace.save();
+    console.log('Form updated successfully:', folder.forms[formIndex]);
+    res.json({ message: 'Form updated successfully', form: folder.forms[formIndex] });
+  } catch (error) {
+    console.error('Error updating form:', error);
+    res.status(500).json({ message: 'Error updating form', error: (error as Error).message });
+  }
+};
 
 
 
@@ -4196,14 +4462,18 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
       res.status(500).json({ message: 'Error deleting form', error: (error as Error).message });
     }
   };
-
   export const submitForm = async (req: Request, res: Response): Promise<void> => {
     try {
       const { workspaceId, folderId, formId } = req.params;
-      const { values, structure } = req.body;
+      const { values } = req.body;
   
-      console.log('Received form submission:', { workspaceId, folderId, formId, values, structure });
+      console.log('Received form submission:', { workspaceId, folderId, formId, values });
   
+      if (!values) {
+        res.status(400).json({ message: 'Form values are required' });
+        return;
+      }
+
       const workspace = await Workspace.findById(workspaceId);
       if (!workspace) {
         res.status(404).json({ message: 'Workspace not found' });
@@ -4223,67 +4493,129 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
       }
   
       const currentDate = new Date();
-      const formattedDate = currentDate.toISOString().split('T')[0]; // Format: YYYY-MM-DD
-  
-      let submittedInstance;
   
       if (form.isTemplate) {
         // Create a new instance based on the template
         const newInstance: IForm = {
           _id: new mongoose.Types.ObjectId(),
-          name: `${form.name} - Instance ${formattedDate}`,
-          structure: structure || form.structure || {},
+          name: `${form.name} - Instance ${currentDate.toISOString().split('T')[0]}`,
+          structure: form.structure,
           isTemplate: false,
           parentTemplateId: form._id,
-          values: values,
+          values: processFormValues(values),
+          state: 'submitted_instance',
           createdAt: currentDate,
           updatedAt: currentDate,
           submissions: [{
             _id: new mongoose.Types.ObjectId(),
-            values: values,
-            submissionDate: currentDate,
-            createdAt: currentDate,
-            updatedAt: currentDate
+            values: processFormValues(values),
+            submissionDate: currentDate
           }]
         };
   
         folder.forms.push(newInstance);
-        submittedInstance = newInstance;
+        console.log('New instance created:', newInstance);
+        res.status(201).json({ 
+          message: 'New instance created and submitted successfully', 
+          instance: newInstance 
+        });
       } else {
         // Submit to an existing instance
-        const newSubmission = {
+        const newSubmission: IFormSubmission = {
           _id: new mongoose.Types.ObjectId(),
-          values: values,
-          submissionDate: currentDate,
-          createdAt: currentDate,
-          updatedAt: currentDate
+          values: processFormValues(values),
+          submissionDate: currentDate
         };
   
         if (!form.submissions) {
           form.submissions = [];
         }
         form.submissions.push(newSubmission);
-        form.values = values;
-        form.structure = structure || form.structure || {};
+        form.values = processFormValues(values);
         form.updatedAt = currentDate;
-        form.name = `${form.name.split(' - Instance')[0]} - Instance ${formattedDate}`;
-        submittedInstance = form;
+        form.state = 'submitted_instance';
+  
+        console.log('Existing instance updated:', form);
+        res.status(200).json({ 
+          message: 'Form submitted successfully', 
+          instance: form 
+        });
       }
   
       await workspace.save();
+
+      if (values.workout_timer) {
+        console.log('Workout Timer Details:');
+        console.log('Completed Sessions:', JSON.stringify(values.workout_timer.completedSessions, null, 2));
+        console.log('Current Phase:', values.workout_timer.currentPhase);
+        console.log('Current Session:', values.workout_timer.currentSession);
+        console.log('Total Time:', values.workout_timer.totalTime);
+      }
   
-      console.log('Form submitted successfully:', submittedInstance);
-      res.status(200).json({ 
-        message: 'Form submitted successfully', 
-        instance: submittedInstance 
-      });
+      if (values.rest_time) {
+        console.log('Rest Time Details:');
+        console.log('Laps:', JSON.stringify(values.rest_time.laps, null, 2));
+        console.log('Total Time:', values.rest_time.totalTime);
+      }
+  
     } catch (error) {
       console.error('Error submitting form:', error);
       res.status(500).json({ message: 'Error submitting form', error: (error as Error).message });
     }
   };
 
+  function processFormValues(values: any): any {
+    if (!values || typeof values !== 'object') {
+      return {};
+    }
+  
+    const processedValues: any = {};
+    for (const [key, value] of Object.entries(values)) {
+      if (isTimeManagementField(value)) {
+        processedValues[key] = processTimeManagementField(value);
+      } else if (Array.isArray(value)) {
+        processedValues[key] = value.map(item => processFormValues(item));
+      } else if (value instanceof Date) {
+        processedValues[key] = value.toISOString();
+      } else if (typeof value === 'object' && value !== null) {
+        processedValues[key] = processFormValues(value);
+      } else {
+        processedValues[key] = value;
+      }
+    }
+    return processedValues;
+  }
+  
 
+  function isTimeManagementField(value: any): value is ITimeManagementData {
+    return value && typeof value === 'object' && 'type' in value && 'data' in value &&
+      (value.type === 'STOPWATCH' || value.type === 'TIMER');
+  }
+
+
+  function processTimeManagementField(field: any): any {
+    if (field.type === 'STOPWATCH') {
+      return {
+        laps: field.laps,
+        totalTime: field.totalTime,
+        completed: field.completed
+      };
+    } else if (field.type === 'TIMER') {
+      return {
+        completedSessions: field.completedSessions,
+        currentPhase: field.currentPhase,
+        currentSession: field.currentSession,
+        totalTime: field.totalTime,
+        completed: field.completed
+      };
+    }
+    return field;
+  }
+  
+  
+  
+
+    
   export const getFormInstances = async (req: Request, res: Response): Promise<void> => {
     try {
       const { workspaceId, folderId, formId } = req.params;
@@ -4383,6 +4715,42 @@ const deleteFolderById = (folders: IFolder[], id: string): boolean => {
       res.status(500).json({ message: 'Error fetching form submissions', error: (error as Error).message });
     }
   };
+
+  export const getSubmittedInstance = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { workspaceId, folderId, formId } = req.params;
+  
+      const workspace = await Workspace.findById(workspaceId);
+      if (!workspace) {
+        res.status(404).json({ message: 'Workspace not found' });
+        return;
+      }
+  
+      const folder = findFolderById(workspace.folders, folderId);
+      if (!folder) {
+        res.status(404).json({ message: 'Folder not found' });
+        return;
+      }
+  
+      const form = folder.forms.find(f => f._id.toString() === formId);
+      if (!form) {
+        res.status(404).json({ message: 'Form not found' });
+        return;
+      }
+  
+      if (form.isTemplate || form.state !== 'submitted_instance') {
+        res.status(400).json({ message: 'This form is not a submitted instance' });
+        return;
+      }
+  
+      res.status(200).json(form);
+    } catch (error) {
+      console.error('Error retrieving submitted instance:', error);
+      res.status(500).json({ message: 'Error retrieving submitted instance', error: (error as Error).message });
+    }
+  };
+
+
 ```
 
 # backend/src/controllers/user.controller.ts
@@ -4962,318 +5330,45 @@ export const getEmailVerificationStatus = async (req: Request, res: Response) =>
 
 ```
 
-# frontend/src/environments/environment.ts
+# frontend/src/app/pipes/format-time.pipe.ts
 
 ```ts
-// src/environments/environment.ts
+import { Pipe, PipeTransform } from '@angular/core';
 
-export const environment = {
-  production: false,
-  apiUrl: 'http://localhost:3000/api',
-  stripePublicKey: 'your_stripe_public_key_here'
-};
-
-```
-
-# frontend/src/app/app.routes.ts
-
-```ts
-// src/app/app.routes.ts
-
-import { Routes } from '@angular/router';
-import { CodeAnalysisComponent } from './components/code-analysis/code-analysis.component';
-import { FormGeneratorComponent } from './components/form-generator/form-generator.component';
-import { LoginComponent } from './components/auth/login/login.component';
-import { RegisterComponent } from './components/auth/register/register.component';
-import { WorkspaceListComponent } from './components/workspace/workspace-list/workspace-list.component';
-import { WorkspaceDetailComponent } from './components/workspace/workspace-detail/workspace-detail.component';
-import { CreditsComponent } from './components/credits/credits.component';
-import { CreditPackageComponent } from './components/credit-package/credit-package.component';
-import { AdminCreditPackagesComponent } from './components/admin/admin-credit-packages.component';
-import { AdminDashboardComponent } from './components/admin/admin-dashboard.component';
-import { AuthGuard } from './guards/auth.guard';
-import { AdminGuard } from './guards/admin.guard';
-import { EmailVerificationComponent } from './components/auth/email/email-verification/email-verification.component';
-import { PasswordResetRequestComponent } from './components/auth/password-reset-request/password-reset-request.component';
-import { PasswordResetComponent } from './components/auth/password-reset/password-reset.component';
-import { TwoFactorAuthComponent } from './components/auth/two-factor-auth/two-factor-auth.component';
-import { RequestVerificationEmailComponent } from './components/auth/email/request-verification-email/request-verification-email.component';
-import { WorkspaceCreateComponent } from './components/workspace/workspace-create/workspace-create.component';
-
-export const routes: Routes = [
-  { path: '', component: CodeAnalysisComponent, canActivate: [AuthGuard] },
-  { path: 'generate-form', component: FormGeneratorComponent, canActivate: [AuthGuard] },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'verify-email/:token', component: EmailVerificationComponent },
-  { path: 'request-verification-email', component: RequestVerificationEmailComponent },
-  { path: 'password-reset-request', component: PasswordResetRequestComponent },
-  { path: 'password-reset/:token', component: PasswordResetComponent },
-  { 
-    path: 'two-factor-auth', 
-    component: TwoFactorAuthComponent, 
-    canActivate: [AuthGuard] 
-  },
-  { 
-    path: 'workspaces', 
-    children: [
-      { path: '', component: WorkspaceListComponent },
-      { path: 'create', component: WorkspaceCreateComponent },
-      { path: ':id', component: WorkspaceDetailComponent }
-    ],
-    canActivate: [AuthGuard] 
-  },
-    { path: 'workspaces/:id', component: WorkspaceDetailComponent, canActivate: [AuthGuard] },
-  { path: 'credits', component: CreditsComponent, canActivate: [AuthGuard] },
-  { path: 'credit-packages', component: CreditPackageComponent, canActivate: [AuthGuard] },
-  { path: 'admin/credit-packages', component: AdminCreditPackagesComponent, canActivate: [AuthGuard, AdminGuard] },
-  { path: 'admin', component: AdminDashboardComponent, canActivate: [AuthGuard, AdminGuard] },
-];
-```
-
-# frontend/src/app/app.config.ts
-
-```ts
-import { ApplicationConfig } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors, withFetch } from '@angular/common/http';
-import { provideClientHydration } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-
-import { routes } from './app.routes';
-import { AuthInterceptor } from './services/auth.interceptor';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideRouter(routes),
-    provideHttpClient(withInterceptors([AuthInterceptor]), withFetch()),
-    provideClientHydration(),
-    provideAnimations(),
-    provideAnimationsAsync()
-  ]
-};
-```
-
-# frontend/src/app/app.config.server.ts
-
-```ts
-import { mergeApplicationConfig, ApplicationConfig } from '@angular/core';
-import { provideServerRendering } from '@angular/platform-server';
-import { appConfig } from './app.config';
-
-const serverConfig: ApplicationConfig = {
-  providers: [
-    provideServerRendering()
-  ]
-};
-
-export const config = mergeApplicationConfig(appConfig, serverConfig);
-
-```
-
-# frontend/src/app/app.component.ts
-
-```ts
-//src/app/app.component.ts
-import { Component, inject, PLATFORM_ID, OnInit ,ViewEncapsulation , OnDestroy} from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { AuthService } from './services/auth.service';
-import { CreditService ,CreditInfo } from '../app/services/credit.service';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { switchMap } from 'rxjs/operators';
-import { Subscription, timer } from 'rxjs';
-import { ConnectionStatusComponent } from './components/workspace/connection-status/connection-status.component';
-
-@Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
-    MatTooltipModule,
-    ConnectionStatusComponent
-  ],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  encapsulation: ViewEncapsulation.None
-
+@Pipe({
+  name: 'formatTime',
+  standalone: true
 })
-export class AppComponent implements OnInit, OnDestroy {
-  private platformId = inject(PLATFORM_ID);
-  authService = inject(AuthService);
-  private creditService = inject(CreditService);
-
-  creditInfo: CreditInfo | null = null;
-  private creditSubscription: Subscription | null = null;
-
-  credits: number = 0;
-
-  ngOnInit() {
-    this.authService.checkStoredAuthData();
-    if (this.authService.currentUserValue) {
-      this.startCreditUpdates();
+export class FormatTimePipe implements PipeTransform {
+  transform(value: number | null, unit: 'ms' | 's' = 'ms'): string {
+    if (value === null || isNaN(value)) {
+      return '00:00';
     }
-  }
-  ngOnDestroy() {
-    this.stopCreditUpdates();
-  }
 
-  private startCreditUpdates() {
-    this.creditSubscription = timer(0, 60000) // Initial call and then every minute
-      .pipe(
-        switchMap(() => this.creditService.getCreditBalance())
-      )
-      .subscribe({
-        next: (info) => this.creditInfo = info,
-        error: (error) => console.error('Error loading credits', error)
-      });
-  }
-
-  private stopCreditUpdates() {
-    if (this.creditSubscription) {
-      this.creditSubscription.unsubscribe();
-      this.creditSubscription = null;
+    let totalSeconds: number;
+    if (unit === 'ms') {
+      totalSeconds = Math.floor(value / 1000);
+    } else {
+      totalSeconds = Math.floor(value);
     }
+
+    const days = Math.floor(totalSeconds / (3600 * 24));
+    const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    
+    let result = '';
+    if (days > 0) result += `${days}d `;
+    if (hours > 0 || days > 0) result += `${this.pad(hours)}:`;
+    result += `${this.pad(minutes)}:${this.pad(seconds)}`;
+    
+    return result.trim();
   }
 
-  getCreditsTooltip(): string {
-    if (!this.creditInfo) return 'Loading credit information...';
-    const lastUpdated = new Date(this.creditInfo.lastUpdated).toLocaleString();
-    return `Last updated: ${lastUpdated}\nRecent transactions: ${this.creditInfo.recentTransactions.length}`;
-  }
-
-
-  isLargeScreen(): boolean {
-    if (isPlatformBrowser(this.platformId)) {
-      return window.innerWidth > 1200;
-    }
-    return true;
-  }
-
-  logout(): void {
-    this.authService.logout();
-    // Optionally, redirect to login page or home page after logout
-  }
-
-  loadCredits(): void {
-    this.creditService.getCreditBalance().subscribe({
-      next: (response) => this.credits = response.credits,
-      error: (error) => console.error('Error loading credits', error)
-    });
+  private pad(num: number): string {
+    return num.toString().padStart(2, '0');
   }
 }
-
-```
-
-# frontend/src/app/app.component.scss
-
-```scss
-.app-container {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-  }
-  
-  .app-toolbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 2;
-  }
-  
-  .app-sidenav-container {
-    flex: 1;
-    margin-top: 64px;
-  }
-  
-  .app-sidenav {
-    width: 250px;
-  }
-  
-  .app-content {
-    padding: 20px;
-  }
-  
-  .active-link {
-    background-color: rgba(0, 0, 0, 0.1);
-  }
-  
-  @media (max-width: 599px) {
-    .app-sidenav-container {
-      margin-top: 56px;
-    }
-  }
-```
-
-# frontend/src/app/app.component.html
-
-```html
-<!-- src/app/app.component.html-->
-<div class="app-container">
-  <mat-toolbar color="primary" class="app-toolbar">
-    <button mat-icon-button (click)="sidenav.toggle()">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>Code Interpretation Platform</span>
-    <span class="spacer"></span>
-    <app-connection-status></app-connection-status>
-    @if (authService.currentUserValue) {
-      <span class="credits" [matTooltip]="getCreditsTooltip()">
-        Credits: {{ creditInfo?.credits || 0 }}
-      </span>
-      <button mat-button (click)="logout()">Logout</button>
-    } @else {
-      <a mat-button routerLink="/login">Login</a>
-      <a mat-button routerLink="/register">Register</a>
-    }
-  </mat-toolbar>
-
-  
-    <mat-sidenav-container class="app-sidenav-container">
-      <mat-sidenav #sidenav mode="side" [opened]="isLargeScreen()" class="app-sidenav">
-        <mat-nav-list>
-          <a mat-list-item routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
-            <mat-icon matListItemIcon>code</mat-icon>
-            <span matListItemTitle>Code Analysis</span>
-          </a>
-          <a mat-list-item routerLink="/workspaces" routerLinkActive="active-link">
-            <mat-icon matListItemIcon>work</mat-icon>
-            <span matListItemTitle>Workspaces</span>
-          </a>
-          <a mat-list-item routerLink="/credits" routerLinkActive="active-link">
-            <mat-icon matListItemIcon>account_balance_wallet</mat-icon>
-            <span matListItemTitle>Credits</span>
-          </a>
-          @if (authService.isAdmin()) {
-            <a mat-list-item routerLink="/admin" routerLinkActive="active-link">
-              <mat-icon matListItemIcon>dashboard</mat-icon>
-              <span matListItemTitle>Admin Dashboard</span>
-            </a>
-          }
-          
-        </mat-nav-list>
-      </mat-sidenav>
-  
-      <mat-sidenav-content class="app-content">
-        <router-outlet></router-outlet>
-      </mat-sidenav-content>
-    </mat-sidenav-container>
-  </div>
 ```
 
 # frontend/src/app/services/workspace.service.ts
@@ -5722,7 +5817,6 @@ export class UserService {
 ```ts
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subscription, interval } from 'rxjs';
-
 export interface StopwatchData {
   totalDuration: number;
   startTime: string;
@@ -5730,14 +5824,12 @@ export interface StopwatchData {
   laps: LapData[];
   isRunning: boolean;
 }
-
 export interface LapData {
   lapNumber: number;
   lapTime: number;
   cumulativeTime: number;
   timestamp: string;
 }
-
 export interface TimerData {
   totalDuration: number;
   startTime: string;
@@ -5748,7 +5840,6 @@ export interface TimerData {
   sessions: SessionData[];
   isRunning: boolean;
 }
-
 export interface SessionData {
   sessionNumber: number;
   workDuration: number;
@@ -5759,7 +5850,6 @@ export interface SessionData {
   breakEndTime: string;
   completed: boolean;
 }
-
 export interface TimerSettings {
   workDuration: number;
   breakDuration: number;
@@ -5767,7 +5857,6 @@ export interface TimerSettings {
   longBreakDuration?: number;
   longBreakInterval?: number;
 }
-
 @Injectable({
   providedIn: 'root'
 })
@@ -5779,11 +5868,9 @@ export class TimeManagementService {
   private timerSettings: TimerSettings | null = null;
   private stopwatchInterval: Subscription | null = null;
   private timerInterval: Subscription | null = null;
-
   constructor() {
     console.log('TimeManagementService initialized');
   }
-
   // Common methods
   start(type: 'stopwatch' | 'timer'): void {
     if (type === 'stopwatch') {
@@ -5792,7 +5879,6 @@ export class TimeManagementService {
       this.startTimer();
     }
   }
-
   stop(type: 'stopwatch' | 'timer'): void {
     if (type === 'stopwatch') {
       this.stopStopwatch();
@@ -5800,7 +5886,6 @@ export class TimeManagementService {
       this.stopTimer();
     }
   }
-
   reset(type: 'stopwatch' | 'timer'): void {
     if (type === 'stopwatch') {
       this.resetStopwatch();
@@ -5808,7 +5893,6 @@ export class TimeManagementService {
       this.resetTimer();
     }
   }
-
   // Stopwatch methods
   private startStopwatch(): void {
     if (this.stopwatchInterval) {
@@ -5831,7 +5915,6 @@ export class TimeManagementService {
     });
     console.log('Stopwatch started');
   }
-
   private stopStopwatch(): void {
     if (this.stopwatchInterval) {
       this.stopwatchInterval.unsubscribe();
@@ -5846,7 +5929,6 @@ export class TimeManagementService {
       console.warn('Stopwatch is not running');
     }
   }
-
   private resetStopwatch(): void {
     this.stopStopwatch();
     this.stopwatchData = {
@@ -5859,7 +5941,6 @@ export class TimeManagementService {
     this.updateStopwatchSubject();
     console.log('Stopwatch reset');
   }
-
   lap(): void {
     if (this.stopwatchData && this.stopwatchData.isRunning) {
       const lastLap = this.stopwatchData.laps[this.stopwatchData.laps.length - 1];
@@ -5876,18 +5957,15 @@ export class TimeManagementService {
       console.warn('Cannot record lap: Stopwatch is not running');
     }
   }
-
   private updateStopwatchSubject(): void {
     this.stopwatchSubject.next(this.stopwatchData);
   }
-
   // Timer methods
   setTimerSettings(settings: TimerSettings): void {
     this.timerSettings = settings;
     this.resetTimer();
     console.log('Timer settings updated', settings);
   }
-
   private startTimer(): void {
     if (!this.timerSettings) {
       console.error('Cannot start timer: settings not set');
@@ -5913,7 +5991,6 @@ export class TimeManagementService {
     });
     console.log('Timer started');
   }
-
   private stopTimer(): void {
     if (this.timerInterval) {
       this.timerInterval.unsubscribe();
@@ -5928,13 +6005,11 @@ export class TimeManagementService {
       console.warn('Timer is not running');
     }
   }
-
   private resetTimer(): void {
     this.stopTimer();
     this.initializeTimerData();
     console.log('Timer reset');
   }
-
   skipPhase(): void {
     if (this.timerData && this.timerData.isRunning) {
       this.moveToNextPhase();
@@ -5943,7 +6018,6 @@ export class TimeManagementService {
       console.warn('Cannot skip phase: Timer is not running');
     }
   }
-
   private initializeTimerData(): void {
     if (!this.timerSettings) {
       console.error('Cannot initialize timer data: settings not set');
@@ -5963,7 +6037,6 @@ export class TimeManagementService {
     this.updateTimerSubject();
     console.log('Timer data initialized', this.timerData);
   }
-
   private moveToNextPhase(): void {
     if (!this.timerData || !this.timerSettings) {
       console.error('Cannot move to next phase: timer data or settings not set');
@@ -5996,7 +6069,6 @@ export class TimeManagementService {
     this.updateTimerSubject();
     console.log('Moved to next phase', this.timerData);
   }
-
   private getBreakDuration(): number {
     if (!this.timerSettings || !this.timerData) {
       console.error('Timer settings or data is not initialized');
@@ -6013,13 +6085,11 @@ export class TimeManagementService {
     console.log(`Regular break duration returned: ${breakDuration}`);
     return breakDuration;
   }
-
   private shouldTakeLongBreak(): boolean {
     if (!this.timerSettings || !this.timerData) return false;
     const { longBreakInterval } = this.timerSettings;
     return !!longBreakInterval && this.timerData.currentSession % longBreakInterval === 0;
   }
-
   private createNewSession(sessionNumber: number): SessionData {
     return {
       sessionNumber,
@@ -6032,7 +6102,6 @@ export class TimeManagementService {
       completed: false
     };
   }
-
   private completeTimer(): void {
     if (this.timerData) {
       this.timerData.endTime = new Date().toISOString();
@@ -6041,16 +6110,13 @@ export class TimeManagementService {
       console.log('Timer completed', this.timerData);
     }
   }
-
   private updateTimerSubject(): void {
     this.timerSubject.next(this.timerData);
   }
-
   // Data retrieval methods
   getStopwatchData(): Observable<StopwatchData | null> {
     return this.stopwatchSubject.asObservable();
   }
-
   getTimerData(): Observable<TimerData | null> {
     return this.timerSubject.asObservable();
   }
@@ -6104,6 +6170,8 @@ export class NotificationService {
 # frontend/src/app/services/form-management.service.ts
 
 ```ts
+
+
 // src/app/services/form-management.service.ts
 
 import { Injectable } from '@angular/core';
@@ -6112,6 +6180,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { Form, FormTemplate, FormInstance, FormSubmission, SavedForm ,AnyForm} from '../interfaces/workspace.interface';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -6146,16 +6216,17 @@ export class FormManagementService {
       catchError(this.handleError)
     );
   }
+  
 
   createForm(workspaceId: string, folderId: string, formData: Partial<FormTemplate> | Partial<FormInstance>): Observable<Form> {
     const url = `${this.apiUrl}/${workspaceId}/folders/${folderId}/forms`;
-    console.log('Creating form with URL:', url);
-    console.log('Form data:', formData);
-    return this.http.post<FormTemplate>(url, formData).pipe(
-      tap(response => console.log('Create form response:', response)),
+    return this.http.post<Form>(url, formData).pipe(
       catchError(this.handleError)
     );
   }
+
+
+
 
   updateForm(workspaceId: string, folderId: string, formId: string, formData: Partial<FormTemplate> | Partial<FormInstance>): Observable<Form> {
     const url = `${this.apiUrl}/${workspaceId}/folders/${folderId}/forms/${formId}`;
@@ -6178,12 +6249,13 @@ export class FormManagementService {
     );
   }
 
-  submitForm(workspaceId: string, folderId: string, templateId: string, formData: any): Observable<{ message: string, instance: FormInstance }> {
-    const url = `${this.apiUrl}/${workspaceId}/folders/${folderId}/forms/${templateId}/submit`;
-    return this.http.post<{ message: string, instance: FormInstance }>(url, formData).pipe(
+  submitForm(workspaceId: string, folderId: string, formId: string, submissionData: any): Observable<{ instance: FormInstance }> {
+    const url = `${this.apiUrl}/${workspaceId}/folders/${folderId}/forms/${formId}/submit`;
+    return this.http.post<{ instance: FormInstance }>(url, submissionData).pipe(
       catchError(this.handleError)
     );
   }
+
   getFormSubmissions(workspaceId: string, folderId: string, formId: string): Observable<FormSubmission[]> {
     const url = `${this.apiUrl}/${workspaceId}/folders/${folderId}/forms/${formId}/submissions`;
     return this.http.get<FormSubmission[]>(url).pipe(
@@ -6225,6 +6297,14 @@ export class FormManagementService {
       catchError(this.handleError)
     );
   }
+  getSubmittedInstance(workspaceId: string, folderId: string, formId: string): Observable<FormInstance> {
+    const url = `${this.apiUrl}/${workspaceId}/folders/${folderId}/forms/${formId}/submitted-instance`;
+    return this.http.get<FormInstance>(url).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
 }
 ```
 
@@ -7095,47 +7175,10 @@ export class AdminService {
 }
 ```
 
-# frontend/src/app/pipes/format-time.pipe.ts
-
-```ts
-// src/app/pipes/format-time.pipe.ts
-
-import { Pipe, PipeTransform } from '@angular/core';
-
-@Pipe({
-  name: 'formatTime',
-  standalone: true
-})
-export class FormatTimePipe implements PipeTransform {
-  transform(seconds: number | null): string {
-    if (seconds === null || isNaN(seconds)) {
-      return '00:00';
-    }
-
-    const days = Math.floor(seconds / (3600 * 24));
-    const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    
-    let result = '';
-    if (days > 0) result += `${days}d `;
-    if (hours > 0 || days > 0) result += `${this.pad(hours)}:`;
-    result += `${this.pad(minutes)}:${this.pad(remainingSeconds)}`;
-    
-    return result.trim();
-  }
-
-  private pad(num: number): string {
-    return num.toString().padStart(2, '0');
-  }
-}
-```
-
 # frontend/src/app/interfaces/workspace.interface.ts
 
 ```ts
 // src/app/interfaces/workspace.interface.ts
-
 export interface Workspace {
   _id: string;
   name: string;
@@ -7184,10 +7227,13 @@ export interface Form {
   submissions?: FormSubmission[];
   createdAt: Date;
   updatedAt: Date;
+  state: 'template' | 'new_instance' | 'submitted_instance';
 }
+
 
 export interface FormTemplate extends Form {
   isTemplate: true;
+  state: 'template';
 }
 
 export interface FormInstance extends Form {
@@ -7195,6 +7241,7 @@ export interface FormInstance extends Form {
   parentTemplateId: string;
   values: Record<string, any>;
   submissionDate: Date;
+  state: 'new_instance' | 'submitted_instance';
 }
 
 
@@ -7215,6 +7262,7 @@ export interface SavedForm extends Form {
   workspaceId: string;
   folderId: string;
 }
+
 export type AnyForm = FormTemplate | FormInstance;
 ```
 
@@ -7510,9 +7558,11 @@ import { MatButtonModule } from '@angular/material/button';
   `
 })
 export class ConfirmDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { title: string; message: string }) {}
+  constructor(
+    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { title: string; message: string }
+  ) {}
 }
-
 ```
 
 # frontend/src/app/components/user-profile/user-profile.component.ts
@@ -7661,62 +7711,65 @@ export class UserProfileComponent implements OnInit {
 # frontend/src/app/components/time-management/timer.component.ts
 
 ```ts
-import { Component, input, output, ChangeDetectionStrategy, signal, computed, effect } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatButtonModule ,} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FormatTimePipe } from '../../pipes/format-time.pipe';
 import { TimerSettings } from './time-management.types';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+
 @Component({
   selector: 'app-timer',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatProgressBarModule, FormatTimePipe,MatIconModule],
+  imports: [CommonModule, MatButtonModule, MatProgressBarModule, FormatTimePipe, MatIconModule],
   template: `
-<div class="timer">
-  <div class="time-display-container">
-    <div class="time-display">{{ currentTime() / 1000 | formatTime }}</div>
-    <button mat-icon-button 
-            class="reset-current-button"
-            (click)="resetCurrentPhase($event)"
-            [disabled]="isAllSessionsCompleted()"
-            aria-label="Reset current phase">
-      <mat-icon>refresh</mat-icon>
-    </button>
-  </div>
-  <mat-progress-bar [value]="progress()"></mat-progress-bar>
-  <div class="timer-info">
-    {{ currentSessionLabel() }} - {{ currentPhase() }}
-  </div>
-  <div class="controls">
-    <button mat-raised-button color="primary" 
-            (click)="toggleTimer($event)"
-            [disabled]="isAllSessionsCompleted()">
-      {{ isRunning() ? 'Pause' : 'Start' }}
-    </button>
-    <button mat-raised-button 
-            (click)="skipPhase($event)" 
-            [disabled]="!isRunning() || isAllSessionsCompleted()">
-      Skip
-    </button>
-    <button mat-raised-button 
-            (click)="resetTimer($event)">
-      Reset All
-    </button>
-  </div>
-  <div class="completed-sessions">
-    <h4>Completed Sessions</h4>
-    <ul>
-      @for (session of completedSessions(); track session.id) {
-        <li>
-          {{ session.label }}: 
-          {{ session.phase | titlecase }} - 
-          {{ session.duration / 1000 | formatTime }}
-        </li>
-      }
-    </ul>
-  </div>
-</div>
+    <div class="timer">
+      <div class="time-display-container">
+        <div class="time-display">{{ currentTime() | formatTime:'ms' }}</div>
+        
+        <button mat-icon-button 
+                class="reset-current-button"
+                (click)="resetCurrentPhase($event)"
+                [disabled]="isAllSessionsCompleted()"
+                aria-label="Reset current phase">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+      <mat-progress-bar [value]="progress()"></mat-progress-bar>
+      <div class="timer-info">
+        {{ currentSessionLabel() }} - {{ currentPhase() }}
+      </div>
+      <div class="controls">
+        <button mat-raised-button color="primary" 
+                (click)="toggleTimer($event)"
+                [disabled]="readOnly || isAllSessionsCompleted()">
+          {{ isRunning() ? 'Pause' : 'Start' }}
+        </button>
+        <button mat-raised-button 
+                (click)="skipPhase($event)" 
+                [disabled]="readOnly || !isRunning() || isAllSessionsCompleted()">
+          Skip
+        </button>
+        <button mat-raised-button 
+                (click)="resetTimer($event)"
+                [disabled]="readOnly">
+          Reset All
+        </button>
+      </div>
+      <div class="completed-sessions">
+        <h4>Completed Sessions</h4>
+        <ul>
+          @for (session of completedSessions(); track session.id) {
+            <li>
+              {{ session.label }}: 
+              {{ session.phase | titlecase }} - 
+              {{ session.duration | formatTime:'ms' }}
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
   `,
   styles: [`
     .timer .timer-info {
@@ -7729,56 +7782,69 @@ import {MatIconModule} from '@angular/material/icon';
       overflow: hidden;
     }
     .time-display-container {
-  position: relative;
-  padding-bottom: 30px; // Add space for the reset button
-}
-
-.reset-current-button {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  color: #555;
-  background-color: transparent;
-
-  &:hover:not(:disabled) {
-    color: #3498db;
-  }
-
-  &:disabled {
-    opacity: 0.5;
-  }
-}
-
+      position: relative;
+      padding-bottom: 30px; // Add space for the reset button
+    }
+    .reset-current-button {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      color: #555;
+      background-color: transparent;
+      &:hover:not(:disabled) {
+        color: #3498db;
+      }
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TimerComponent {
-  settings = input.required<TimerSettings>();
-  valueChange = output<any>();
-  isAllSessionsCompleted = signal(false);
-
+export class TimerComponent implements OnInit {
+  @Input() settings!: TimerSettings;
+  @Input() savedData: any = null;
+  @Input() readOnly: boolean = false;
+  @Output() valueChange = new EventEmitter<any>();
+  
+  progress = signal(0);
   currentTime = signal(0);
   isRunning = signal(false);
-  progress = signal(0);
-  currentSession = signal(1);
   currentPhase = signal<'work' | 'break' | 'long break'>('work');
+  currentSession = signal(1);
   completedSessions = signal<Array<{ id: number, sessionNumber: number, label: string, phase: string, duration: number }>>([]);
-
+  isAllSessionsCompleted = signal(false);
   private intervalId: number | null = null;
   private phaseDuration = 0;
   private phaseStartTime = 0;
   private sessionIdCounter = 0;
-
+  
+  constructor() {
+    effect(() => {
+      if (this.isRunning()) {
+        this.startTimer();
+      } else {
+        this.stopTimer();
+      }
+    });
+  }
+  
+  ngOnInit() {
+    if (this.savedData) {
+      this.loadSavedData(this.savedData);
+    } else {
+      this.resetTimer();
+    }
+  }
+  
   currentSessionLabel = computed(() => {
-    const sessionLabels = this.settings().sessionLabels;
+    const sessionLabels = this.settings.sessionLabels;
     const currentSession = this.currentSession();
     const currentPhase = this.currentPhase();
-    const totalSessions = this.settings().sessions;
-
+    const totalSessions = this.settings.sessions;
     if (currentSession > totalSessions) {
       return 'All sessions completed';
     }
-
     if (sessionLabels && sessionLabels[currentSession]) {
       const phaseLabel = currentPhase === 'work' ? sessionLabels[currentSession].work : sessionLabels[currentSession].break;
       if (phaseLabel) {
@@ -7789,12 +7855,10 @@ export class TimerComponent {
     return `Session ${currentSession}: ${this.capitalizeFirstLetter(currentPhase)}`;
   });
 
-private capitalizeFirstLetter(string: string): string {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
+  private capitalizeFirstLetter(string: string): string {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
   
-
   toggleTimer(event: Event) {
     event.preventDefault();
     event.stopPropagation();
@@ -7807,7 +7871,7 @@ private capitalizeFirstLetter(string: string): string {
       console.log('Timer paused');
     }
   }
-
+  
   skipPhase(event: Event) {
     event.preventDefault();
     event.stopPropagation();
@@ -7816,7 +7880,7 @@ private capitalizeFirstLetter(string: string): string {
       this.moveToNextPhase();
     }
   }
-
+  
   resetTimer(event?: Event) {
     if (event) {
       event.preventDefault();
@@ -7831,7 +7895,7 @@ private capitalizeFirstLetter(string: string): string {
     this.isAllSessionsCompleted.set(false);
     this.isRunning.set(false);  // Ensure the timer is not running after reset
   
-    this.phaseDuration = this.settings().workDuration;
+    this.phaseDuration = this.settings.workDuration;
     this.currentTime.set(this.phaseDuration);
     this.phaseStartTime = Date.now();
   
@@ -7843,8 +7907,7 @@ private capitalizeFirstLetter(string: string): string {
       isRunning: this.isRunning()
     });
   }
-
-
+  
   resetCurrentPhase(event: Event) {
     event.preventDefault();
     event.stopPropagation();
@@ -7863,12 +7926,10 @@ private capitalizeFirstLetter(string: string): string {
     });
   }
   
-
-  ngOnInit() {
-    this.resetTimer();
-  }
   private startTimer() {
-    this.phaseStartTime = Date.now();
+    if (this.intervalId !== null) return;
+    
+    this.phaseStartTime = Date.now() - (this.phaseDuration - this.currentTime());
     this.intervalId = window.setInterval(() => {
       const now = Date.now();
       const elapsed = now - this.phaseStartTime;
@@ -7882,14 +7943,14 @@ private capitalizeFirstLetter(string: string): string {
     }, 100);
     console.log('Timer started');
   }
-
+  
   private stopTimer() {
     if (this.intervalId !== null) {
       clearInterval(this.intervalId);
       this.intervalId = null;
     }
   }
-
+  
   private completeCurrentPhase() {
     const elapsedTime = this.phaseDuration - this.currentTime();
     this.completedSessions.update(sessions => [
@@ -7903,30 +7964,29 @@ private capitalizeFirstLetter(string: string): string {
       }
     ]);
   }
+  
   private moveToNextPhase() {
     if (this.currentPhase() === 'work') {
-      if (this.currentSession() % this.settings().longBreakInterval === 0) {
+      if (this.currentSession() % this.settings.longBreakInterval === 0) {
         this.currentPhase.set('long break');
-        this.phaseDuration = this.settings().longBreakDuration;
+        this.phaseDuration = this.settings.longBreakDuration;
       } else {
         this.currentPhase.set('break');
-        this.phaseDuration = this.settings().breakDuration;
+        this.phaseDuration = this.settings.breakDuration;
       }
     } else {
       this.currentPhase.set('work');
-      this.phaseDuration = this.settings().workDuration;
+      this.phaseDuration = this.settings.workDuration;
       this.currentSession.update(session => session + 1);
       
-      if (this.currentSession() > this.settings().sessions) {
+      if (this.currentSession() > this.settings.sessions) {
         this.isAllSessionsCompleted.set(true);
         this.isRunning.set(false);
         this.stopTimer();
         return;
       }
-
       
     }
-
   
     this.currentTime.set(this.phaseDuration);
     this.phaseStartTime = Date.now();
@@ -7940,13 +8000,11 @@ private capitalizeFirstLetter(string: string): string {
     });
   
     this.valueChange.emit({
-      phase: this.currentPhase(),
-      session: this.currentSession(),
-      time: Math.round(this.phaseDuration / 1000),
-      completedSessions: this.completedSessions().map(session => ({
-        ...session,
-        duration: Math.round(session.duration / 1000)
-      }))
+      completedSessions: this.completedSessions(),
+      currentPhase: this.currentPhase(),
+      currentSession: this.currentSession(),
+      totalTime: this.currentTime(),
+      completed: this.isAllSessionsCompleted()
     });
     console.log('valueChange event emitted:', {
       phase: this.currentPhase(),
@@ -7954,9 +8012,23 @@ private capitalizeFirstLetter(string: string): string {
       time: Math.round(this.phaseDuration / 1000)
     });
   }
-
+  
   private updateProgress() {
     this.progress.set(((this.phaseDuration - this.currentTime()) / this.phaseDuration) * 100);
+  }
+  
+  private loadSavedData(data: any) {
+    if (data && typeof data === 'object') {
+      if (data.completedSessions) this.completedSessions.set(data.completedSessions);
+      if (data.currentPhase) this.currentPhase.set(data.currentPhase);
+      if (data.currentSession) this.currentSession.set(data.currentSession);
+      if (data.totalTime !== undefined) this.currentTime.set(data.totalTime);
+      if (data.completed !== undefined) this.isAllSessionsCompleted.set(data.completed);
+    }
+  }
+  
+  trackSessionId(index: number, session: { id: number }) {
+    return session.id;
   }
 }
 ```
@@ -8008,80 +8080,121 @@ export interface StopwatchSettings {
 # frontend/src/app/components/time-management/time-management.component.ts
 
 ```ts
-import { Component, input, output, ChangeDetectionStrategy, ViewEncapsulation, computed } from '@angular/core';
+import { Component, Input, Output, OnInit,EventEmitter, ChangeDetectionStrategy, ViewEncapsulation, computed, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StopwatchComponent } from './stopwatch.component';
 import { TimerComponent } from './timer.component';
 import { TimerSettings, StopwatchSettings } from './time-management.types';
-
-const DEFAULT_STOPWATCH_SETTINGS: StopwatchSettings = {
-  laps: undefined,
-  minLaps: undefined,
-  maxLaps: undefined
-};
-
-const DEFAULT_TIMER_SETTINGS: TimerSettings = {
-  workDuration: 25 * 60 * 1000,
-  breakDuration: 5 * 60 * 1000,
-  sessions: 4,
-  longBreakDuration: 15 * 60 * 1000,
-  longBreakInterval: 4
-};
-
+import { FormatTimePipe } from '../../pipes/format-time.pipe';
 @Component({
   selector: 'app-time-management',
   standalone: true,
-  imports: [CommonModule, StopwatchComponent, TimerComponent],
+  imports: [CommonModule, StopwatchComponent, TimerComponent, FormatTimePipe],
   template: `
     <div class="time-management" (click)="handleClick($event)">
-      <h3>{{ label() }}</h3>
-      @if (description()) {
-        <p class="description">{{ description() }}</p>
+      <h3>{{ label }}</h3>
+      @if (description) {
+        <p class="description">{{ description }}</p>
       }
-      @if (type() === 'stopwatch') {
+      @if (type === 'stopwatch') {
         <app-stopwatch
           [settings]="stopwatchSettings()"
+          [savedData]="savedDataValue()"
+          [readOnly]="readOnly || isSubmittedInstance"
           (valueChange)="onValueChange($event)">
         </app-stopwatch>
-      }@if (type() === 'timer') {
-      <app-timer
-        [settings]="timerSettings()"
-        (valueChange)="onValueChange($event)">
-      </app-timer>
-    }
+          }
+@if (type === 'timer') {
+        <app-timer
+            [settings]="timerSettings()"
+          [savedData]="savedDataValue()"
+          [readOnly]="readOnly || isSubmittedInstance"
+          (valueChange)="onValueChange($event)">
+        </app-timer>
+      }
     </div>
   `,
   styleUrls: ['./time-management.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TimeManagementComponent {
-  label = input('Time Management');
-  description = input('');
-  type = input<'stopwatch' | 'timer'>('stopwatch');
-  settings = input<TimerSettings | StopwatchSettings | undefined>(undefined);
-  valueChange = output<any>();
+export class TimeManagementComponent implements OnInit {
+  @Input() label: string = 'Time Management';
+  @Input() description: string = '';
+  @Input() type: 'stopwatch' | 'timer' = 'stopwatch';
+  @Input() settings: TimerSettings | StopwatchSettings | undefined;
+  @Input() readOnly: boolean = false;
+  @Input() savedData: any = null;
+  @Input() isSubmittedInstance: boolean = false;
+  @Output() valueChange = new EventEmitter<any>();
+  private _savedData = signal<any>(null);
+  savedDataValue = computed(() => this._savedData());
+  ngOnInit() {
+    if (this.isSubmittedInstance && this.savedData) {
+      this._savedData.set(this.savedData);
+    }
+  }
+  private DEFAULT_STOPWATCH_SETTINGS: StopwatchSettings = {
+    laps: undefined,
+    minLaps: undefined,
+    maxLaps: undefined
+  };
+  private DEFAULT_TIMER_SETTINGS: TimerSettings = {
+    workDuration: 25 * 60 * 1000,
+    breakDuration: 5 * 60 * 1000,
+    sessions: 4,
+    longBreakDuration: 15 * 60 * 1000,
+    longBreakInterval: 4
+  };
 
+  
+  error = signal<string | null>(null);
   stopwatchSettings = computed<StopwatchSettings>(() => {
-    const settings = this.settings();
-    if (this.type() === 'stopwatch' && settings && 'laps' in settings) {
-      return settings;
+    const settings = this.settings;
+    if (this.type === 'stopwatch' && settings && 'laps' in settings) {
+      return this.validateStopwatchSettings(settings);
     }
-    return DEFAULT_STOPWATCH_SETTINGS;
+    return this.DEFAULT_STOPWATCH_SETTINGS;
   });
-
   timerSettings = computed<TimerSettings>(() => {
-    const settings = this.settings();
-    if (this.type() === 'timer' && settings && 'workDuration' in settings) {
-      return settings;
+    const settings = this.settings;
+    if (this.type === 'timer' && settings && 'workDuration' in settings) {
+      return this.validateTimerSettings(settings);
     }
-    return DEFAULT_TIMER_SETTINGS;
+    return this.DEFAULT_TIMER_SETTINGS;
   });
-
+  constructor() {
+    effect(() => {
+      this.validateSettings();
+    });
+  }
+  private validateSettings() {
+    const settings = this.settings;
+    if (this.type === 'stopwatch' && settings && 'laps' in settings) {
+      this.validateStopwatchSettings(settings);
+    } else if (this.type === 'timer' && settings && 'workDuration' in settings) {
+      this.validateTimerSettings(settings);
+    } else {
+      this.error.set(null);
+    }
+  }
+  private validateStopwatchSettings(settings: StopwatchSettings): StopwatchSettings {
+    if (settings.minLaps !== undefined && settings.maxLaps !== undefined && settings.minLaps > settings.maxLaps) {
+      this.error.set('Invalid stopwatch settings: minLaps cannot be greater than maxLaps');
+      return this.DEFAULT_STOPWATCH_SETTINGS;
+    }
+    return settings;
+  }
+  private validateTimerSettings(settings: TimerSettings): TimerSettings {
+    if (settings.workDuration <= 0 || settings.breakDuration <= 0 || settings.sessions <= 0) {
+      this.error.set('Invalid timer settings: durations and sessions must be positive');
+      return this.DEFAULT_TIMER_SETTINGS;
+    }
+    return settings;
+  }
   onValueChange(event: any) {
     this.valueChange.emit(event);
   }
-
   handleClick(event: Event) {
     if (event.target instanceof HTMLButtonElement) {
       event.preventDefault();
@@ -8089,6 +8202,7 @@ export class TimeManagementComponent {
     }
   }
 }
+
 ```
 
 # frontend/src/app/components/time-management/time-management.component.scss
@@ -8197,93 +8311,90 @@ export class TimeManagementComponent {
 # frontend/src/app/components/time-management/stopwatch.component.ts
 
 ```ts
-import { Component, input, output, ChangeDetectionStrategy, signal, computed, effect } from '@angular/core';
+//src/app/components/time-management/stopwatch.component.ts
+import { Component,OnInit,Output ,Input,ChangeDetectorRef,OnDestroy, EventEmitter, ChangeDetectionStrategy, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { FormatTimePipe } from '../../pipes/format-time.pipe';
 import { StopwatchSettings } from './time-management.types';
-
 @Component({
   selector: 'app-stopwatch',
   standalone: true,
   imports: [CommonModule, MatButtonModule, FormatTimePipe],
   template: `
     <div class="stopwatch">
-      <div class="time-display">{{ currentTime() | formatTime }}</div>
-      <div class="controls">
-        <button mat-raised-button color="primary" (click)="toggleStopwatch($event)" [disabled]="isCompleted()">
-          {{ isRunning() ? 'Stop' : 'Start' }} Stopwatch
-        </button>
-        <button mat-raised-button (click)="lap($event)" [disabled]="!isRunning() || isLapDisabled() || isCompleted()">Lap</button>
-        <button mat-raised-button (click)="resetStopwatch($event)">Reset</button>
-      </div>
-      @if (stopwatchState()) {
-        <div class="state-message">{{ stopwatchState() }}</div>
-      }
-      @if (laps().length) {
-        <div class="laps">
+    <div class="time-display">{{ currentTime() | formatTime:'ms' }}</div>
+    
+    <div class="controls">
+      <button mat-raised-button color="primary" (click)="toggleStopwatch($event)" [disabled]="readOnly || isCompleted()">
+        {{ isRunning() ? 'Stop' : 'Start' }} Stopwatch
+      </button>
+      
+      <button mat-raised-button (click)="lap($event)" [disabled]="readOnly || !isRunning() || isLapDisabled() || isCompleted()">Lap</button>
+    <button mat-raised-button (click)="resetStopwatch($event)" [disabled]="readOnly">Reset</button>
+  </div>
+  
+  @if (laps().length) {
+        <div class="laps ng-star-inserted">
           <h4>Laps</h4>
           <ul>
             @for (lap of laps(); track lap.number) {
-              <li>Lap {{ lap.number }}: {{ lap.time | formatTime }}</li>
+              <li>Lap {{ lap.number }}: {{ lap.time | formatTime:'ms' }}</li>
             }
           </ul>
         </div>
       }
-    </div>
-  `,
+    </div> 
+        `,
   styles: [/* ... existing styles ... */],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StopwatchComponent {
-  settings = input.required<StopwatchSettings>();
-  valueChange = output<any>();
-
+export class StopwatchComponent implements OnInit, OnDestroy {
+  @Input() settings!: StopwatchSettings;
+  @Input() savedData: any = null;
+  @Input() readOnly: boolean = false;
+  @Output() valueChange = new EventEmitter<any>();
+  
   currentTime = signal(0);
   isRunning = signal(false);
   laps = signal<{ number: number; time: number }[]>([]);
   stopwatchState = signal('');
-
-  private intervalId: number | null = null;
   private startTime = 0;
-  private pausedTime = 0;
+  private elapsedTime = 0;
   private lastLapTime = 0;
-
-  constructor() {
-    effect(() => {
-      if (this.isRunning() && !this.isCompleted()) {
-        this.startStopwatch();
-      } else {
-        this.stopStopwatch();
-      }
-    }, { allowSignalWrites: true }); // Allowing signal writes within the effect
+  private animationFrameId: number | null = null;
+  private intervalId: number | null = null;
+  private pausedTime = 0;
+  constructor(private cdr: ChangeDetectorRef) {}
+  ngOnInit() {
+    if (this.savedData) {
+      this.loadSavedData(this.savedData);
+    }
   }
-
+  ngOnDestroy() {
+    this.stopStopwatch();
+  }
   isCompleted = computed(() => {
-    const settings = this.settings();
+    const settings = this.settings;
     const lapCount = this.laps().length;
-
-    if (settings.laps !== undefined && lapCount >= settings.laps) {
-      return true;
-    }
-
-    if (settings.maxLaps !== undefined && lapCount >= settings.maxLaps) {
-      return true;
-    }
-
-    return false;
+    return (settings.laps !== undefined && lapCount >= settings.laps) ||
+           (settings.maxLaps !== undefined && lapCount >= settings.maxLaps);
   });
-
-  toggleStopwatch(event: Event) {
+  toggleStopwatch(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    if (!this.isCompleted()) {
-      this.isRunning.update(running => !running);
-      this.updateStopwatchState();
+    if (this.isCompleted()) return;
+    
+    if (this.isRunning()) {
+      this.stopStopwatch();
+    } else {
+      this.startStopwatch();
     }
+    this.updateStopwatchState();
   }
-
-  lap(event: Event) {
+  
+  
+  lap(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
     if (this.isRunning() && !this.isLapDisabled() && !this.isCompleted()) {
@@ -8291,7 +8402,7 @@ export class StopwatchComponent {
       this.laps.update(laps => [...laps, { number: laps.length + 1, time: currentLapTime }]);
       this.lastLapTime = this.currentTime();
       
-      this.valueChange.emit({ laps: this.laps(), completed: this.isCompleted() });
+      this.valueChange.emit({ laps: this.laps(), totalTime: this.currentTime(), completed: this.isCompleted() });
       
       this.updateStopwatchState();
   
@@ -8300,50 +8411,52 @@ export class StopwatchComponent {
       }
     }
   }
-
-  resetStopwatch(event: Event) {
+  
+  
+  resetStopwatch(event: Event): void {
     event.preventDefault();
     event.stopPropagation();
-    this.isRunning.set(false);
+    this.stopStopwatch();
     this.currentTime.set(0);
     this.laps.set([]);
-    this.pausedTime = 0;
+    this.elapsedTime = 0;
     this.lastLapTime = 0;
     this.stopwatchState.set('');
     this.valueChange.emit({ laps: [], completed: false });
   }
-
+  
   isLapDisabled = computed(() => {
     if (!this.isRunning()) return true;
-    const settings = this.settings();
+    const settings = this.settings;
     if (settings.laps !== undefined) return this.laps().length >= settings.laps;
     if (settings.maxLaps !== undefined) return this.laps().length >= settings.maxLaps;
     return false;
   });
-
-  private startStopwatch() {
-    this.startTime = Date.now() - this.pausedTime;
-    this.intervalId = window.setInterval(() => {
-      this.currentTime.set(Math.floor((Date.now() - this.startTime) / 1000));
-      if (this.isCompleted()) {
-        this.stopStopwatch();
-      }
-    }, 1000);
+  private startStopwatch(): void {
+    this.startTime = Date.now() - this.elapsedTime;
+    this.isRunning.set(true);
+    this.updateStopwatch();
   }
-
-  private stopStopwatch() {
-    if (this.intervalId !== null) {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
-    }
+  private stopStopwatch(): void {
     this.isRunning.set(false);
-    this.pausedTime = this.currentTime() * 1000;
+    this.elapsedTime = Date.now() - this.startTime;
+    if (this.animationFrameId !== null) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
+  }
+  private updateStopwatch(): void {
+    if (!this.isRunning()) return;
+    const now = Date.now();
+    this.currentTime.set(now - this.startTime);
+    this.cdr.detectChanges();
+    this.animationFrameId = requestAnimationFrame(() => this.updateStopwatch());
   }
 
-  private updateStopwatchState() {
-    const settings = this.settings();
-    const lapCount = this.laps().length;
 
+  private updateStopwatchState(): void {
+    const settings = this.settings;
+    const lapCount = this.laps().length;
     if (settings.laps !== undefined && lapCount === settings.laps) {
       this.stopwatchState.set('Completed: Exact number of laps reached');
     } else if (settings.maxLaps !== undefined && lapCount >= settings.maxLaps) {
@@ -8352,6 +8465,20 @@ export class StopwatchComponent {
       this.stopwatchState.set('Minimum number of laps reached');
     } else {
       this.stopwatchState.set('');
+    }
+  }
+  private loadSavedData(data: any): void {
+    if (data && typeof data === 'object') {
+      if (data.laps) {
+        this.laps.set(data.laps);
+      }
+      if (data.totalTime !== undefined) {
+        this.currentTime.set(data.totalTime);
+        this.elapsedTime = data.totalTime * 1000;
+      }
+      if (data.completed !== undefined) {
+        this.stopwatchState.set(data.completed ? 'Completed' : '');
+      }
     }
   }
 }
@@ -8772,9 +8899,9 @@ export class MonacoEditorComponent implements OnInit, AfterViewInit, ControlValu
 
 ```ts
 //src/app/components/form-generator/form-generator.component.ts
-import { Component, Input,Output,EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule,FormControl, FormBuilder, FormGroup, Validators, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
+import { ReactiveFormsModule, FormControl, FormBuilder, FormGroup, Validators, FormArray, AbstractControl, ValidatorFn } from '@angular/forms';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -8791,15 +8918,13 @@ import { TimeManagementService } from '../../services/time-management.service';
 import { DynamicFieldComponent } from '../dynamic-field/dynamic-field.component';
 import { FieldConfig } from '../../interfaces/field-config';
 import { TimerSettings } from '../time-management/time-management.types';
-//src/app/components/form-generator/form-generator.component.ts
-
+import { FormatTimePipe } from '../../pipes/format-time.pipe';
 
 interface StopwatchSettings {
   laps?: number;
   minLaps?: number;
   maxLaps?: number;
 }
-
 
 interface ExtendedTimerSettings extends TimerSettings {
   sessionLabels?: { [key: number]: { work?: string, break?: string } };
@@ -8810,6 +8935,7 @@ interface StopwatchFieldOptions {
   minLaps?: number;
   maxLaps?: number;
 }
+
 @Component({
   selector: 'app-form-generator',
   standalone: true,
@@ -8827,34 +8953,35 @@ interface StopwatchFieldOptions {
     MatIconModule,
     MatProgressSpinnerModule,
     TimeManagementComponent,
-    DynamicFieldComponent
+    DynamicFieldComponent,
+    FormatTimePipe
   ],
   templateUrl: './form-generator.component.html',
   styleUrls: ['./form-generator.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormGeneratorComponent implements OnChanges {
-
   @Input() parsedCode: any;
   @Input() isTemplate: boolean = true;
   @Input() initialValues: any = {};
   @Input() readOnly: boolean = false;
-  @Output() formSaved = new EventEmitter<{formData: any, structure: any}>();
-  @Output() formSubmitted = new EventEmitter<{formData: any, structure: any}>();
-
-  
-  @Output() templateSaved = new EventEmitter<{formData: any, structure: any}>();
-  @Output() instanceSubmitted = new EventEmitter<{formData: any, structure: any}>();
+  @Input() formId!: string;
+  @Output() formSaved = new EventEmitter<{ formData: any, structure: any }>();
+  @Output() formSubmitted = new EventEmitter<{ formData: any, structure: any }>();
+  @Output() templateSaved = new EventEmitter<{ formData: any, structure: any }>();
+  @Output() instanceSubmitted = new EventEmitter<{ formData: any, structure: any }>();
 
   form!: FormGroup;
   fields: FieldConfig[] = [];
   entryName: string = '';
-  private tableDataSources: { [key: string]: MatTableDataSource<FormGroup> } = {};
 
+  private tableDataSources: { [key: string]: MatTableDataSource<FormGroup> } = {};
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
   private snackBar = inject(MatSnackBar);
   private timeManagementService = inject(TimeManagementService);
+
+  @Input() isSubmittedInstance: boolean = false;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['parsedCode'] && this.parsedCode) {
@@ -8862,10 +8989,11 @@ export class FormGeneratorComponent implements OnChanges {
       this.entryName = this.parsedCode.entryName || 'Dynamic Form';
       this.fields = this.parsedCode.parsedFields || this.parsedCode.fields || [];
       this.createForm();
+      this.initializeTableData();
       
       if (this.initialValues) {
         console.log('FormGeneratorComponent: Applying initial values:', this.initialValues);
-        this.form.patchValue(this.initialValues);
+        this.applyInitialValues();
       }
 
       if (changes['readOnly']) {
@@ -8877,7 +9005,34 @@ export class FormGeneratorComponent implements OnChanges {
           }
         }
       }
-    }}
+
+      this.updateFormControlsState();
+    }
+  }
+
+  private updateFormControlsState(): void {
+    if (this.form) {
+      if (this.readOnly) {
+        this.form.disable();
+      } else {
+        this.form.enable();
+      }
+    }
+  }
+
+  private applyInitialValues(): void {
+    Object.keys(this.initialValues).forEach(key => {
+      const control = this.form.get(key);
+      if (control) {
+        const field = this.fields.find(f => f.name === key);
+        if (field && (field.type === 'STOPWATCH' || field.type === 'TIMER')) {
+          control.setValue(this.initialValues[key]);
+        } else {
+          control.patchValue(this.initialValues[key]);
+        }
+      }
+    });
+  }
 
   getFormControl(fieldName: string): AbstractControl {
     const control = this.form.get(fieldName);
@@ -8888,12 +9043,18 @@ export class FormGeneratorComponent implements OnChanges {
     return control;
   }
 
+  private setTimeManagementValue(field: any, value: any): void {
+    const control = this.form.get(field.name);
+    if (control) {
+      control.setValue(value);
+      control.disable(); // Disable the control to prevent further interaction
+    }
+  }
+
   getFormArray(fieldName: string): FormArray | null {
     const control = this.form.get(fieldName);
     return control instanceof FormArray ? control : null;
   }
-  
-
 
   getListItemControl(listName: string, index: number, fieldName: string): AbstractControl {
     const listArray = this.form.get(listName) as FormArray;
@@ -8909,17 +9070,19 @@ export class FormGeneratorComponent implements OnChanges {
     console.error(`Control ${listName}[${index}].${fieldName} not found`);
     return new FormControl(); // Return a new FormControl as a fallback
   }
-
   createForm(): void {
     console.log('FormGeneratorComponent: Creating form');
     const group: { [key: string]: AbstractControl } = {};
+
     this.fields.forEach(field => {
       if (!field.name || !field.type) {
         console.error('FormGeneratorComponent: Invalid field structure: missing name or type', field);
         return;
       }
+
       console.log(`FormGeneratorComponent: Processing field: ${field.name} (${field.type})`);
       const validators = this.getValidators(field);
+
       switch (field.type.toUpperCase()) {
         case 'TEXT':
           // Log the multiline option if it's set
@@ -8928,7 +9091,6 @@ export class FormGeneratorComponent implements OnChanges {
           }
           group[field.name] = new FormControl(this.getDefaultValue(field), validators);
           break;
-          
         case 'NUMBER':
         case 'DATE':
         case 'SCALE':
@@ -8938,9 +9100,13 @@ export class FormGeneratorComponent implements OnChanges {
         case 'LIST':
           group[field.name] = this.createListFormArray(field);
           break;
-        case 'TABLE':
-          group[field.name] = this.createTableFormArray(field);
-          break;
+          case 'TABLE':
+            group[field.name] = this.createTableFormArray(field);
+            if (field.required && !this.isTemplate) {
+              group[field.name].setValidators(this.tableRequiredValidator());
+            }
+            break;
+
         case 'STOPWATCH':
           group[field.name] = new FormControl({
             laps: [],
@@ -8949,33 +9115,84 @@ export class FormGeneratorComponent implements OnChanges {
           break;
         case 'TIMER':
           group[field.name] = new FormControl({
-            currentTime: 0,
+            completedSessions: [],
             currentPhase: 'work',
             currentSession: 1,
             completed: false
-          });
+          }, { validators: this.getTimerValidators(field) });
           break;
         default:
           console.error(`FormGeneratorComponent: Unsupported field type: ${field.type}`);
       }
     });
+
     this.form = this.fb.group(group);
     console.log('FormGeneratorComponent: Created form:', this.form);
   }
 
+  tableRequiredValidator(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      const tableArray = control as FormArray;
+      return tableArray.length === 0 ? { 'requiredTable': true } : null;
+    };
+  }
+
+
   onSave(): void {
-    if (this.form.valid) {
+    if (this.isFillable()) {
       const formData = this.prepareFormData();
       const structure = {
         entryName: this.parsedCode?.entryName || 'Untitled Form',
         fields: this.fields
       };
-      this.templateSaved.emit({ formData, structure });
+      
+      if (this.isTemplate) {
+        const defaultValues = this.getDefaultValues(this.fields);
+        this.templateSaved.emit({ formData: defaultValues, structure });
+      } else {
+        this.instanceSubmitted.emit({ formData, structure });
+      }
     } else {
       this.form.markAllAsTouched();
       this.snackBar.open('Please fill all required fields correctly.', 'Close', { duration: 3000 });
     }
   }
+
+  isFillable(): boolean {
+    if (this.isTemplate) {
+      // For templates, we consider the form fillable as long as all non-table fields are valid
+      return this.areNonTableFieldsValid();
+    } else {
+      // For instances, we require all fields to be valid and required tables to have data
+      return this.form.valid && this.areRequiredTablesFilled();
+    }
+  }
+
+
+  isValidForm(): boolean {
+    if (this.isTemplate) {
+      // For templates, we don't require table data
+      return this.form.valid;
+    } else {
+      // For instances, we need to check if required tables have data
+      return this.form.valid && this.areRequiredTablesFilled();
+    }
+  }
+
+
+  areRequiredTablesFilled(): boolean {
+    let allTablesFilled = true;
+    this.fields.forEach(field => {
+      if (field.type === 'TABLE' && field.required) {
+        const tableArray = this.form.get(field.name) as FormArray;
+        if (tableArray.length === 0) {
+          allTablesFilled = false;
+        }
+      }
+    });
+    return allTablesFilled;
+  }
+
 
   onSubmit(): void {
     if (this.form.valid) {
@@ -8987,30 +9204,91 @@ export class FormGeneratorComponent implements OnChanges {
       this.instanceSubmitted.emit({ formData, structure });
     } else {
       this.form.markAllAsTouched();
+      console.log('Form is invalid:', this.form);
       this.snackBar.open('Please fill all required fields correctly.', 'Close', { duration: 3000 });
     }
   }
 
-  
-
   private prepareFormData(): any {
-    const formData = { ...this.form.value };
+    const formData: any = {};
     this.fields.forEach(field => {
-      if (field.type === 'STOPWATCH' || field.type === 'TIMER') {
-        formData[field.name] = this.form.get(field.name)?.value;
-      } else if (field.type === 'DATE' && formData[field.name]) {
-        // Convert date to ISO string for consistent format
-        formData[field.name] = new Date(formData[field.name]).toISOString();
+      const control = this.form.get(field.name);
+      if (control) {
+        formData[field.name] = {
+          type: field.type,
+          value: control.value,
+          options: field.options || {},
+        };
+  
+        // Add specific details based on field type
+        switch (field.type) {
+          case 'TIMER':
+            formData[field.name].details = this.prepareTimerDetails(control.value, field.options);
+            break;
+          case 'STOPWATCH':
+            formData[field.name].details = this.prepareStopwatchDetails(control.value, field.options);
+            break;
+          case 'SCALE':
+          case 'NUMBER':
+            formData[field.name].range = field.options?.range;
+            break;
+          // Add cases for other field types as needed
+        }
       }
     });
     return formData;
   }
-  //others methods not necesary for our work
 
+  
+  private prepareTimerDetails(value: any, options: any): any {
+    return {
+      totalProgrammedTime: this.calculateTotalProgrammedTime(options),
+      sessionsCompleted: value.completedSessions.length,
+      totalSessionsPlanned: options.sessions,
+      sessions: value.completedSessions.map((session: any, index: number) => ({
+        sessionNumber: index + 1,
+        label: this.getSessionLabel(options, index + 1, session.phase),
+        programmedTime: this.getSessionProgrammedTime(options, session.phase),
+        actualTime: session.duration
+      }))
+    };
+  }
+  
+  private prepareStopwatchDetails(value: any, options: any): any {
+    return {
+      totalTime: value.totalTime,
+      laps: value.laps,
+      minLaps: options.minLaps,
+      maxLaps: options.maxLaps
+    };
+  }
+
+
+  private calculateTotalProgrammedTime(options: any): number {
+    return (options.workDuration + options.breakDuration) * options.sessions 
+           + (Math.floor((options.sessions - 1) / options.longBreakInterval) * options.longBreakDuration);
+  }
+  
+  private getSessionLabel(options: any, sessionNumber: number, phase: string): string {
+    if (options.sessionLabels && options.sessionLabels[sessionNumber]) {
+      return options.sessionLabels[sessionNumber][phase] || `Session ${sessionNumber} ${phase}`;
+    }
+    return `Session ${sessionNumber} ${phase}`;
+  }
+  
+  private getSessionProgrammedTime(options: any, phase: string): number {
+    switch (phase) {
+      case 'work': return options.workDuration;
+      case 'break': return options.breakDuration;
+      case 'long break': return options.longBreakDuration;
+      default: return 0;
+    }
+  }
+  //others methods not necesary for our work
   createListItemGroup(field: FieldConfig): FormGroup {
     console.log('Creating list item group for field:', field.name);
     const group: { [key: string]: AbstractControl } = {};
-    
+
     if (field.options?.listFields && Array.isArray(field.options.listFields)) {
       field.options.listFields.forEach(listField => {
         console.log('Processing list field:', listField.name, 'of type:', listField.type);
@@ -9024,16 +9302,15 @@ export class FormGeneratorComponent implements OnChanges {
     } else {
       console.warn('No listFields found for:', field.name);
     }
-    
+
     console.log('Created group:', group);
     console.log('FormGeneratorComponent: Form created:', this.form);
     return this.fb.group(group);
   }
-  
-
 
   createTableRowGroup(field: FieldConfig): FormGroup {
     const rowGroup: { [key: string]: AbstractControl } = {};
+
     if (field.options?.columns && Array.isArray(field.options.columns)) {
       field.options.columns.forEach((column: FieldConfig) => {
         rowGroup[column.name] = this.fb.control(
@@ -9042,8 +9319,9 @@ export class FormGeneratorComponent implements OnChanges {
         );
       });
     } else {
-      console.error(`Invalid or missing columns for TABLE field: ${field.name}`, field);
+      console.error(`Invalid or missing columns for TABLE field: ${field.name}, field`);
     }
+
     return this.fb.group(rowGroup);
   }
 
@@ -9052,13 +9330,13 @@ export class FormGeneratorComponent implements OnChanges {
     this.form.get(fieldName)?.setValue(value);
   }
 
-
-private getBooleanDefaultValue(field: FieldConfig): boolean {
-  if (field.options?.default !== undefined) {
-    return field.options.default === true || field.options.default === 'true';
+  private getBooleanDefaultValue(field: FieldConfig): boolean {
+    if (field.options?.default !== undefined) {
+      return field.options.default === true || field.options.default === 'true';
+    }
+    return false;
   }
-  return false;
-}
+
   initializeTableDataSources(): void {
     this.fields.forEach(field => {
       if (field.type === 'TABLE') {
@@ -9069,8 +9347,6 @@ private getBooleanDefaultValue(field: FieldConfig): boolean {
       }
     });
   }
-
-
 
   getStopwatchValidators(field: FieldConfig): ValidatorFn[] {
     const validators: ValidatorFn[] = [];
@@ -9088,22 +9364,48 @@ private getBooleanDefaultValue(field: FieldConfig): boolean {
 
     return validators;
   }
+
+  getTimerValidators(field: FieldConfig): ValidatorFn[] {
+    const validators: ValidatorFn[] = [];
+    const options = field.options as TimerSettings;
+
+    if (options.sessions !== undefined) {
+      validators.push(this.sessionsValidator(options.sessions));
+    }
+    // Add more timer-specific validators here if needed
+    return validators;
+  }
+
+  sessionsValidator(requiredSessions: number): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      const value = control.value;
+      if (!value || !value.completedSessions) return null;
+      return value.completedSessions.length <= requiredSessions ? null :
+        { 'sessions': { required: requiredSessions, actual: value.completedSessions.length } };
+    };
+  }
+
+  getSavedTimeManagementData(fieldName: string): any {
+    const control = this.form.get(fieldName);
+    return control ? control.value : null;
+  }
+
   exactLapsValidator(requiredLaps: number): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
+    return (control: AbstractControl): { [key: string]: any } | null => {
       const laps = control.value.laps;
       return laps.length === requiredLaps ? null : { 'exactLaps': { required: requiredLaps, actual: laps.length } };
     };
   }
 
   minLapsValidator(minLaps: number): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
+    return (control: AbstractControl): { [key: string]: any } | null => {
       const laps = control.value.laps;
       return laps.length >= minLaps ? null : { 'minLaps': { required: minLaps, actual: laps.length } };
     };
   }
 
   maxLapsValidator(maxLaps: number): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
+    return (control: AbstractControl): { [key: string]: any } | null => {
       const laps = control.value.laps;
       return laps.length <= maxLaps ? null : { 'maxLaps': { allowed: maxLaps, actual: laps.length } };
     };
@@ -9111,9 +9413,11 @@ private getBooleanDefaultValue(field: FieldConfig): boolean {
 
   getValidators(field: FieldConfig): ValidatorFn[] {
     const validators: ValidatorFn[] = [];
+  
     if (field.required) {
       validators.push(Validators.required);
     }
+  
     if (field.type.toUpperCase() === 'NUMBER' && field.options?.range) {
       if (field.options.range.min !== undefined) {
         validators.push(Validators.min(field.options.range.min));
@@ -9122,18 +9426,20 @@ private getBooleanDefaultValue(field: FieldConfig): boolean {
         validators.push(Validators.max(field.options.range.max));
       }
     }
+  
     // Add custom validator for TEXT fields with maxLength
     if (field.type.toUpperCase() === 'TEXT' && field.options?.maxLength) {
       validators.push(Validators.maxLength(field.options.maxLength));
     }
+  
     return validators;
   }
   
-
   getDefaultValue(field: FieldConfig): string | number | boolean | null {
     if (field.options?.default !== undefined) {
       return field.options.default;
     }
+  
     switch (field.type.toUpperCase()) {
       case 'BOOLEAN':
         return false;
@@ -9146,33 +9452,35 @@ private getBooleanDefaultValue(field: FieldConfig): boolean {
         return '';
     }
   }
-
+  
   getListControls(listName: string): AbstractControl[] {
     const listArray = this.form.get(listName);
     return listArray instanceof FormArray ? listArray.controls : [];
   }
+  
   createListFormArray(field: FieldConfig): FormArray {
     console.log('Creating list form array for field:', field.name);
     const minItems = field.options?.minItems || 1;
     const listArray = this.fb.array([] as AbstractControl[]);
-    
+  
     for (let i = 0; i < minItems; i++) {
       const itemGroup = this.createListItemGroup(field);
       listArray.push(itemGroup as unknown as AbstractControl);
     }
-    
+  
     return listArray;
   }
-
-
+  
   addListItem(field: FieldConfig): void {
     console.log('Adding list item for field:', field.name);
     const listArray = this.getFormArray(field.name);
+  
     if (listArray) {
       if (field.options?.maxItems && listArray.length >= field.options.maxItems) {
         this.snackBar.open(`Maximum of ${field.options.maxItems} items allowed.`, 'Close', { duration: 3000 });
         return;
       }
+  
       const newGroup = this.createListItemGroup(field);
       console.log('New group created:', newGroup);
       listArray.push(newGroup);
@@ -9183,50 +9491,65 @@ private getBooleanDefaultValue(field: FieldConfig): boolean {
     }
   }
   
-
   removeListItem(fieldName: string, index: number): void {
     const listArray = this.form.get(fieldName) as FormArray;
+  
     if (listArray) {
       const field = this.fields.find(f => f.name === fieldName);
       if (field?.options?.minItems && listArray.length <= field.options.minItems) {
         this.snackBar.open(`Minimum of ${field.options.minItems} items required.`, 'Close', { duration: 3000 });
         return;
       }
+  
       listArray.removeAt(index);
       this.cdr.detectChanges();
     }
   }
-
-
+  
   createTableFormArray(field: FieldConfig): FormArray {
     const tableArray = this.fb.array([] as FormGroup[]);
+  
     if (field.options?.columns) {
       const initialRow = this.createTableRowGroup(field);
       tableArray.push(initialRow);
+      
+      // Initialize the data source with the initial row
+      this.initializeTableDataSource(field.name, [initialRow]);
     } else {
-      console.error(`Missing columns for TABLE field: ${field.name}`, field);
+      console.error(`Missing columns for TABLE field: ${field.name}`);
     }
+  
     return tableArray;
   }
+  
 
+private initializeTableDataSource(fieldName: string, initialData: FormGroup[]): void {
+  this.tableDataSources[fieldName] = new MatTableDataSource<FormGroup>(initialData);
+}
 
-
-  getTableDataSource(fieldName: string): MatTableDataSource<FormGroup> {
-    return this.tableDataSources[fieldName];
-  }
-
-  updateTableDataSource(fieldName: string): void {
+getTableDataSource(fieldName: string): MatTableDataSource<FormGroup> {
+  if (!this.tableDataSources[fieldName]) {
     const tableArray = this.form.get(fieldName) as FormArray;
-    if (tableArray) {
-      if (!this.tableDataSources[fieldName]) {
-        this.tableDataSources[fieldName] = new MatTableDataSource<FormGroup>();
-      }
+    this.initializeTableDataSource(fieldName, tableArray?.controls as FormGroup[] || []);
+  }
+  return this.tableDataSources[fieldName];
+}
+
+updateTableDataSource(fieldName: string): void {
+  const tableArray = this.form.get(fieldName) as FormArray;
+
+  if (tableArray) {
+    if (!this.tableDataSources[fieldName]) {
+      this.initializeTableDataSource(fieldName, tableArray.controls as FormGroup[]);
+    } else {
       this.tableDataSources[fieldName].data = tableArray.controls as FormGroup[];
     }
   }
-
+}
+  
   addTableRow(field: FieldConfig): void {
     const tableArray = this.form.get(field.name) as FormArray;
+  
     if (tableArray) {
       const newRow = this.createTableRowGroup(field);
       tableArray.push(newRow);
@@ -9237,9 +9560,17 @@ private getBooleanDefaultValue(field: FieldConfig): boolean {
       console.error(`FormArray not found for field: ${field.name}`);
     }
   }
-
+  initializeTableData(): void {
+    this.fields.forEach(field => {
+      if (field.type === 'TABLE') {
+        this.updateTableDataSource(field.name);
+      }
+    });
+  }
+  
   removeTableRow(field: FieldConfig, index: number): void {
     const tableArray = this.form.get(field.name) as FormArray;
+  
     if (tableArray) {
       tableArray.removeAt(index);
       this.updateTableDataSource(field.name);
@@ -9249,32 +9580,51 @@ private getBooleanDefaultValue(field: FieldConfig): boolean {
       console.error(`FormArray not found for field: ${field.name}`);
     }
   }
-
+  
   getTableColumns(field: FieldConfig): string[] {
     return [...(field.options.columns?.map((column: FieldConfig) => column.name) || []), 'actions'];
   }
 
+  areNonTableFieldsValid(): boolean {
+    let allValid = true;
+    Object.keys(this.form.controls).forEach(key => {
+      const control = this.form.get(key);
+      const field = this.fields.find(f => f.name === key);
+      if (field && field.type !== 'TABLE' && control && control.invalid) {
+        allValid = false;
+      }
+    });
+    return allValid;
+  }
+  
   getScaleRange(range?: { min: number; max: number }): number[] {
     const min = range?.min ?? 1;
     const max = range?.max ?? 5;
-    return Array.from({length: max - min + 1}, (_, i) => i + min);
+    return Array.from({ length: max - min + 1 }, (_, i) => i + min);
   }
-
-
+  
   isFormControl(fieldName: string): boolean {
     return this.form.get(fieldName) instanceof FormControl;
   }
-
+  
   isFormArray(fieldName: string): boolean {
     return this.form.get(fieldName) instanceof FormArray;
   }
-
-
+  
   onStopwatchValueChange(fieldName: string, value: any) {
     console.log(`Stopwatch ${fieldName} value changed:`, value);
     this.form.get(fieldName)?.setValue(value);
   }
-
+  
+  onTimeManagementValueChange(fieldName: string, value: any): void {
+    console.log(`Time management field ${fieldName} value changed:`, value);
+    const control = this.form.get(fieldName);
+    if (control) {
+      control.setValue(value);
+      control.markAsDirty();
+    }
+  }
+  
   getStopwatchSettings(field: FieldConfig): StopwatchSettings {
     return {
       laps: field.options.laps,
@@ -9292,7 +9642,7 @@ private getBooleanDefaultValue(field: FieldConfig): boolean {
       longBreakInterval: field.options.longBreakInterval || 4,
       sessionLabels: {}
     };
-
+  
     // Transform sessionLabels if necessary
     if (typeof field.options.sessionLabels === 'object' && field.options.sessionLabels !== null) {
       const transformedLabels: { [key: number]: { work?: string, break?: string } } = {};
@@ -9315,14 +9665,26 @@ private getBooleanDefaultValue(field: FieldConfig): boolean {
       }
       settings.sessionLabels = transformedLabels;
     }
-
+  
     return settings;
   }
+  private getDefaultValues(fields: FieldConfig[]): any {
+    const defaultValues: any = {};
+    fields.forEach(field => {
+      if (field.options && field.options.default !== undefined) {
+        defaultValues[field.name] = field.options.default;
+      }
+      if (field.type === 'LIST' && field.options && field.options.listFields) {
+        defaultValues[field.name] = [this.getDefaultValues(field.options.listFields)];
+      }
+      if (field.type === 'TABLE' && field.options && field.options.columns) {
+        defaultValues[field.name] = [this.getDefaultValues(field.options.columns)];
+      }
+    });
+    return defaultValues;
+  }
   
-
-
 }
-
 ```
 
 # frontend/src/app/components/form-generator/form-generator.component.scss
@@ -9648,13 +10010,12 @@ mat-progress-spinner {
 ```html
 <!--src/app/components/form-generator/form-generator.component.html-->
 <div class="form-generator">
-  <h1 class="form-generator__title">{{ parsedCode?.entryName || 'Dynamic Form Generator' }}</h1>
+  <h1 class="form-generatortitle">{{ parsedCode?.entryName || 'Dynamic Form Generator' }}</h1>
   @if (form) {
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-generator__form">
-      <div class="form-generator__grid">
+    <form [formGroup]="form" (ngSubmit)="onSave()" class="form-generatorform">
+      <div class="form-generatorgrid">
         @for (field of fields; track field.name) {
-          <div class="form-generator__field-container" [ngClass]="{'form-generator__field-container--full': field.type === 'LIST' || field.type === 'TABLE' || field.type === 'STOPWATCH' || field.type === 'TIMER'}">
-            @switch (field.type) {
+          <div class="form-generatorfield-container" [ngClass]="{'form-generatorfield-container--full': field.type === 'LIST' || field.type === 'TABLE' || field.type === 'STOPWATCH' || field.type === 'TIMER'}">            @switch (field.type) {
               @case ('TEXT') {
                 <app-dynamic-field [field]="field" [control]="getFormControl(field.name)"></app-dynamic-field>
               }
@@ -9671,13 +10032,13 @@ mat-progress-spinner {
                 <app-dynamic-field [field]="field" [control]="getFormControl(field.name)"></app-dynamic-field>
               }
               @case ('LIST') {
-                <div class="form-generator__list">
-                  <h3 class="form-generator__list-title">{{ field.name }}</h3>
-                  <p class="form-generator__list-description">{{ field.description }}</p>
-                  <div class="form-generator__list-items" [formArrayName]="field.name">
+                <div class="form-generatorlist">
+                  <h3 class="form-generatorlist-title">{{ field.name }}</h3>
+                  <p class="form-generatorlist-description">{{ field.description }}</p>
+                  <div class="form-generatorlist-items" [formArrayName]="field.name">
                     @for (item of getListControls(field.name); track $index) {
-                      <div class="form-generator__list-item">
-                        <div class="form-generator__list-item-fields" [formGroupName]="$index">
+                      <div class="form-generatorlist-item">
+                        <div class="form-generatorlist-item-fields" [formGroupName]="$index">
                           @for (listField of field.options.listFields || []; track listField.name) {
                             @if (item.get(listField.name)) {
                               <app-dynamic-field
@@ -9698,12 +10059,19 @@ mat-progress-spinner {
                   </button>
                 </div>
               }
+
               @case ('TABLE') {
-                <div class="form-generator__table">
-                  <h3 class="form-generator__table-title">{{ field.name }}</h3>
-                  <p class="form-generator__table-description">{{ field.description }}</p>
-                  <div class="form-generator__table-container">
-                    <table mat-table [dataSource]="getTableDataSource(field.name)" class="form-generator__mat-table">
+                <div class="form-generatortable">
+                  <h3 class="form-generatortable-title">
+                    {{ field.name }}
+                    @if (field.required && !isTemplate) {
+                      <span class="required-indicator">*</span>
+                    }
+                  </h3>
+                  <p class="form-generatortable-description">{{ field.description }}</p>
+                  <div class="form-generatortable-container">
+                    <table mat-table [dataSource]="getTableDataSource(field.name)" class="form-generatormat-table">
+                      
                       @for (column of field.options.columns || []; track column.name) {
                         <ng-container [matColumnDef]="column.name">
                           <th mat-header-cell *matHeaderCellDef>{{ column.description }}</th>
@@ -9724,47 +10092,52 @@ mat-progress-spinner {
                       </ng-container>
                       <tr mat-header-row *matHeaderRowDef="getTableColumns(field)"></tr>
                       <tr mat-row *matRowDef="let rowGroup; columns: getTableColumns(field);"></tr>
+                      <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="100%">No data</td>
+                      </tr>
                     </table>
                   </div>
-                  <button mat-raised-button color="accent" type="button" (click)="addTableRow(field)">
+                  <button mat-raised-button color="accent" type="button" (click)="addTableRow(field)" [disabled]="isTemplate">
                     <mat-icon>add</mat-icon> Add Row
                   </button>
+                  @if (field.required && !isTemplate && getTableDataSource(field.name).data.length === 0) {
+                    <p class="error-message">This table is required. Please add at least one row.</p>
+                  }
                 </div>
               }
+  
               @case ('STOPWATCH') {
-                <div class="form-generator__stopwatch">
-                  <app-time-management
-                    [label]="field.name"
-                    [description]="field.description"
-                    [type]="'stopwatch'"
-                    [settings]="getStopwatchSettings(field)"
-                    (valueChange)="onStopwatchValueChange(field.name, $event)">
-                  </app-time-management>
-                </div>
+                <app-time-management
+                  [label]="field.name"
+                  [description]="field.description"
+                  [type]="'stopwatch'"
+                  [settings]="getStopwatchSettings(field)"
+                  [savedData]="getSavedTimeManagementData(field.name)"
+                  [isSubmittedInstance]="isSubmittedInstance"
+                  [readOnly]="readOnly"
+                  (valueChange)="onTimeManagementValueChange(field.name, $event)">
+                </app-time-management>
               }
               @case ('TIMER') {
-                <div class="form-generator__timer">
-                  <app-time-management
-                    [label]="field.name"
-                    [description]="field.description"
-                    [type]="'timer'"
-                    [settings]="getTimerSettings(field)"
-                    (valueChange)="onTimerValueChange(field.name, $event)">
-                  </app-time-management>
-                </div>
+                <app-time-management
+                  [label]="field.name"
+                  [description]="field.description"
+                  [type]="'timer'"
+                  [settings]="getTimerSettings(field)"
+                  [savedData]="getSavedTimeManagementData(field.name)"
+                  [isSubmittedInstance]="isSubmittedInstance"
+                  [readOnly]="readOnly"
+                  (valueChange)="onTimeManagementValueChange(field.name, $event)">
+                </app-time-management>
               }
             }
           </div>
         }
       </div>
-
-      
       <div class="form-generator__actions">
-        @if (isTemplate) {
-          <button mat-raised-button color="primary" type="button" (click)="onSave()" [disabled]="form.pristine">Save Template</button>
-        } @else {
-          <button mat-raised-button color="accent" type="submit" [disabled]="form.invalid">Submit Form</button>
-        }
+        <button mat-raised-button color="primary" type="submit" [disabled]="!isFillable()">
+          {{ isTemplate ? 'Save Template' : 'Submit Form' }}
+        </button>
       </div>
     </form>
   } @else {
@@ -9778,6 +10151,7 @@ mat-progress-spinner {
 # frontend/src/app/components/dynamic-field/dynamic-field.component.ts
 
 ```ts
+//src/app/components/dynamic-field/dynamic-field.component.ts
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule, ValidatorFn, Validators, AbstractControl } from '@angular/forms';
@@ -10327,7 +10701,7 @@ export class CodeInputComponent implements AfterViewInit {
     };
   }
   
-  
+  //others not mentionned functions still below
   private parseField(): ASTNode {
     this.log('parsing', 'Parsing field');
     const token = this.consume('KEYWORD');
@@ -10631,6 +11005,7 @@ export class CodeInputComponent implements AfterViewInit {
 # frontend/src/app/components/code-analysis/code-analysis.component.ts
 
 ```ts
+//src/app/components/code-analysis/code-analysis.component.ts
 import { Component, Input, Output, EventEmitter, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -10640,12 +11015,10 @@ import { CodeInputComponent } from '../code-input/code-input.component';
 import { ResultDisplayComponent } from '../result-display/result-display.component';
 import { FormGeneratorComponent } from '../form-generator/form-generator.component';
 import { Form  } from '../../interfaces/workspace.interface';
-
 export interface ParsedStructure {
   entryName: string;
   fields: ParsedField[];
 }
-
 export interface ParsedField {
   type: string;
   name: string;
@@ -10654,7 +11027,6 @@ export interface ParsedField {
   options: FieldOptions;
   fields?: ParsedField[]; // For nested structures like LIST and TABLE
 }
-
 interface FieldOptions {
   default?: any;
   range?: { min: number; max: number };
@@ -10671,7 +11043,6 @@ interface FieldOptions {
   longBreakInterval?: number;
   listFields: ParsedField[];
 }
-
 @Component({
   selector: 'app-code-analysis',
   standalone: true,
@@ -10710,42 +11081,33 @@ export class CodeAnalysisComponent {
   @Input() workspaceId: string = '';
   @Input() folderId: string = '';
   @Output() formGenerated = new EventEmitter<any>();
-
   private interpretedStructureSignal = signal<ParsedStructure | null>(null);
   private errorSignal = signal<string | null>(null);
   private loadingSignal = signal(false);
   private creditsSignal = signal(0);
-
   interpretedStructure = computed(() => this.interpretedStructureSignal());
   error = computed(() => this.errorSignal());
   loading = computed(() => this.loadingSignal());
   credits = computed(() => this.creditsSignal());
-
   tables = computed(() => {
     if (!this.interpretedStructure()) return [];
     return this.getAllTables(this.interpretedStructure()!.fields);
   });
-
   hasTables = computed(() => this.tables().length > 0);
-
   private codeService = inject(CodeService);
   private creditService = inject(CreditService);
   private snackBar = inject(MatSnackBar);
-
   constructor() {
     this.loadCredits();
   }
-
   interpretCode(code: string): void {
     this.loadingSignal.set(true);
     this.errorSignal.set(null);
-
     if (this.credits() < 1) {
       this.snackBar.open('Insufficient credits. Please purchase more credits to continue.', 'Close', { duration: 5000 });
       this.loadingSignal.set(false);
       return;
     }
-
     this.codeService.interpretCode(code).subscribe({
       next: (response) => {
         this.processInterpretedStructure(response.structure);
@@ -10761,7 +11123,6 @@ export class CodeAnalysisComponent {
       }
     });
   }
-
   private loadCredits(): void {
     this.creditService.getCreditBalance().subscribe({
       next: (response) => {
@@ -10773,7 +11134,6 @@ export class CodeAnalysisComponent {
       error: (error) => console.error('Error loading credits', error)
     });
   }
-
   private useCredits(amount: number, description: string): void {
     this.creditService.useCredits(amount, description).subscribe({
       next: (response) => {
@@ -10785,9 +11145,6 @@ export class CodeAnalysisComponent {
       error: (error) => console.error('Error using credits', error)
     });
   }
-
-  
-
 
   private processInterpretedStructure(structure: ParsedStructure): void {
     console.log('CodeAnalysisComponent: Processing interpreted structure:', structure);
@@ -10804,14 +11161,14 @@ export class CodeAnalysisComponent {
       name: structure.entryName || 'New Template',
       structure: structure,
       isTemplate: true,
+      state: 'template', // Add this line
       createdAt: new Date(),
       updatedAt: new Date()
     };
     
     this.formGenerated.emit(templateForm);
   }
-
-
+    
   private processField(field: ParsedField): ParsedField {
     console.log('CodeAnalysisComponent: Processing field:', field);
     switch (field.type.toUpperCase()) {
@@ -10845,8 +11202,6 @@ export class CodeAnalysisComponent {
     }
     return field;
   }
-
-
   private getAllTables(fields: ParsedField[]): ParsedField[] {
     let tables: ParsedField[] = [];
     for (const field of fields) {
@@ -10859,7 +11214,6 @@ export class CodeAnalysisComponent {
     }
     return tables;
   }
-
   private getDetailedErrorMessage(error: any): string {
     if (error.name === 'ParserError' || error.name === 'LexerError') {
       return `${error.name} at line ${error.line}, column ${error.column}: ${error.message}`;
@@ -10867,7 +11221,6 @@ export class CodeAnalysisComponent {
     return error.message || 'An unexpected error occurred';
   }
 }
-
 ```
 
 # frontend/src/app/components/code-analysis/code-analysis.component.scss
@@ -10887,89 +11240,199 @@ export class CodeAnalysisComponent {
 
 ```ts
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { MatListModule } from '@angular/material/list';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+  import { RouterModule } from '@angular/router';
+  import { MatListModule } from '@angular/material/list';
+  import { MatIconModule } from '@angular/material/icon';
+  import { MatButtonModule } from '@angular/material/button';
+  import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+  import { Component, OnInit } from '@angular/core';
+  import { WorkspaceService } from '../../../services/workspace.service';
+  import { Workspace, WorkspacesResponse } from '../../../interfaces/workspace.interface';
 
-import { Component, OnInit } from '@angular/core';
-import { WorkspaceService } from '../../../services/workspace.service';
-import { Workspace, WorkspacesResponse } from '../../../interfaces/workspace.interface';
+  @Component({
+    selector: 'app-workspace-list',
+    standalone: true,
+    imports: [CommonModule, RouterModule, MatListModule, MatIconModule, MatButtonModule, MatPaginatorModule],
+    template: `
+<div class="workspace-list-container">
+  <h2 class="workspace-list-title">Your Workspaces</h2>
 
-@Component({
-  selector: 'app-workspace-list',
-  standalone: true,
-  imports: [CommonModule, RouterModule, MatListModule, MatIconModule, MatButtonModule, MatPaginatorModule],
-  template: `
-    <h2>Your Workspaces</h2>
-    <mat-list>
-      @for (workspace of workspaces; track workspace._id) {
-        <mat-list-item>
-          <span matListItemTitle>{{ workspace.name }}</span>
-          <span matListItemLine>{{ workspace.description }}</span>
-          <span matListItemLine>Created: {{ workspace.createdAt | date }}</span>
-          <button class="view" mat-icon-button [routerLink]="['/workspaces', workspace._id]">
-            <mat-icon>visibility</mat-icon>
+  <ul class="workspace-list">
+    <!-- Iterating over workspaces -->
+    @for (workspace of workspaces; track workspace._id) {
+      <li class="workspace-list-item">
+        <div class="workspace-info">
+          <h3 class="workspace-name">{{ workspace.name }}</h3>
+          <p class="workspace-description">{{ workspace.description }}</p>
+          <p class="workspace-created">Created: {{ workspace.createdAt | date }}</p>
+        </div>
+        <div class="workspace-actions">
+          <button class="view-button" [routerLink]="['/workspaces', workspace._id]">
+            <i class="material-icons">visibility</i>
           </button>
-        </mat-list-item>
-      } @empty {
-        <mat-list-item>No workspaces found.</mat-list-item>
-      }
-    </mat-list>
-    <mat-paginator
-      [length]="totalWorkspaces"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="[5, 10, 25]"
-      (page)="onPageChange($event)"
-      aria-label="Select page">
-    </mat-paginator>
-    <button mat-raised-button color="primary" routerLink="/workspaces/create">Create New Workspace</button>
+        </div>
+      </li>
+    } @empty {
+      <li class="no-workspaces">No workspaces found.</li>
+    }
+  </ul>
+
+  <mat-paginator
+    class="workspace-paginator"
+    [length]="totalWorkspaces"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="[5, 10, 25]"
+    (page)="onPageChange($event)"
+    aria-label="Select page">
+  </mat-paginator>
+
+  <button class="create-button" mat-raised-button color="primary" routerLink="/workspaces/create">
+    Create New Workspace
+  </button>
+</div>
+
+
   `,
   styles: [`
-    :host {
-      display: block;
-      padding: 20px;
-    }
-    button.view {
-      position: absolute;
-      bottom: 50px;
-      right: 16px;
-
-    }
-    mat-list-item {
-      margin-bottom: 16px;
-    }
-  `]
-})
-export class WorkspaceListComponent implements OnInit {
-  workspaces: Workspace[] = [];
-  totalWorkspaces: number = 0;
-  currentPage: number = 1;
-  pageSize: number = 10;
-
-  constructor(private workspaceService: WorkspaceService) {}
-
-  ngOnInit(): void {
-    this.loadWorkspaces();
-  }
-
-  loadWorkspaces(): void {
-    this.workspaceService.getWorkspaces(this.currentPage, this.pageSize).subscribe({
-      next: (response: WorkspacesResponse) => {
-        this.workspaces = response.workspaces;
-        this.totalWorkspaces = response.totalWorkspaces;
-      },
-      error: (error) => console.error('Error loading workspaces', error)
-    });
-  }
-
-  onPageChange(event: PageEvent): void {
-    this.currentPage = event.pageIndex + 1;
-    this.pageSize = event.pageSize;
-    this.loadWorkspaces();
-  }
+.workspace-list-container {
+  max-width: 100%;
+  padding: 16px;
 }
+
+.workspace-list-title {
+  font-size: 24px;
+  margin-bottom: 16px;
+}
+
+.workspace-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.workspace-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+}
+
+.workspace-list-item:hover {
+  background-color: #f9f9f9;
+}
+
+.workspace-info {
+  flex-grow: 1;
+  margin-right: 16px;
+}
+
+.workspace-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.workspace-description {
+  color: #666;
+  margin: 4px 0 0;
+  font-size: 14px;
+}
+
+.workspace-created {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #999;
+}
+
+.view-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #007bff;
+  font-size: 24px;
+}
+
+.no-workspaces {
+  text-align: center;
+  font-size: 16px;
+  padding: 16px;
+  color: #999;
+}
+
+.workspace-paginator {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.paginator-info {
+  margin-right: 16px;
+}
+
+.paginator-prev,
+.paginator-next {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #007bff;
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+.paginator-prev:disabled,
+.paginator-next:disabled {
+  color: #999;
+  cursor: default;
+}
+
+.create-button {
+  margin-top: 24px;
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+  `]
+  })
+  
+  export class WorkspaceListComponent implements OnInit {
+    workspaces: Workspace[] = [];
+    totalWorkspaces: number = 0;
+    currentPage: number = 1;
+    pageSize: number = 10;
+
+    constructor(private workspaceService: WorkspaceService) {}
+
+    ngOnInit(): void {
+      this.loadWorkspaces();
+    }
+
+    loadWorkspaces(): void {
+      this.workspaceService.getWorkspaces(this.currentPage, this.pageSize).subscribe({
+        next: (response: WorkspacesResponse) => {
+          this.workspaces = response.workspaces;
+          this.totalWorkspaces = response.totalWorkspaces;
+        },
+        error: (error) => console.error('Error loading workspaces', error)
+      });
+    }
+
+    onPageChange(event: PageEvent): void {
+      this.currentPage = event.pageIndex + 1;
+      this.pageSize = event.pageSize;
+      this.loadWorkspaces();
+    }
+  }
 ```
 
 # frontend/src/app/components/workspace/workspace-detail/workspace-detail.component.ts
@@ -11000,7 +11463,6 @@ import { FormManagementComponent } from '../form-management/form-management.comp
 import { FormGeneratorComponent } from '../../form-generator/form-generator.component';
 import { FormManagementService } from '../../../services/form-management.service';
 import { Workspace, Form, FormTemplate, FormInstance } from '../../../interfaces/workspace.interface';
-
 @Component({
   selector: 'app-workspace-detail',
   standalone: true,
@@ -11020,6 +11482,56 @@ import { Workspace, Form, FormTemplate, FormInstance } from '../../../interfaces
     FormGeneratorComponent
   ],
   templateUrl: './workspace-detail.component.html',
+  styles: [`
+    .workspace-detail-container {
+      padding: 24px;
+    }
+
+    .loading-spinner {
+      margin: 24px auto;
+    }
+
+    .workspace-card {
+      margin-bottom: 24px;
+    }
+
+    .workspace-title {
+      font-size: 24px;
+    }
+
+    .form-field {
+      width: 100%;
+      margin-bottom: 16px;
+    }
+
+    .active-users {
+      margin-top: 24px;
+    }
+
+    .active-users-title {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .active-users-list {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .workspace-actions {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .workspace-actions button {
+      margin-left: 8px;
+    }
+
+    .not-found-message {
+      text-align: center;
+      color: #999;
+    }
+  `]
 })
 export class WorkspaceDetailComponent implements OnInit, OnDestroy {
   workspace = signal<Workspace | null>(null);
@@ -11029,7 +11541,7 @@ export class WorkspaceDetailComponent implements OnInit, OnDestroy {
   activeUsers: string[] = [];
   selectedFolderId = signal<string | null>(null);
   selectedForm = signal<any | null>(null);
-  
+
   private workspaceUpdateSubscription: Subscription | null = null;
   private activeUsersSubscription: Subscription | null = null;
   private route = inject(ActivatedRoute);
@@ -11041,10 +11553,10 @@ export class WorkspaceDetailComponent implements OnInit, OnDestroy {
   private formBuilder = inject(FormBuilder);
   private authService = inject(AuthService);
   private formManagementService = inject(FormManagementService);
-  
 
   templates = signal<FormTemplate[]>([]);
   instances = signal<FormInstance[]>([]);
+
   constructor() {
     this.workspaceForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -11095,8 +11607,6 @@ export class WorkspaceDetailComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-
   onSubmit(): void {
     if (this.workspaceForm.valid) {
       const currentWorkspace = this.workspace();
@@ -11114,7 +11624,6 @@ export class WorkspaceDetailComponent implements OnInit, OnDestroy {
       }
     }
   }
-
   onDelete(): void {
     const currentWorkspace = this.workspace();
     if (currentWorkspace?._id) {
@@ -11140,7 +11649,6 @@ export class WorkspaceDetailComponent implements OnInit, OnDestroy {
       });
     }
   }
-
   private checkUserPermissions() {
     const currentUser = this.authService.currentUserValue;
     const currentWorkspace = this.workspace();
@@ -11149,14 +11657,12 @@ export class WorkspaceDetailComponent implements OnInit, OnDestroy {
       this.canManageUsers.set(currentMember?.role === 'owner' || currentMember?.role === 'admin' || !!currentMember?.permissions?.manageUsers);
     }
   }
-
   onPermissionsUpdated() {
     const currentWorkspace = this.workspace();
     if (currentWorkspace?._id) {
       this.loadWorkspace(currentWorkspace._id);
     }
   }
-
   private subscribeToWorkspaceUpdates(workspaceId: string): void {
     this.workspaceUpdateSubscription = this.webSocketService.getWorkspaceUpdates().subscribe(
       update => {
@@ -11170,7 +11676,6 @@ export class WorkspaceDetailComponent implements OnInit, OnDestroy {
       }
     );
   }
-
   private subscribeToActiveUsers(): void {
     this.activeUsersSubscription = this.webSocketService.getActiveUsers().subscribe(
       (users: string[]) => {
@@ -11178,18 +11683,11 @@ export class WorkspaceDetailComponent implements OnInit, OnDestroy {
       }
     );
   }
-
   onFolderSelected(folderId: string): void {
     this.selectedFolderId.set(folderId);
     this.selectedForm.set(null);
     this.loadFormsInFolder(folderId);
   }
-
-
-
-
-
-
   onFormSaved(event: { formData: any, structure: any }): void {
     const workspaceId = this.workspace()?._id;
     const folderId = this.selectedFolderId();
@@ -11211,7 +11709,6 @@ export class WorkspaceDetailComponent implements OnInit, OnDestroy {
       }
     });
   }
-
   onFormSubmitted(event: { formData: any, structure: any }): void {
     const workspaceId = this.workspace()?._id;
     const folderId = this.selectedFolderId();
@@ -11233,11 +11730,9 @@ export class WorkspaceDetailComponent implements OnInit, OnDestroy {
       }
     });
   }
-
   onFormSelected(form: Form): void {
     this.selectedForm.set(form);
   }
-
   loadFormsInFolder(folderId: string): void {
     const workspaceId = this.workspace()?._id;
     if (workspaceId) {
@@ -11254,75 +11749,133 @@ export class WorkspaceDetailComponent implements OnInit, OnDestroy {
     }
   }
   
-
 }
+
+
 ```
 
 # frontend/src/app/components/workspace/workspace-detail/workspace-detail.component.html
 
 ```html
+
 <!-- src/app/components/workspace/workspace-detail/workspace-detail.component.html -->
-@if (loading()) {
-  <mat-spinner></mat-spinner>
-}
+<div class="workspace-detail-container">
+  @if (loading()) {
+    <mat-spinner class="loading-spinner"></mat-spinner>
+  } @else {
+    @if (workspace()) {
+      <mat-card class="workspace-card">
+        <mat-card-header>
+          <mat-card-title class="workspace-title">{{ workspace()?.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <form [formGroup]="workspaceForm" (ngSubmit)="onSubmit()">
+            <mat-form-field class="form-field">
+              <mat-label>Workspace Name</mat-label>
+              <input matInput formControlName="name" required>
+            </mat-form-field>
+            <mat-form-field class="form-field">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="3"></textarea>
+            </mat-form-field>
+          </form>
+          <div class="active-users">
+            <h3 class="active-users-title">Active Users</h3>
+            <mat-list class="active-users-list">
+              @for (user of activeUsers; track user) {
+                <mat-list-item>
+                  <span matListItemTitle>{{ user }}</span>
+                </mat-list-item>
+              }
+            </mat-list>
+          </div>
+        </mat-card-content>
+        <mat-card-actions class="workspace-actions">
+          <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
+          <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>
+        </mat-card-actions>
+      </mat-card>
 
-@if (workspace()) {
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>{{ workspace()?.name }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form [formGroup]="workspaceForm" (ngSubmit)="onSubmit()">
-        <mat-form-field>
-          <mat-label>Workspace Name</mat-label>
-          <input matInput formControlName="name" required>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Description</mat-label>
-          <textarea matInput formControlName="description" rows="3"></textarea>
-        </mat-form-field>
-      </form>
-      <h3>Active Users</h3>
-      <mat-list>
-        @for (user of activeUsers; track user) {
-          <mat-list-item>
-            <span matListItemTitle>{{ user }}</span>
-          </mat-list-item>
-        }
-      </mat-list>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="onSubmit()">Save</button>
-      <button mat-raised-button color="warn" (click)="onDelete()">Delete</button>
-    </mat-card-actions>
-  </mat-card>
-  
-  <app-folder-management 
-    [workspaceId]="workspace()?._id ?? ''"
-    (folderSelected)="onFolderSelected($event)">
-  </app-folder-management>
-  
-  @if (workspace() && selectedFolderId()) {
-    <app-form-management
-      [workspaceId]="workspace()?._id ?? ''"
-      [folderId]="selectedFolderId()!"
-      [selectedForm]="selectedForm()"
-      (formSelected)="onFormSelected($event)">
-    </app-form-management>
-  }
-  
-  @if (canManageUsers()) {
-    <app-permission-management
-      [members]="workspace()?.members ?? []"
-      [workspaceId]="workspace()?._id ?? ''"
-      (permissionsUpdated)="onPermissionsUpdated()">
-    </app-permission-management>
-    <app-activity-log [workspaceId]="workspace()?._id ?? ''"></app-activity-log>
-  }
-}
+      <app-folder-management 
+        [workspaceId]="workspace()?._id ?? ''"
+        (folderSelected)="onFolderSelected($event)">
+      </app-folder-management>
 
-@if (!workspace()) {
-  <p>Workspace not found.</p>
+      @if (workspace() && selectedFolderId()) {
+        <app-form-management
+          [workspaceId]="workspace()?._id ?? ''"
+          [folderId]="selectedFolderId()!"
+          [selectedForm]="selectedForm()"
+          (formSelected)="onFormSelected($event)">
+        </app-form-management>
+      }
+
+      @if (canManageUsers()) {
+        <app-permission-management
+          [members]="workspace()?.members ?? []"
+          [workspaceId]="workspace()?._id ?? ''"
+          (permissionsUpdated)="onPermissionsUpdated()">
+        </app-permission-management>
+        <app-activity-log [workspaceId]="workspace()?._id ?? ''"></app-activity-log>
+      }
+    } @else {
+      <p class="not-found-message">Workspace not found.</p>
+    }
+  }
+</div>
+```
+
+# frontend/src/app/components/workspace/permission-management/permission-management.component.ts
+
+```ts
+//frontend/src/app/components/workspace/permission-management/permission-management.component.ts
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { WorkspaceService } from '../../../services/workspace.service';
+import { WorkspaceMember } from '../../../interfaces/workspace.interface';
+
+@Component({
+    selector: 'app-permission-management',
+    standalone: true,
+    imports: [FormsModule, CommonModule],
+    template: `
+    <h3>Manage Permissions</h3>
+    <ul>
+      @for (member of members; track member.user) {
+        <li>
+          {{ member.user }}
+          <select [(ngModel)]="member.role" (change)="updatePermissions(member)">
+            <option value="viewer">Viewer</option>
+            <option value="editor">Editor</option>
+            <option value="admin">Admin</option>
+          </select>
+          <label><input type="checkbox" [(ngModel)]="member.permissions.read" (change)="updatePermissions(member)"> Read</label>
+          <label><input type="checkbox" [(ngModel)]="member.permissions.write" (change)="updatePermissions(member)"> Write</label>
+          <label><input type="checkbox" [(ngModel)]="member.permissions.delete" (change)="updatePermissions(member)"> Delete</label>
+          <label><input type="checkbox" [(ngModel)]="member.permissions.manageUsers" (change)="updatePermissions(member)"> Manage Users</label>
+        </li>
+      }
+    </ul>
+  `
+})
+export class PermissionManagementComponent {
+  @Input() members: WorkspaceMember[] = [];
+  @Input() workspaceId: string = '';
+  @Output() permissionsUpdated = new EventEmitter<void>();
+
+  constructor(private workspaceService: WorkspaceService) {}
+
+  updatePermissions(member: WorkspaceMember) {
+    this.workspaceService.updateMemberPermissions(this.workspaceId, member.user, member.role, member.permissions)
+      .subscribe({
+        next: () => {
+          this.permissionsUpdated.emit();
+        },
+        error: (error) => console.error('Error updating permissions:', error)
+      });
+  }
 }
 ```
 
@@ -11408,130 +11961,11 @@ export class WorkspaceCreateComponent {
 }
 ```
 
-# frontend/src/app/components/workspace/permission-management/permission-management.component.ts
-
-```ts
-//frontend/src/app/components/workspace/permission-management/permission-management.component.ts
-import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { WorkspaceService } from '../../../services/workspace.service';
-import { WorkspaceMember } from '../../../interfaces/workspace.interface';
-
-@Component({
-    selector: 'app-permission-management',
-    standalone: true,
-    imports: [FormsModule, CommonModule],
-    template: `
-    <h3>Manage Permissions</h3>
-    <ul>
-      @for (member of members; track member.user) {
-        <li>
-          {{ member.user }}
-          <select [(ngModel)]="member.role" (change)="updatePermissions(member)">
-            <option value="viewer">Viewer</option>
-            <option value="editor">Editor</option>
-            <option value="admin">Admin</option>
-          </select>
-          <label><input type="checkbox" [(ngModel)]="member.permissions.read" (change)="updatePermissions(member)"> Read</label>
-          <label><input type="checkbox" [(ngModel)]="member.permissions.write" (change)="updatePermissions(member)"> Write</label>
-          <label><input type="checkbox" [(ngModel)]="member.permissions.delete" (change)="updatePermissions(member)"> Delete</label>
-          <label><input type="checkbox" [(ngModel)]="member.permissions.manageUsers" (change)="updatePermissions(member)"> Manage Users</label>
-        </li>
-      }
-    </ul>
-  `
-})
-export class PermissionManagementComponent {
-  @Input() members: WorkspaceMember[] = [];
-  @Input() workspaceId: string = '';
-  @Output() permissionsUpdated = new EventEmitter<void>();
-
-  constructor(private workspaceService: WorkspaceService) {}
-
-  updatePermissions(member: WorkspaceMember) {
-    this.workspaceService.updateMemberPermissions(this.workspaceId, member.user, member.role, member.permissions)
-      .subscribe({
-        next: () => {
-          this.permissionsUpdated.emit();
-        },
-        error: (error) => console.error('Error updating permissions:', error)
-      });
-  }
-}
-```
-
-# frontend/src/app/components/workspace/form-view-submit/form-view-submit.component.ts
-
-```ts
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-
-@Component({
-  selector: 'app-form-view-submit',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
-  template: `
-    <form [formGroup]="form" (ngSubmit)="onSubmit()">
-      <h2>{{ formData.name }}</h2>
-      @for (field of formData.structure.fields; track field.name) {
-        <mat-form-field>
-          <mat-label>{{ field.name }}</mat-label>
-          <input matInput [formControlName]="field.name" [placeholder]="field.description">
-        </mat-form-field>
-      }
-      <button mat-raised-button color="primary" type="submit">Submit</button>
-    </form>
-  `,
-  styles: [`
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      max-width: 400px;
-      margin: 0 auto;
-    }
-  `]
-})
-export class FormViewSubmitComponent implements OnInit {
-    @Input() formData: any;
-    @Output() formSubmitted = new EventEmitter<any>();
-  
-    form!: FormGroup;
-  
-    constructor(private fb: FormBuilder) {}
-  
-    ngOnInit() {
-      this.createForm();
-    }
-  
-    createForm() {
-      const group: any = {};
-      this.formData.structure.fields.forEach((field: any) => {
-        group[field.name] = [''];
-      });
-      this.form = this.fb.group(group);
-    }
-  
-    onSubmit() {
-      if (this.form.valid) {
-        this.formSubmitted.emit(this.form.value);
-      }
-    }
-  }
-```
-
 # frontend/src/app/components/workspace/form-management/form-management.component.ts
 
 ```ts
 //src/app/components/workspace/form-management/form-management.component.ts
-import { Component, Input, Output, inject, OnInit, signal, EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef,computed, effect } from '@angular/core';
-import { CommonModule, DatePipe, JsonPipe } from '@angular/common';
+import { Component, Input, Output, inject,Injector, OnInit, signal, EventEmitter, OnChanges, SimpleChanges, ChangeDetectorRef, computed, effect, runInInjectionContext } from '@angular/core';import { CommonModule, DatePipe, JsonPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
@@ -11541,11 +11975,15 @@ import { ConfirmDialogComponent } from '../../../dialogs/workspaces/confirm-dial
 import { FormManagementService } from '../../../services/form-management.service';
 import { FormGeneratorComponent } from '../../form-generator/form-generator.component';
 import { CodeAnalysisComponent } from '../../code-analysis/code-analysis.component';
-import { Form, FormTemplate, FormInstance, FormSubmission } from '../../../interfaces/workspace.interface';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatExpansionModule } from '@angular/material/expansion'; 
 import { MatListModule } from '@angular/material/list'; 
 import { FormsModule } from '@angular/forms';
+import { FormatTimePipe } from '../../../pipes/format-time.pipe';
+import { StopwatchComponent } from '../../time-management/stopwatch.component';
+import { TimerComponent } from '../../time-management/timer.component'
+import { Form, FormTemplate, FormInstance, FormSubmission } from '../../../interfaces/workspace.interface';
+
 @Component({
   selector: 'app-form-management',
   standalone: true,
@@ -11560,8 +11998,12 @@ import { FormsModule } from '@angular/forms';
     FormGeneratorComponent,
     CodeAnalysisComponent,
     DatePipe,             
-    JsonPipe             
+    JsonPipe  ,
+    FormatTimePipe  ,
+    StopwatchComponent, TimerComponent        
   ],
+
+
   template: `
 <div class="form-management">
   @if (folderId) {
@@ -11576,7 +12018,6 @@ import { FormsModule } from '@angular/forms';
               {{template.name}} (Template)
             </mat-panel-title>
           </mat-expansion-panel-header>
-          
           <div class="template-actions">
             <button mat-button (click)="viewForm(template, true)">View</button>
             <button mat-button (click)="editForm(template)">Edit</button>
@@ -11605,27 +12046,62 @@ import { FormsModule } from '@angular/forms';
     </mat-accordion>
 
     @if (selectedFormSignal()) {
-    <h3>{{ selectedFormSignal()?.name || selectedFormSignal()?.structure?.entryName || 'Untitled Form' }}</h3>
-    
-    <mat-slide-toggle [(ngModel)]="isEditable" (change)="onEditableToggle()">
-      {{ isEditable() ? 'Editable' : 'Read-only' }}
-    </mat-slide-toggle>
+      <h3>{{ selectedFormSignal()?.name || selectedFormSignal()?.structure?.entryName || 'Untitled Form' }}</h3>
+      
+      <mat-slide-toggle [ngModel]="isEditable()" (ngModelChange)="onEditableToggle()" 
+                        [disabled]="selectedFormSignal()?.state === 'submitted_instance'">
+        {{ isEditable() ? 'Editable' : 'Read-only' }}
+      </mat-slide-toggle>
 
-    @if (selectedFormStructure() && selectedFormStructure().fields?.length > 0) {
-      <app-form-generator
-        [parsedCode]="selectedFormStructure()"
-        [initialValues]="selectedFormSignal()?.values"
-        [isTemplate]="isEditingTemplate()"
-        [readOnly]="!isEditable"
-        (templateSaved)="onFormSaved($event)"
-        (instanceSubmitted)="onFormSubmitted($event)">
-      </app-form-generator>
-    } @else {
-      <p>No form structure available or no fields defined. Please try reloading the form or add fields to the form structure.</p>
-    }
+      @if (selectedFormStructure() && selectedFormStructure().fields?.length > 0) {
+        @if (isViewingSubmittedInstance()) {
+          <div class="submitted-instance-view">
+            @for (field of selectedFormStructure().fields; track field.name) {
+              <mat-expansion-panel class="field-container">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{ field.name }} ({{ field.type }})
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
 
-      @if (!isEditingTemplate()) {
+                @if (selectedFormSignal()?.values?.[field.name]) {
+                  @switch (field.type) {
+                    @case ('TIMER') {
+                      <ng-container *ngTemplateOutlet="timerTemplate; context: {$implicit: formatEnhancedFieldData(selectedFormSignal()?.values?.[field.name])}"></ng-container>
+                    }
+                    @case ('STOPWATCH') {
+                      <ng-container *ngTemplateOutlet="stopwatchTemplate; context: {$implicit: formatEnhancedFieldData(selectedFormSignal()?.values?.[field.name])}"></ng-container>
+                    }
+                    @case ('LIST') {
+                      <ng-container *ngTemplateOutlet="listTemplate; context: {$implicit: formatEnhancedFieldData(selectedFormSignal()?.values?.[field.name])}"></ng-container>
+                    }
+                    @default {
+                      <pre>{{ formatEnhancedFieldData(selectedFormSignal()?.values?.[field.name]) | json }}</pre>
+                    }
+                  }
+                } @else {
+                  <p>No data available</p>
+                }
+              </mat-expansion-panel>
+            }
+          </div>
+        } @else {
+          <app-form-generator
+            [parsedCode]="selectedFormStructure()"
+            [initialValues]="selectedFormSignal()?.values"
+            [isTemplate]="selectedFormSignal()?.isTemplate ?? false"
+            [readOnly]="!isEditable() || selectedFormSignal()?.state === 'submitted_instance'"
+            (templateSaved)="onFormSaved($event)"
+            (instanceSubmitted)="onFormSubmitted($event)">
+          </app-form-generator>
+        }
+      } @else {
+        <p>No form structure available or no fields defined. Please try reloading the form or add fields to the form structure.</p>
+      }
+
+      @if (!selectedFormSignal()?.isTemplate) {
         <h4>Submissions</h4>
+        
         @if (submissions().length > 0) {
           <mat-list>
             @for (submission of submissions(); track submission._id) {
@@ -11642,14 +12118,6 @@ import { FormsModule } from '@angular/forms';
     } @else {
       <p>No form selected. Please select a form to view or edit.</p>
     }
-    
-    <div class="debug-info">
-      <h4>Debug Information:</h4>
-      <p><strong>Selected Form:</strong> {{ selectedFormSignal() | json }}</p>
-      <p><strong>Form Structure:</strong> {{ selectedFormStructure() | json }}</p>
-      <p><strong>Is Editing Template:</strong> {{ isEditingTemplate() }}</p>
-      <p><strong>Is Editable:</strong> {{ isEditable() }}</p>
-    </div>
 
     <app-code-analysis 
       [workspaceId]="workspaceId"
@@ -11660,11 +12128,174 @@ import { FormsModule } from '@angular/forms';
     <p>Please select a folder to manage forms.</p>
   }
 </div>
+
+<ng-template #timerTemplate let-data>
+  <h4>Timer Details</h4>
+  <p>Total Programmed Time: {{ data.details.totalProgrammedTime }}</p>
+  <p>Sessions Completed: {{ data.details.sessionsCompleted }} / {{ data.details.totalSessionsPlanned }}</p>
+  <h5>Sessions:</h5>
+  <ul>
+    @for (session of data.details.sessions; track session.sessionNumber) {
+      <li>
+        {{ session.label }}
+        <br>Programmed: {{ session.programmedTime }}
+        <br>Actual: {{ session.actualTime }}
+      </li>
+    }
+  </ul>
+</ng-template>
+
+<ng-template #stopwatchTemplate let-data>
+  <h4>Stopwatch Details</h4>
+  <p>Total Time: {{ data.details.totalTime }}</p>
+  <h5>Laps:</h5>
+  <ul>
+    @for (lap of data.details.laps; track lap.number) {
+      <li>Lap {{ lap.number }}: {{ lap.time }}</li>
+    }
+  </ul>
+</ng-template>
+
+<ng-template #listTemplate let-data>
+  <h4>List Items:</h4>
+  <ul>
+    @for (item of data.value; track $index) {
+      <li>
+        @for (key of item | keyvalue; track key.key) {
+          <strong>{{ key.key }}:</strong> {{ key.value }}<br>
+        }
+      </li>
+    }
+  </ul>
+</ng-template>
   `
+  ,
+  styles : [`
+    .form-management {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title, .form-title {
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.templates-accordion {
+  margin-bottom: 30px;
+}
+
+.template-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.selected-form {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 30px;
+}
+
+.submitted-instance-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.field-container {
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.field-title {
+  color: #333;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+}
+
+.field-content {
+  font-size: 14px;
+}
+
+.stopwatch-data ul, .timer-data ul, .list-data {
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+
+.stopwatch-data li, .timer-data li, .list-data li {
+  margin-bottom: 5px;
+}
+
+.json-data {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.submissions-title {
+  margin-top: 30px;
+  color: #333;
+}
+
+.submissions-list {
+  margin-top: 15px;
+}
+
+.submission-item {
+  background-color: #ffffff;
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.submission-date {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.submission-values {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.no-fields-message, .no-submissions-message, .no-form-selected-message, .no-folder-selected-message {
+  color: #666;
+  font-style: italic;
+}
+
+.debug-info {
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.debug-info pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-size: 12px;
+}
+    `]
 })
 
 
 export class FormManagementComponent implements OnChanges, OnInit {  
+
   @Input() workspaceId!: string;
   @Input() folderId!: string;
   @Input() selectedForm: Form | null = null;
@@ -11676,19 +12307,69 @@ export class FormManagementComponent implements OnChanges, OnInit {
   submissions = signal<FormSubmission[]>([]);
   folderName = signal<string>('');
   private _selectedFormSignal = signal<Form | null>(null);
+
+
   
   selectedFormSignal = computed(() => this._selectedFormSignal());
   private _selectedFormStructure = signal<any>(null);
-
   private dialog = inject(MatDialog);
-  private snackBar = inject(MatSnackBar);
-  private formManagementService = inject(FormManagementService);
-  private cdr = inject(ChangeDetectorRef);
 
   isEditingTemplate = computed(() => this._isEditingTemplate());
-  private _isEditable = signal<boolean>(false);
+    private _isEditable = signal<boolean>(false);
   isEditable = computed(() => this._isEditable());
+
+
+  isSubmittedInstance = computed(() => !this.isEditingTemplate() && !this.isEditable());
+
+  formReadOnly = computed(() => {
+    if (this.isEditingTemplate()) {
+      return true; // Template editing is always read-only
+    }
+    if (this.isSubmittedInstance()) {
+      return true; // Viewing submitted instance is read-only
+    }
+    return !this.isEditable(); // For new instances, respect the editable toggle
+  });
+
+
+  constructor(
+    private formManagementService: FormManagementService,
+    private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef,
+    private injector: Injector
+  ) {
+    runInInjectionContext(this.injector, () => {
+      this.setupEffects();
+    });
+  }
   
+
+  private setupEffects(): void {
+    effect(() => {
+      const selectedForm = this._selectedFormSignal();
+      console.log('Selected form updated:', selectedForm);
+      console.log('Is template:', selectedForm?.isTemplate);
+      console.log('Form state:', selectedForm?.state);
+    }, { allowSignalWrites: true });
+  }
+
+  private initializeForm(): void {
+    const selectedForm = this._selectedFormSignal();
+    if (selectedForm && selectedForm.structure) {
+      this._selectedFormStructure.set(selectedForm.structure);
+    } else if (!selectedForm) {
+      this._selectedFormStructure.set(null);
+    }
+    
+    if (this.folderId) {
+      this.loadForms();
+    }
+  }
+
+  ngOnInit() {
+    this.initializeForm();
+  }
+
 
 onEditableToggle(): void {
   this._isEditable.update(value => !value);
@@ -11697,17 +12378,7 @@ onEditableToggle(): void {
 
   selectedFormStructure = computed(() => this._selectedFormStructure());
   private _isEditingTemplate = signal<boolean>(true);
-  ngOnInit() {
-    // Ensure consistency between selectedFormSignal and selectedFormStructure
-    effect(() => {
-      const selectedForm = this._selectedFormSignal();
-      if (selectedForm && selectedForm.structure) {
-        this._selectedFormStructure.set(selectedForm.structure);
-      } else if (!selectedForm) {
-        this._selectedFormStructure.set(null);
-      }
-    });
-  }
+
 
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -11717,9 +12388,11 @@ onEditableToggle(): void {
     if (changes['selectedForm']) {
       this._selectedFormSignal.set(this.selectedForm);
     }
+
+
   }
 
-  loadForms(): void {
+  private loadForms(): void {
     if (!this.workspaceId || !this.folderId) {
       console.error('WorkspaceId or FolderId is missing');
       return;
@@ -11752,21 +12425,25 @@ onEditableToggle(): void {
   }
   
   createInstance(template: FormTemplate): void {
-    this._selectedFormSignal.set({ ...template, isTemplate: false as const, values: {} });
+    this._selectedFormSignal.set({ ...template, isTemplate: false, values: {} });
     this._selectedFormStructure.set(template.structure);
     this._isEditingTemplate.set(false);
+    this._isEditable.set(true);  // Ensure new instances are editable
   }
 
   onFormSaved(event: { formData: any, structure: any }): void {
     const selectedForm = this.selectedFormSignal();
     if (selectedForm) {
       if (this.isEditingTemplate()) {
+        // For templates, only save structure and metadata, not values
+        const templateData = {
+          name: selectedForm.name,
+          structure: event.structure
+        };
         if (selectedForm._id.startsWith('temp_')) {
-          // This is a new template, so we need to create it
-          this.createFormTemplate(selectedForm as FormTemplate, event);
+          this.createFormTemplate(templateData);
         } else {
-          // This is an existing template, so we update it
-          this.updateFormTemplate(selectedForm as FormTemplate, event);
+          this.updateFormTemplate(selectedForm._id, templateData);
         }
       } else {
         this.createFormInstance(selectedForm as FormTemplate, event);
@@ -11775,14 +12452,15 @@ onEditableToggle(): void {
       this.snackBar.open('No form selected. Please select a form before saving.', 'Close', { duration: 5000 });
     }
   }
-  private createFormTemplate(template: FormTemplate, event: { formData: any, structure: any }): void {
+
+  private createFormTemplate(templateData: Omit<Partial<FormTemplate>, 'isTemplate'>): void {
     this.formManagementService.createForm(
       this.workspaceId,
       this.folderId,
       {
-        name: template.name,
-        structure: event.structure,
-        isTemplate: true as const
+        ...templateData,
+        isTemplate: true as const,
+        values: undefined // Ensure no values are saved for templates
       }
     ).subscribe({
       next: (createdTemplate) => {
@@ -11797,30 +12475,133 @@ onEditableToggle(): void {
       }
     });
   }
-
+  
 
   onFormSubmitted(event: { formData: any, structure: any }): void {
-    const selectedForm = this.selectedFormSignal();
-    if (selectedForm && !this.isEditingTemplate()) {
-      this.submitFormInstance(selectedForm as FormTemplate, event.formData);
-    } else {
-      this.snackBar.open('Cannot submit a template. Please create an instance first.', 'Close', { duration: 5000 });
+    console.log('Enhanced form data submitted:', event.formData);
+    
+  const workspaceId = this.workspaceId;
+  const folderId = this.folderId;
+  const selectedForm = this._selectedFormSignal();
+  
+  console.log('Submission context:', { workspaceId, folderId, selectedForm });
+
+  if (!workspaceId || !folderId || !selectedForm) {
+    this.snackBar.open('Unable to submit form: Workspace, folder, or form not selected', 'Close', { duration: 3000 });
+    return;
+  }
+
+  if (selectedForm.isTemplate) {
+    this.snackBar.open('Cannot submit a template. Please create an instance first.', 'Close', { duration: 3000 });
+    return;
+  }
+
+  const formattedData = this.formatFormData(event.formData);
+  
+  this.submitFormData(workspaceId, folderId, selectedForm._id, formattedData);
+}
+
+  
+  private formatFormData(data: any): any {
+    const formatted: any = {};
+    for (const [key, value] of Object.entries(data)) {
+      if (value instanceof Date) {
+        formatted[key] = value.toISOString();
+      } else if (typeof value === 'object' && value !== null) {
+        if ('laps' in value || 'completedSessions' in value) {
+          // This is likely a time management field
+          formatted[key] = this.formatTimeManagementField(value);
+        } else if (Array.isArray(value)) {
+          formatted[key] = value.map(item => this.formatFormData(item));
+        } else {
+          formatted[key] = this.formatFormData(value);
+        }
+      } else {
+        formatted[key] = value;
+      }
     }
+    return formatted;
+  }
+
+  private formatTimeManagementField(field: any): any {
+    if ('laps' in field) {
+      // Stopwatch
+      return {
+        type: 'STOPWATCH',
+        laps: field.laps,
+        totalTime: field.totalTime,
+        completed: field.completed
+      };
+    } else if ('completedSessions' in field) {
+      // Timer
+      return {
+        type: 'TIMER',
+        completedSessions: field.completedSessions,
+        currentPhase: field.currentPhase,
+        currentSession: field.currentSession,
+        totalTime: field.totalTime,
+        completed: field.completed
+      };
+    }
+    return field;
   }
 
 
-  private createFormInstance(template: FormTemplate, event: { formData: any, structure: any }): void {
-    this.formManagementService.createForm(
-      this.workspaceId,
-      this.folderId,
-      {
-        name: `${template.name} - Instance`,
-        structure: template.structure,
-        isTemplate: false as const,
-        parentTemplateId: template._id,
-        values: event.formData
+  private submitFormData(workspaceId: string, folderId: string, formId: string, formData: any): void {
+    console.log('Submitting form data:', { workspaceId, folderId, formId, formData });
+    const submissionData = { values: formData };
+  
+    this.formManagementService.submitForm(workspaceId, folderId, formId, submissionData).subscribe({
+      next: (response) => {
+        console.log('Form submitted successfully:', response);
+        this.snackBar.open('Form submitted successfully!', 'Close', { duration: 3000 });
+        
+        if (response.instance) {
+          this.updateInstances(response.instance);
+        }
+  
+        this.loadFormsInFolder(folderId);
+        this._selectedFormSignal.set(response.instance);
+        console.log('Updated selected form:', this._selectedFormSignal());
+      },
+      error: (error) => {
+        console.error('Error submitting form:', error);
+        this.snackBar.open('Error submitting form. Please try again.', 'Close', { duration: 5000 });
       }
-    ).subscribe({
+    });
+  }
+  
+  private updateInstances(newInstance: Form): void {
+    this.instances.update(instances => {
+      const index = instances.findIndex(i => i._id === newInstance._id);
+      if (index !== -1) {
+        // Update existing instance
+        return instances.map(i => i._id === newInstance._id ? { ...i, ...newInstance } as FormInstance : i);
+      } else {
+        // Add new instance
+        const newFormInstance: FormInstance = {
+          ...newInstance,
+          isTemplate: false,
+          parentTemplateId: newInstance.parentTemplateId || '',
+          submissionDate: new Date(),
+          state: 'submitted_instance',
+          values: newInstance.values || {} // Ensure values is always defined
+        };
+        return [...instances, newFormInstance];
+      }
+    });
+  }
+
+  private createFormInstance(template: FormTemplate, event: { formData: any, structure: any }): void {
+    const formData = {
+      name: `${template.name} - Instance`,
+      structure: template.structure,
+      isTemplate: false,
+      parentTemplateId: template._id.startsWith('temp_') ? undefined : template._id,
+      values: event.formData
+    };
+  
+    this.formManagementService.createForm(this.workspaceId, this.folderId, formData).subscribe({
       next: (createdInstance) => {
         this.snackBar.open('Form instance created successfully!', 'Close', { duration: 3000 });
         this.loadForms();
@@ -11832,92 +12613,38 @@ onEditableToggle(): void {
       }
     });
   }
-
-
-
-
-  private submitFormInstance(template: FormTemplate, formData: any): void {
-    const submissionData = {
-      values: formData,
-      structure: template.structure || {}
-    };
-
-    this.formManagementService.submitForm(
-      this.workspaceId,
-      this.folderId,
-      template._id,
-      submissionData
-    ).subscribe({
-      next: (response) => {
-        this.snackBar.open('Form instance submitted successfully!', 'Close', { duration: 3000 });
-        if (response.instance) {
-          this.updateInstancesAfterSubmission(response.instance);
-        }
-        this.loadForms();
-      },
-      error: (error) => {
-        console.error('Error submitting form instance:', error);
-        this.snackBar.open(`Error submitting form instance: ${error.message}`, 'Close', { duration: 5000 });
-      }
-    });
-  }
-
-  private updateInstancesAfterSubmission(newInstance: FormInstance): void {
-    const currentInstances = this.instances();
-    const updatedInstances = [...currentInstances];
-    const existingIndex = updatedInstances.findIndex(i => i._id === newInstance._id);
-    
-    if (existingIndex !== -1) {
-      updatedInstances[existingIndex] = newInstance;
-    } else {
-      updatedInstances.push(newInstance);
-    }
-    
-    this.instances.set(updatedInstances);
-    console.log('Updated instances:', updatedInstances);
-  }
-
+  
 
 getInstancesForTemplate(templateId: string): FormInstance[] {
   return this.instances().filter(instance => instance.parentTemplateId === templateId);
 }
 
-  private updateFormTemplate(template: FormTemplate, event: { formData: any, structure: any }): void {
-    this.formManagementService.updateForm(
-      this.workspaceId,
-      this.folderId,
-      template._id,
-      { ...event.formData, structure: event.structure, isTemplate: true }
-    ).subscribe({
-      next: (updatedForm) => {
-        this.snackBar.open('Template updated successfully!', 'Close', { duration: 3000 });
-        this.loadForms();
-      },
-      error: (error) => {
-        console.error('Error updating template:', error);
-        this.snackBar.open(`Error updating template: ${error.message}`, 'Close', { duration: 5000 });
-      }
-    });
-  }
+private updateFormTemplate(templateId: string, templateData: Omit<Partial<FormTemplate>, 'isTemplate'>): void {
+  this.formManagementService.updateForm(
+    this.workspaceId,
+    this.folderId,
+    templateId,
+    {
+      ...templateData,
+      isTemplate: true as const,
+      values: undefined // Ensure no values are saved for templates
+    }
+  ).subscribe({
+    next: (updatedForm) => {
+      this.snackBar.open('Template updated successfully!', 'Close', { duration: 3000 });
+      this.loadForms();
+      // Use the updatedForm data
+      this._selectedFormSignal.set(updatedForm);
+      this._selectedFormStructure.set(updatedForm.structure);
+    },
+    error: (error) => {
+      console.error('Error updating template:', error);
+      this.snackBar.open(`Error updating template: ${error.message}`, 'Close', { duration: 5000 });
+    }
+  });
+}
 
-  private updateFormInstance(instance: FormInstance, event: { formData: any, structure: any }): void {
-    this.formManagementService.updateForm(
-      this.workspaceId,
-      this.folderId,
-      instance._id,
-      { ...event.formData, structure: event.structure }
-    ).subscribe({
-      next: (updatedForm) => {
-        this.snackBar.open('Instance updated successfully!', 'Close', { duration: 3000 });
-        this.loadForms();
-      },
-      error: (error) => {
-        console.error('Error updating instance:', error);
-        this.snackBar.open('Error updating instance. Please try again.', 'Close', { duration: 5000 });
-      }
-    });
-  }
-  
+
   addForm(): void {
     if (!this.workspaceId || !this.folderId) {
       this.snackBar.open('Unable to add form: Workspace or folder not selected', 'Close', { duration: 3000 });
@@ -12015,6 +12742,26 @@ getInstancesForTemplate(templateId: string): FormInstance[] {
     });
   }
 
+  isViewingSubmittedInstance = computed(() => 
+    this.selectedFormSignal()?.state === 'submitted_instance'
+  );
+
+  
+  viewSubmittedInstance(instance: FormInstance): void {
+    this.formManagementService.getSubmittedInstance(this.workspaceId, this.folderId, instance._id)
+      .subscribe({
+        next: (submittedInstance: FormInstance) => {
+          this._selectedFormSignal.set(submittedInstance);
+          this._isEditable.set(false);
+        },
+        error: (error: any) => {
+          console.error('Error fetching submitted instance:', error);
+          this.snackBar.open('Error fetching submitted instance. Please try again.', 'Close', { duration: 5000 });
+        }
+      });
+  }
+  
+
 
   viewForm(form: Form, isTemplate: boolean): void {
     console.log('Viewing form:', JSON.stringify(form, null, 2));
@@ -12030,10 +12777,17 @@ getInstancesForTemplate(templateId: string): FormInstance[] {
       this._selectedFormStructure.set({});
     }
     
-    if (!isTemplate && 'submissionDate' in form) {
+    if (!isTemplate && form.state === 'submitted_instance') {
+      console.log('Viewing submitted instance:', JSON.stringify(form.values, null, 2));
+      this._isEditable.set(false);  // Set to read-only mode for submitted instances
       this.loadSubmissions(form._id);
+    } else if (!isTemplate) {
+      this._isEditable.set(true);  // Set to editable mode for new instances
+    } else {
+      this._isEditable.set(false);  // Set to read-only mode for templates
     }
   }
+
 
 
   onTemplateSaved(event: { formData: any, structure: any }): void {
@@ -12084,7 +12838,6 @@ getInstancesForTemplate(templateId: string): FormInstance[] {
 
   
 
-
   onFormGenerated(generatedForm: any): void {
     console.log('FormManagementComponent: onFormGenerated called', generatedForm);
     if (!generatedForm.name || !generatedForm.structure) {
@@ -12092,27 +12845,249 @@ getInstancesForTemplate(templateId: string): FormInstance[] {
       this.snackBar.open('Error: Form name and structure are required', 'Close', { duration: 5000 });
       return;
     }
-
+  
     const newForm: FormTemplate = {
-      _id: generatedForm._id || 'temp_' + Date.now(),
+      _id: `temp_${Date.now()}`,
       name: generatedForm.name,
       structure: generatedForm.structure,
       isTemplate: true,
+      state: 'template',
       createdAt: new Date(),
       updatedAt: new Date()
     };
-
     this._selectedFormSignal.set(newForm);
     this._selectedFormStructure.set(newForm.structure);
-    // this.isEditingTemplate.set(true);
     console.log('FormManagementComponent: Selected form set', this._selectedFormSignal());
     console.log('FormManagementComponent: Form structure set', this._selectedFormStructure());
     this.cdr.detectChanges();
   }
-
-
-
+  
+  
+getFieldSettings(field: any): any {
+  if (field.type === 'STOPWATCH') {
+    return {
+      laps: field.options?.laps,
+      minLaps: field.options?.minLaps,
+      maxLaps: field.options?.maxLaps
+    };
+  } else if (field.type === 'TIMER') {
+    return {
+      workDuration: field.options?.workDuration,
+      breakDuration: field.options?.breakDuration,
+      sessions: field.options?.sessions,
+      longBreakDuration: field.options?.longBreakDuration,
+      longBreakInterval: field.options?.longBreakInterval,
+      sessionLabels: field.options?.sessionLabels
+    };
+  }
+  return {};
 }
+
+  onTimeManagementValueChange(fieldName: string, value: any): void {
+    if (this.selectedFormSignal()) {
+      const updatedForm: Form = {
+        ...this.selectedFormSignal()!,
+        values: {
+          ...this.selectedFormSignal()!.values,
+          [fieldName]: value
+        }
+      };
+      
+      this._selectedFormSignal.set(updatedForm);
+    }
+  }
+
+
+  loadFormsInFolder(folderId: string): void {
+    if (this.workspaceId) {
+      this.formManagementService.getFormsInFolder(this.workspaceId, folderId).subscribe({
+        next: ({templates, instances}) => {
+          this.templates.set(templates);
+          this.instances.set(instances);
+          console.log('Loaded templates:', this.templates());
+          console.log('Loaded instances:', this.instances());
+        },
+        error: (error) => {
+          console.error('Error loading forms:', error);
+          this.snackBar.open('Error loading forms. Please try again.', 'Close', { duration: 5000 });
+        }
+      });
+    }
+  }
+
+  
+  testFormCreationAndSubmission(): void {
+    console.log('Testing form creation and submission');
+    const testEvent = {
+      formData: {
+        testField: 'Test Value'
+      },
+      structure: {
+        fields: [
+          { name: 'testField', type: 'TEXT' }
+        ]
+      }
+    };
+  // Create a new form template
+  const newTemplate: Partial<FormTemplate> = {
+    name: 'Test Template',
+    structure: testEvent.structure,
+    isTemplate: true,
+    state: 'template'
+  };
+
+  this.formManagementService.createForm(this.workspaceId, this.folderId, newTemplate).subscribe({
+    next: (createdForm) => {
+      console.log('New form template created:', createdForm);
+      
+      // Now submit an instance of this template
+      this.submitFormData(this.workspaceId, this.folderId, createdForm._id, testEvent.formData);
+    },
+    error: (error) => {
+      console.error('Error creating new form template:', error);
+    }
+  });
+}
+
+
+
+formatEnhancedFieldData(fieldData: any): any {
+  let formattedData: any = {
+    type: fieldData.type,
+    value: this.formatValue(fieldData.value, fieldData.type),
+    options: fieldData.options,
+    details: fieldData.details
+  };
+
+  if (fieldData.range) {
+    formattedData.range = fieldData.range;
+  }
+
+  if (fieldData.type === 'TIMER') {
+    formattedData.details = this.formatTimerDetails(fieldData.details);
+  } else if (fieldData.type === 'STOPWATCH') {
+    formattedData.details = this.formatStopwatchDetails(fieldData.details);
+  }
+
+  return formattedData;
+}
+
+
+private formatValue(value: any, type: string): any {
+  if (type === 'TIMER') {
+    return {
+      ...value,
+      completedSessions: value.completedSessions.map((session: any) => ({
+        ...session,
+        duration: this.formatTime(session.duration)
+      })),
+      totalTime: this.formatTime(value.totalTime)
+    };
+  } else if (type === 'STOPWATCH') {
+    return {
+      ...value,
+      laps: value.laps.map((lap: any) => ({
+        ...lap,
+        time: this.formatTime(lap.time)
+      })),
+      totalTime: this.formatTime(value.totalTime)
+    };
+  }
+  return value;
+}
+
+private formatTimerDetails(details: any): any {
+  return {
+    ...details,
+    totalProgrammedTime: this.formatTime(details.totalProgrammedTime),
+    sessions: details.sessions.map((session: any) => ({
+      ...session,
+      programmedTime: this.formatTime(session.programmedTime),
+      actualTime: this.formatTime(session.actualTime)
+    }))
+  };
+}
+
+private formatStopwatchDetails(details: any): any {
+  return {
+    ...details,
+    totalTime: this.formatTime(details.totalTime),
+    laps: details.laps.map((lap: any) => ({
+      ...lap,
+      time: this.formatTime(lap.time)
+    }))
+  };
+}
+
+private formatTime(time: number): string {
+  // Use the FormatTimePipe to format the time
+  return new FormatTimePipe().transform(time, 'ms');
+}
+}
+```
+
+# frontend/src/app/components/workspace/form-view-submit/form-view-submit.component.ts
+
+```ts
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+
+@Component({
+  selector: 'app-form-view-submit',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+  template: `
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <h2>{{ formData.name }}</h2>
+      @for (field of formData.structure.fields; track field.name) {
+        <mat-form-field>
+          <mat-label>{{ field.name }}</mat-label>
+          <input matInput [formControlName]="field.name" [placeholder]="field.description">
+        </mat-form-field>
+      }
+      <button mat-raised-button color="primary" type="submit">Submit</button>
+    </form>
+  `,
+  styles: [`
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+  `]
+})
+export class FormViewSubmitComponent implements OnInit {
+    @Input() formData: any;
+    @Output() formSubmitted = new EventEmitter<any>();
+  
+    form!: FormGroup;
+  
+    constructor(private fb: FormBuilder) {}
+  
+    ngOnInit() {
+      this.createForm();
+    }
+  
+    createForm() {
+      const group: any = {};
+      this.formData.structure.fields.forEach((field: any) => {
+        group[field.name] = [''];
+      });
+      this.form = this.fb.group(group);
+    }
+  
+    onSubmit() {
+      if (this.form.valid) {
+        this.formSubmitted.emit(this.form.value);
+      }
+    }
+  }
 ```
 
 # frontend/src/app/components/workspace/form-editor/form-editor.component.ts
@@ -12953,6 +13928,78 @@ export class TwoFactorAuthComponent implements OnInit {
 }
 ```
 
+# frontend/src/app/components/auth/password-reset-request/password-reset-request.component.ts
+
+```ts
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { AuthService } from '../../../services/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+
+@Component({
+  selector: 'app-password-reset-request',
+  standalone: true,
+  imports: [ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatInputModule],
+  template: `
+    <form [formGroup]="resetForm" (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required>
+      </mat-form-field>
+      <button mat-raised-button color="primary" type="submit" [disabled]="resetForm.invalid || isLoading">
+        {{ isLoading ? 'Sending...' : 'Reset Password' }}
+      </button>
+    </form>
+  `,
+  styles: [`
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    mat-form-field {
+      width: 100%;
+      max-width: 300px;
+    }
+  `]
+})
+export class PasswordResetRequestComponent {
+  resetForm: FormGroup;
+  isLoading = false;
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private snackBar: MatSnackBar
+  ) {
+    this.resetForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]]
+    });
+  }
+
+  onSubmit(): void {
+    if (this.resetForm.valid && !this.isLoading) {
+      this.isLoading = true;
+      this.authService.requestPasswordReset(this.resetForm.value.email).subscribe({
+        next: () => {
+          this.snackBar.open('Password reset email sent. Please check your inbox.', 'Close', { duration: 5000 });
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Password reset request failed:', error);
+          this.snackBar.open(error.error.message || 'Failed to send reset email. Please try again.', 'Close', { duration: 5000 });
+          this.isLoading = false;
+        }
+      });
+    }
+  }
+}
+```
+
 # frontend/src/app/components/auth/register/register.component.ts
 
 ```ts
@@ -13065,78 +14112,6 @@ export class RegisterComponent {
   }
   
   
-}
-```
-
-# frontend/src/app/components/auth/password-reset-request/password-reset-request.component.ts
-
-```ts
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../../../services/auth.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-
-@Component({
-  selector: 'app-password-reset-request',
-  standalone: true,
-  imports: [ReactiveFormsModule, MatButtonModule, MatFormFieldModule, MatInputModule],
-  template: `
-    <form [formGroup]="resetForm" (ngSubmit)="onSubmit()">
-      <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email" required>
-      </mat-form-field>
-      <button mat-raised-button color="primary" type="submit" [disabled]="resetForm.invalid || isLoading">
-        {{ isLoading ? 'Sending...' : 'Reset Password' }}
-      </button>
-    </form>
-  `,
-  styles: [`
-    form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
-    mat-form-field {
-      width: 100%;
-      max-width: 300px;
-    }
-  `]
-})
-export class PasswordResetRequestComponent {
-  resetForm: FormGroup;
-  isLoading = false;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private authService: AuthService,
-    private snackBar: MatSnackBar
-  ) {
-    this.resetForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]]
-    });
-  }
-
-  onSubmit(): void {
-    if (this.resetForm.valid && !this.isLoading) {
-      this.isLoading = true;
-      this.authService.requestPasswordReset(this.resetForm.value.email).subscribe({
-        next: () => {
-          this.snackBar.open('Password reset email sent. Please check your inbox.', 'Close', { duration: 5000 });
-          this.isLoading = false;
-        },
-        error: (error) => {
-          console.error('Password reset request failed:', error);
-          this.snackBar.open(error.error.message || 'Failed to send reset email. Please try again.', 'Close', { duration: 5000 });
-          this.isLoading = false;
-        }
-      });
-    }
-  }
 }
 ```
 

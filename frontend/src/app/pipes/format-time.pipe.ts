@@ -1,3 +1,4 @@
+///frontend/src/app/pipes/format-time.pipe.ts
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({

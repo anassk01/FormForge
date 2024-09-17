@@ -3,6 +3,7 @@ import { AuthRequest } from '../middleware/auth.middleware';
 import { User } from '../models/user.model';
 import { logAuthEvent } from '../services/auth-logger.service';
 import { CreditPackage } from '../models/credit-package.model';
+import mongoose from 'mongoose';
 
 export const getCreditBalance = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
@@ -46,7 +47,13 @@ export const addCredits = async (req: AuthRequest, res: Response): Promise<void>
       return;
     }
     user.credits += amount;
-    user.creditHistory.push({ amount, description, date: new Date() });
+    user.creditHistory.push({
+      id: new mongoose.Types.ObjectId().toString(),
+      amount,
+      description,
+      date: new Date()
+    });
+    
     await user.save();
     res.json({ credits: user.credits, message: 'Credits added successfully' });
     logAuthEvent('credits_added', user._id.toString(), { amount, newBalance: user.credits });
@@ -78,7 +85,13 @@ export const useCredits = async (req: AuthRequest, res: Response): Promise<void>
       return;
     }
     user.credits -= amount;
-    user.creditHistory.push({ amount: -amount, description, date: new Date() });
+      user.creditHistory.push({
+        id: new mongoose.Types.ObjectId().toString(),
+        amount: -amount,
+        description,
+        date: new Date()
+      });
+      
     await user.save();
     res.json({ credits: user.credits, message: 'Credits used successfully' });
     logAuthEvent('credits_used', user._id.toString(), { amount, newBalance: user.credits });
@@ -130,10 +143,13 @@ export const purchasePackage = async (req: AuthRequest, res: Response): Promise<
 
     user.credits += creditPackage.credits;
     user.creditHistory.push({
+      id: new mongoose.Types.ObjectId().toString(),
       amount: creditPackage.credits,
       description: `Purchased ${creditPackage.name}`,
       date: new Date()
     });
+
+
 
     await user.save();
 

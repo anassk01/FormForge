@@ -15,6 +15,7 @@ export interface CreditInfo {
   recentTransactions: CreditTransaction[];
 }
 export interface CreditTransaction {
+  id: string;
   amount: number;
   description: string;
   date: Date;

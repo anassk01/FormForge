@@ -33,41 +33,42 @@ import { CreditPackageDialogComponent } from './credit-package-dialog.component'
     MatSnackBarModule
   ],
   template: `
-    <div class="credit-packages-container">
-      <h2>Credit Packages</h2>
-      <button mat-raised-button color="primary" (click)="openDialog()">Add New Package</button>
-      
-      <mat-form-field>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Filter packages">
+    <div class="p-5">
+      <h2 class="text-2xl font-semibold mb-4">Credit Packages</h2>
+      <button class="bg-cyan-500 hover:bg-cyan-600 text-white font-medium py-2 px-4 rounded transition duration-150 ease-in-out mb-4" 
+        (click)="openDialog()">Add New Package</button>
+
+      <mat-form-field class="w-full mb-4">
+        <input matInput (keyup)="applyFilter($event)" placeholder="Filter packages" class="w-full border-b-2 border-gray-300 focus:border-cyan-500 focus:outline-none transition duration-150 ease-in-out">
       </mat-form-field>
 
       @if (isLoading) {
-        <div class="spinner-container">
+        <div class="flex justify-center items-center h-40">
           <mat-spinner></mat-spinner>
         </div>
       } @else if (dataSource.data.length) {
         <div class="mat-elevation-z8">
-          <table mat-table [dataSource]="dataSource" matSort>
+          <table mat-table [dataSource]="dataSource" matSort class="min-w-full table-auto">
             <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-              <td mat-cell *matCellDef="let creditPackage">{{creditPackage.name}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2">Name</th>
+              <td mat-cell *matCellDef="let creditPackage" class="px-4 py-2">{{ creditPackage.name }}</td>
             </ng-container>
             <ng-container matColumnDef="credits">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Credits</th>
-              <td mat-cell *matCellDef="let creditPackage">{{creditPackage.credits}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2">Credits</th>
+              <td mat-cell *matCellDef="let creditPackage" class="px-4 py-2">{{ creditPackage.credits }}</td>
             </ng-container>
             <ng-container matColumnDef="price">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
-              <td mat-cell *matCellDef="let creditPackage">{{creditPackage.price | currency}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2">Price</th>
+              <td mat-cell *matCellDef="let creditPackage" class="px-4 py-2">{{ creditPackage.price | currency }}</td>
             </ng-container>
             <ng-container matColumnDef="isSubscription">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Subscription</th>
-              <td mat-cell *matCellDef="let creditPackage">{{creditPackage.isSubscription ? 'Yes' : 'No'}}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="px-4 py-2">Subscription</th>
+              <td mat-cell *matCellDef="let creditPackage" class="px-4 py-2">{{ creditPackage.isSubscription ? 'Yes' : 'No' }}</td>
             </ng-container>
             <ng-container matColumnDef="actions">
-              <th mat-header-cell *matHeaderCellDef>Actions</th>
-              <td mat-cell *matCellDef="let creditPackage">
-                <button mat-icon-button color="primary" (click)="openDialog(creditPackage)">
+              <th mat-header-cell *matHeaderCellDef class="px-4 py-2">Actions</th>
+              <td mat-cell *matCellDef="let creditPackage" class="px-4 py-2">
+                <button mat-icon-button color="primary" (click)="openDialog(creditPackage)" class="mr-2">
                   <mat-icon>edit</mat-icon>
                 </button>
                 <button mat-icon-button color="warn" (click)="deletePackage(creditPackage)">
@@ -83,27 +84,10 @@ import { CreditPackageDialogComponent } from './credit-package-dialog.component'
           <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
         </div>
       } @else {
-        <p>No credit packages found.</p>
+        <p class="text-center text-gray-500">No credit packages found.</p>
       }
     </div>
-  `,
-  styles: [`
-    .credit-packages-container {
-      padding: 20px;
-    }
-    .spinner-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 200px;
-    }
-    table {
-      width: 100%;
-    }
-    button[mat-raised-button] {
-      margin-bottom: 20px;
-    }
-  `]
+  `
 })
 export class AdminCreditPackagesComponent implements OnInit {
   displayedColumns: string[] = ['name', 'credits', 'price', 'isSubscription', 'actions'];
@@ -130,7 +114,6 @@ export class AdminCreditPackagesComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -140,7 +123,6 @@ export class AdminCreditPackagesComponent implements OnInit {
     }
   }
 
-  
   loadCreditPackages() {
     this.isLoading = true;
     this.adminService.getAllCreditPackages().subscribe({
@@ -179,7 +161,6 @@ export class AdminCreditPackagesComponent implements OnInit {
   createPackage(packageData: Partial<CreditPackage>) {
     this.isLoading = true;
     
-    // Validate required fields
     const requiredFields: (keyof CreditPackage)[] = ['name', 'credits', 'price', 'description'];
     const missingFields = requiredFields.filter(field => !packageData[field]);
     
@@ -193,7 +174,6 @@ export class AdminCreditPackagesComponent implements OnInit {
       return;
     }
 
-    // Ensure all required fields are present
     const newPackage: Omit<CreditPackage, '_id'> = {
       name: packageData.name!,
       credits: packageData.credits!,
@@ -204,26 +184,22 @@ export class AdminCreditPackagesComponent implements OnInit {
       stripePriceId: packageData.stripePriceId ?? 'placeholder_stripe_id'
     };
 
-    console.log('Creating credit package:', newPackage);
-
     this.adminService.createCreditPackage(newPackage).subscribe({
       next: (createdPackage) => {
-        console.log('Credit package created successfully:', createdPackage);
         this.dataSource.data = [...this.dataSource.data, createdPackage];
         this.snackBar.open('Credit package created successfully', 'Close', { duration: 3000 });
         this.isLoading = false;
       },
       error: (error) => {
-        console.error('Error creating credit package:', error);
-        this.snackBar.open(
-          `Error creating credit package: ${error.message}`, 
-          'Close', 
-          { duration: 5000, panelClass: ['error-snackbar'] }
-        );
+        this.snackBar.open(`Error creating credit package: ${error.message}`, 'Close', {
+          duration: 5000,
+          panelClass: ['error-snackbar']
+        });
         this.isLoading = false;
       }
     });
   }
+
   updatePackage(packageData: CreditPackage) {
     if (!packageData._id) {
       this.snackBar.open('Unable to update: Credit package ID is missing', 'Close', {
@@ -238,9 +214,8 @@ export class AdminCreditPackagesComponent implements OnInit {
         const index = this.dataSource.data.findIndex(p => p._id === updatedPackage._id);
         if (index !== -1) {
           this.dataSource.data[index] = updatedPackage;
-          this.dataSource.data = [...this.dataSource.data];
+          this.dataSource.data = [...this.dataSource.data];           this.snackBar.open('Credit package updated successfully', 'Close', { duration: 3000 });
         }
-        this.snackBar.open('Credit package updated successfully', 'Close', { duration: 3000 });
       },
       error: (error) => {
         console.error('Error updating credit package:', error);
@@ -269,11 +244,10 @@ export class AdminCreditPackagesComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error deleting credit package:', error);
-          this.snackBar.open(
-            `Error deleting credit package: ${error.message}`, 
-            'Close', 
-            { duration: 5000, panelClass: ['error-snackbar'] }
-          );
+          this.snackBar.open(`Error deleting credit package: ${error.message}`, 'Close', {
+            duration: 5000,
+            panelClass: ['error-snackbar']
+          });
         }
       });
     }

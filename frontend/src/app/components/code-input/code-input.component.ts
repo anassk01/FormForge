@@ -1,5 +1,4 @@
 //src/app/components/code-input/code-input.component.ts
-import { Component, ElementRef, ViewChild, AfterViewInit, Output, EventEmitter, inject, signal, computed, effect, PLATFORM_ID, ChangeDetectionStrategy, ChangeDetectorRef, DestroyRef } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,7 +6,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { debounceTime, Subject } from 'rxjs';
 import * as monaco from 'monaco-editor';
+import { MonacoEditorComponent } from '../monaco-editor/monaco-editor.component';
 
+import { Component,ElementRef,effect,ViewChild ,Output, EventEmitter, inject, signal, computed, PLATFORM_ID, ChangeDetectionStrategy, ChangeDetectorRef, DestroyRef, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 interface FieldOptions {
   required?: boolean;
   default?: any;
@@ -62,21 +63,15 @@ type LogSettings = {
 @Component({
   selector: 'app-code-input',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatButtonModule, MatProgressSpinnerModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+  imports: [CommonModule, FormsModule, MatButtonModule, MatProgressSpinnerModule,MonacoEditorComponent],
   template: `
     <div class="p-4">
-      @if (isBrowser()) {
-        <div #editorContainer class="editor-container" aria-label="Code Editor"></div>
-      } @else {
-        <textarea 
-          [ngModel]="code()" 
-          (ngModelChange)="updateCode($event)" 
-          rows="10" 
-          cols="50" 
-          class="w-full p-2 border rounded"
-          aria-label="Code Input">
-        </textarea>
-      }
+      <app-monaco-editor
+        [options]="editorOptions"
+        [(ngModel)]="codeValue"
+        (ngModelChange)="updateCode($event)"
+      ></app-monaco-editor>
       <button mat-raised-button color="primary" (click)="submitCode()" [disabled]="!isValidCode()" aria-label="Interpret Code">
         Interpret Code
       </button>
@@ -87,42 +82,31 @@ type LogSettings = {
         <div class="error-message mt-2 text-red-500" role="alert">{{ errorMessage() }}</div>
       }
     </div>
-  `,
-  styles: [`
-    .editor-container {
-      height: 400px;
-      border: 1px solid #ccc;
-      margin-bottom: 10px;
-    }
-    .error-message {
-      font-size: 0.875rem;
-    }
-  `],
+    
+      `,
+  styleUrls: ['./code-input.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CodeInputComponent implements AfterViewInit {
+export class CodeInputComponent  {
+
   @ViewChild('editorContainer', { static: false }) editorContainer!: ElementRef<HTMLElement>;
   @Output() codeSubmitted = new EventEmitter<string>();
-
   onSubmit(): void {
     if (this.isValidCode()) {
       this.codeSubmitted.emit(this.code());
     }
   }
-
   private editor: monaco.editor.IStandaloneCodeEditor | null = null;
   private tokens = signal<Token[]>([]);
   private current = signal(0);
   private platformId = inject(PLATFORM_ID);
   private cdr = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
-
   code = signal('// Enter your code here');
   isValidCode = signal(false);
   isBrowser = computed(() => isPlatformBrowser(this.platformId));
   errorMessage = signal('');
   isValidating = signal(false);
-
   private logMessages = signal<string[]>([]);
   private logSettings = signal<LogSettings>({
     tokenization: false,
@@ -130,11 +114,20 @@ export class CodeInputComponent implements AfterViewInit {
     validation: false,
     details: false
   });
-
   private codeChangeSubject = new Subject<string>();
-
   private originalCode: string = '';
   private parsedAST: ASTNode | null = null;
+
+  codeValue: string = '// Enter your code here';
+  editorOptions = {
+    language: 'customLanguage',
+    theme: 'vs-dark',
+    minimap: { enabled: false },
+    automaticLayout: true
+  };
+
+
+
   constructor() {
     this.codeChangeSubject.pipe(
       debounceTime(300),
@@ -142,11 +135,9 @@ export class CodeInputComponent implements AfterViewInit {
     ).subscribe(() => {
       this.validateCode();
     });
-
     effect(() => {
       this.codeChangeSubject.next(this.code());
     });
-
     // Activate all logs
     this.logSettings.set({
       tokenization: false,
@@ -156,50 +147,15 @@ export class CodeInputComponent implements AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      this.initMonaco();
-    }
-  }
 
-  private async initMonaco() {
-    if (!this.editorContainer) {
-      console.error('Editor container not found.');
-      return;
-    }
-  
-    // Ensure monaco is loaded only in the browser environment
-    if (isPlatformBrowser(this.platformId)) {
-      try {
-        const monaco = await import('monaco-editor');
-  
-        this.editor = monaco.editor.create(this.editorContainer.nativeElement, {
-          value: this.code(),
-          language: 'plaintext',
-          theme: 'vs-dark',
-          minimap: { enabled: false },
-          automaticLayout: true
-        });
-  
-        this.editor.onDidChangeModelContent(() => {
-          this.code.set(this.editor?.getValue() || '');
-        });
-      } catch (error) {
-        console.error('Error loading or initializing Monaco editor:', error);
-      }
-    } else {
-      console.warn('Monaco editor is not supported in server-side rendering.');
-    }
-  }
 
   updateCode(newCode: string) {
+    this.codeValue = newCode;
     this.code.set(newCode);
-    if (this.editor) {
-      this.editor.setValue(newCode);
-    }
     this.originalCode = newCode;
     this.codeChangeSubject.next(newCode);
   }
+
   
   
   private log(category: keyof LogSettings, message: string, data?: any, level: LogLevel = LogLevel.INFO): void {
@@ -222,7 +178,6 @@ export class CodeInputComponent implements AfterViewInit {
     }
   }
 
-  
   onCodeSubmitted(code: string): void {
     this.originalCode = code;
     this.codeSubmitted.emit(code);
@@ -232,10 +187,10 @@ export class CodeInputComponent implements AfterViewInit {
     return this.originalCode;
   }
 
-
   getLogs(): string[] {
     return this.logMessages();
   }
+
 
   private validateCode() {
     console.log('Validating code:', this.code());

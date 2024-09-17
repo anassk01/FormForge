@@ -99,12 +99,13 @@ async function handleInvoicePaymentSucceeded(invoice: Stripe.Invoice) {
 
   user.credits += creditPackage.credits;
   user.creditHistory.push({
+    id: new mongoose.Types.ObjectId().toString(), // Add this line
     amount: creditPackage.credits,
     description: `Subscription renewal: ${creditPackage.name}`,
     date: new Date()
   });
-
   await user.save();
+  
   console.log('User subscription renewed:', user.email);
 
   // Send confirmation email

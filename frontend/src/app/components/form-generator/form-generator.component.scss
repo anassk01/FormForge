@@ -1,274 +1,163 @@
-// Variables
-$primary-color: #3f51b5;
-$accent-color: #ff4081;
-$warn-color: #f44336;
-$background-color: #f5f5f5;
-$card-background: #ffffff;
-$text-color: #333333;
-$border-color: #e0e0e0;
-$shadow-color: rgba(0, 0, 0, 0.1);
+// form-generator.component.scss
+
+// Modern color palette
+$primary: #3498db;
+$primary-light: #5dade2;
+$accent: #e74c3c;
+$background: #f5f5f5;
+$card-bg: #ffffff;
+$text: #2c3e50;
+$text-light: #7f8c8d;
+$border: #e0e0e0;
 
 // Mixins
-@mixin card-style {
-  background-color: $card-background;
+@mixin card {
+  background-color: $card-bg;
   border-radius: 8px;
-  box-shadow: 0 2px 4px $shadow-color;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin-bottom: 20px;
 }
 
-@mixin responsive-font($min-size, $max-size, $min-width: 480px, $max-width: 1200px) {
-  font-size: calc(#{$min-size} + (#{str-replace(#{$max-size}, 'px', '')} - #{str-replace(#{$min-size}, 'px', '')}) * ((100vw - #{$min-width}) / (#{str-replace(#{$max-width}, 'px', '')} - #{str-replace(#{$min-width}, 'px', '')})));
-
-  @media (max-width: #{$min-width}) {
-    font-size: $min-size;
-  }
-  @media (min-width: #{$max-width}) {
-    font-size: $max-size;
-  }
+@mixin transition {
+  transition: all 0.3s ease;
 }
 
-// Main Styles
-:host {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  min-height: 100vh;
-}
-
+// Main styles
 .form-generator {
-  flex-grow: 1;
-  width: 100%;
-  max-width: 2000px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 30px;
-  background-color: $background-color;
+  padding: 20px;
 
-  &__content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
+  &title {
+    font-size: 2rem;
+    color: $primary;
+    text-align: center;
+    margin-bottom: 30px;
   }
 
-  &__form-container,
-  &__result-display {
-    @include card-style;
+  &form {
+    @include card;
   }
 
-  &__form-container {
-    flex: 1 1 600px;
-  }
-
-  &__result-display {
-    flex: 1 1 400px;
-  }
-
-  &__title {
-    @include responsive-font(1.8rem, 3rem);
-    & {
-      color: $primary-color;
-      text-align: center;
-      margin-bottom: 30px;
-    }
-  }
-
-  &__form {
-    display: flex;
-    flex-direction: column;
-  }
-
-  &__grid {
+  &grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    gap: 20px;
   }
 
-  &__field-container {
-    @include card-style;
-
+  &field-container {
     &--full {
       grid-column: 1 / -1;
     }
   }
 
-  &__field {
-    width: 100%;
+  &list, &table {
+    @include card;
+    margin-top: 20px;
 
-    .mat-mdc-form-field-subscript-wrapper {
-      font-size: 12px;
+    &-title {
+      font-size: 1.2rem;
+      color: $primary;
+      margin-bottom: 10px;
     }
-  }
 
-  &__checkbox-field {
-    margin: 16px 0;
-  }
-
-  &__list,
-  &__table {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-
-  &__list-title,
-  &__table-title {
-    @include responsive-font(1.3rem, 1.5rem);
-    & {
-      color: $primary-color;
+    &-description {
+      color: $text-light;
       margin-bottom: 15px;
     }
   }
 
-  &__list-description,
-  &__table-description {
-    @include responsive-font(0.9rem, 1rem);
-    & {
-      color: lighten($text-color, 20%);
-      margin-bottom: 20px;
-    }
-  }
-  
-  &__list-items {
+  &list-items {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
   }
 
-  &__list-item {
+  &list-item {
     display: flex;
     align-items: flex-start;
-    gap: 15px;
-    border: 1px solid $border-color;
-    border-radius: 8px;
-    padding: 20px;
-  }
+    gap: 10px;
+    padding: 15px;
+    border: 1px solid $border;
+    border-radius: 6px;
+    @include transition;
 
-  &__list-item-fields {
-    flex-grow: 1;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 15px;
-  }
-
-  &__table-container {
-    overflow-x: auto;
-    margin-bottom: 20px;
-  }
-
-  &__mat-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 10px;
-
-    .mat-mdc-header-cell,
-    .mat-mdc-cell {
-      padding: 15px;
-      text-align: left;
-      vertical-align: middle;
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
+    &-fields {
+      flex-grow: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+  }
+
+  &table-container {
+    overflow-x: auto;
+  }
+
+  &mat-table {
+    width: 100%;
+
     .mat-mdc-header-cell {
-      font-weight: bold;
-      color: $primary-color;
-      background-color: lighten($primary-color, 45%);
-      border-bottom: 2px solid $primary-color;
+      font-weight: 600;
+      color: $primary;
     }
 
     .mat-mdc-row {
-      background-color: $card-background;
-      box-shadow: 0 2px 4px $shadow-color;
-      transition: box-shadow 0.3s ease;
+      @include transition;
 
       &:hover {
-        box-shadow: 0 4px 8px $shadow-color;
+        background-color: rgba($primary-light, 0.1);
       }
-    }
-
-    .mat-mdc-cell {
-      &:first-child {
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
-      }
-
-      &:last-child {
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-      }
-    }
-
-    .mat-mdc-form-field {
-      width: 100%;
     }
   }
 
-  &__submit {
+  &__actions {
     display: flex;
     justify-content: flex-end;
-    margin-top: 30px;
+    margin-top: 20px;
   }
+}
 
-  // Material Design Overrides
+// Material Design Overrides
+::ng-deep {
   .mat-mdc-form-field {
     width: 100%;
-
-    .mat-mdc-form-field-flex {
-      background-color: transparent;
-    }
-
-    .mat-mdc-text-field-wrapper {
-      background-color: transparent !important;
-      padding-bottom: 0;
-    }
-
-    .mat-mdc-form-field-underline {
-      display: none;
-    }
-
-    .mat-mdc-form-field-infix {
-      border-top: none;
-      padding: 0.5em 0;
-    }
-
-    &.mat-focused .mat-mdc-form-field-flex {
-      background-color: rgba(0, 0, 0, 0.06);
-    }
-  }
-
-  .mat-mdc-checkbox {
-    margin-right: 10px;
   }
 
   .mat-mdc-raised-button {
-    margin-right: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
 
-  // Responsive adjustments
-  @media (max-width: 1200px) {
-    padding: 20px;
-
-    &__content {
-      flex-direction: column;
-    }
-
-    &__form-container,
-    &__result-display {
-      flex-basis: 100%;
-    }
+  .mat-mdc-checkbox .mat-checkbox-frame {
+    border-color: $primary;
   }
 
-  @media (max-width: 768px) {
-    &__grid {
+  .mat-mdc-radio-button .mat-radio-outer-circle {
+    border-color: $primary;
+  }
+
+  .mat-mdc-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+    background-color: $primary;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .form-generator {
+    padding: 10px;
+
+    &grid {
       grid-template-columns: 1fr;
     }
-  }
 
-  @media (max-width: 480px) {
-    padding: 15px;
-
-    &__mat-table {
-      .mat-mdc-header-cell,
-      .mat-mdc-cell {
-        padding: 10px;
-      }
+    &list-item-fields {
+      grid-template-columns: 1fr;
     }
   }
 }
@@ -281,33 +170,13 @@ mat-progress-spinner {
 // Print styles
 @media print {
   .form-generator {
-    background-color: white;
-    box-shadow: none;
-    padding: 0;
-
-    &__field-container,
-    &__list,
-    &__table {
+    &form, &list, &table {
       box-shadow: none;
-      border: 1px solid $border-color;
-      page-break-inside: avoid;
+      border: 1px solid $border;
     }
 
-    &__mat-table .mat-mdc-row {
-      box-shadow: none;
-    }
-
-    button {
+    &__actions, button[mat-icon-button] {
       display: none;
     }
   }
-}
-
-// Helper function
-@function str-replace($string, $search, $replace: '') {
-  $index: str-index($string, $search);
-  @if $index {
-    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
-  }
-  @return $string;
 }
