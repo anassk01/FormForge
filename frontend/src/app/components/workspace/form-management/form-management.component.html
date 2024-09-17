@@ -1,6 +1,6 @@
 <div class="form-management">
   @if (folderId) {
-    <h3>Forms in {{folderName()}}</h3>
+    <h2>Forms in {{folderName()}}</h2>
     <button mat-raised-button color="primary" (click)="addForm()">Add Form Template</button>
     
     <mat-accordion>
@@ -18,7 +18,7 @@
             <button mat-button (click)="createInstance(template)">Create Instance</button>
           </div>
           <div class="instances">
-            <h4>Instances</h4>
+            <h3>Instances</h3>
             @if (getInstancesForTemplate(template._id).length > 0) {
               <mat-list>
                 @for (instance of getInstancesForTemplate(template._id); track instance._id) {
@@ -39,7 +39,7 @@
     </mat-accordion>
 
     @if (selectedFormSignal()) {
-      <h3>{{ selectedFormSignal()?.name || selectedFormSignal()?.structure?.entryName || 'Untitled Form' }}</h3>
+      <h2>{{ selectedFormSignal()?.name || selectedFormSignal()?.structure?.entryName || 'Untitled Form' }}</h2>
       
       <mat-slide-toggle [ngModel]="isEditable()" (ngModelChange)="onEditableToggle()" 
                         [disabled]="selectedFormSignal()?.state === 'submitted_instance'">
@@ -93,7 +93,7 @@
       }
 
       @if (!selectedFormSignal()?.isTemplate) {
-        <h4>Submissions</h4>
+        <h3>Submissions</h3>
         
         @if (submissions().length > 0) {
           <mat-list>
@@ -123,10 +123,10 @@
 </div>
 
 <ng-template #timerTemplate let-data>
-  <h4>Timer Details</h4>
+  <h3>Timer Details</h3>
   <p>Total Programmed Time: {{ data.details.totalProgrammedTime }}</p>
   <p>Sessions Completed: {{ data.details.sessionsCompleted }} / {{ data.details.totalSessionsPlanned }}</p>
-  <h5>Sessions:</h5>
+  <h4>Sessions:</h4>
   <ul>
     @for (session of data.details.sessions; track session.sessionNumber) {
       <li>
@@ -139,9 +139,9 @@
 </ng-template>
 
 <ng-template #stopwatchTemplate let-data>
-  <h4>Stopwatch Details</h4>
+  <h3>Stopwatch Details</h3>
   <p>Total Time: {{ data.details.totalTime }}</p>
-  <h5>Laps:</h5>
+  <h4>Laps:</h4>
   <ul>
     @for (lap of data.details.laps; track lap.number) {
       <li>Lap {{ lap.number }}: {{ lap.time }}</li>
@@ -150,7 +150,7 @@
 </ng-template>
 
 <ng-template #listTemplate let-data>
-  <h4>List Items:</h4>
+  <h3>List Items:</h3>
   <ul>
     @for (item of data.value; track $index) {
       <li>

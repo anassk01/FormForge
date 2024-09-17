@@ -1,4 +1,4 @@
-//src/app/components/dynamic-field/dynamic-field.component.ts
+// src/app/components/dynamic-field/dynamic-field.component.ts
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule, ValidatorFn, Validators, AbstractControl } from '@angular/forms';
@@ -9,7 +9,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FieldConfig } from '../../interfaces/field-config';
+import { FieldConfig } from '../../interfaces/shared.interface';
 
 @Component({
   selector: 'app-dynamic-field',
@@ -23,43 +23,70 @@ import { FieldConfig } from '../../interfaces/field-config';
     MatNativeDateModule,
     MatSelectModule,
   ],
-  
   template: `
-    <ng-container [ngSwitch]="field.type">
-    <mat-form-field *ngSwitchCase="'TEXT'">
-        @if (field.options.multiline) {
-          <textarea matInput [formControl]="formControl" [placeholder]="field.name" 
-                    [required]="field.required" [attr.maxlength]="field.options.maxLength"
-                    rows="3"></textarea>
-        } @else {
-          <input matInput [formControl]="formControl" [placeholder]="field.name" 
-                 [required]="field.required" [attr.maxlength]="field.options.maxLength">
-        }
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
-         </mat-form-field>
-      <mat-form-field *ngSwitchCase="'NUMBER'">
-        <input matInput type="number" [formControl]="formControl" [placeholder]="field.name" 
-               [required]="field.required" [min]="field.options.range?.min ?? null" [max]="field.options.range?.max ?? null">
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
-      </mat-form-field>
-      <mat-form-field *ngSwitchCase="'DATE'">
-        <input matInput [matDatepicker]="picker" [formControl]="formControl" [placeholder]="field.name" [required]="field.required">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
-      </mat-form-field>
-      <mat-checkbox *ngSwitchCase="'BOOLEAN'" [formControl]="formControl">
-        {{field.name}}
-      </mat-checkbox>
-      <mat-form-field *ngSwitchCase="'SCALE'">
-        <mat-select [formControl]="formControl" [placeholder]="field.name" [required]="field.required">
-          <mat-option *ngFor="let value of getScaleRange()" [value]="value">{{value}}</mat-option>
-        </mat-select>
-        <mat-error *ngIf="formControl.invalid">{{getErrorMessage()}}</mat-error>
-      </mat-form-field>
-    </ng-container>
+    @if (field.description && !hideDescription) {
+      <p class="field-description">{{ field.description }}</p>
+    }
+    @switch (field.type) {
+      @case ('TEXT') {
+        <mat-form-field>
+          @if (field.options.multiline) {
+            <textarea matInput [formControl]="formControl" [placeholder]="field.name" 
+                      [required]="field.required" [attr.maxlength]="field.options.maxLength"
+                      rows="3"></textarea>
+          } @else {
+            <input matInput [formControl]="formControl" [placeholder]="field.name" 
+                   [required]="field.required" [attr.maxlength]="field.options.maxLength">
+          }
+          @if (formControl.invalid) {
+            <mat-error>{{getErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      }
+      @case ('NUMBER') {
+        <mat-form-field>
+          <input matInput type="number" [formControl]="formControl" [placeholder]="field.name" 
+                 [required]="field.required" [min]="field.options.range?.min ?? null" [max]="field.options.range?.max ?? null">
+          @if (formControl.invalid) {
+            <mat-error>{{getErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      }
+      @case ('DATE') {
+        <mat-form-field>
+          <input matInput [matDatepicker]="picker" [formControl]="formControl" [placeholder]="field.name" [required]="field.required">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          @if (formControl.invalid) {
+            <mat-error>{{getErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      }
+      @case ('BOOLEAN') {
+        <mat-checkbox [formControl]="formControl">
+          {{field.name}}
+        </mat-checkbox>
+      }
+      @case ('SCALE') {
+        <mat-form-field>
+          <mat-select [formControl]="formControl" [placeholder]="field.name" [required]="field.required">
+            @for (value of getScaleRange(); track value) {
+              <mat-option [value]="value">{{value}}</mat-option>
+            }
+          </mat-select>
+          @if (formControl.invalid) {
+            <mat-error>{{getErrorMessage()}}</mat-error>
+          }
+        </mat-form-field>
+      }
+    }
   `,
   styles: [`
+    .field-description {
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.54);
+    }
     mat-form-field {
       width: 100%;
     }
@@ -67,10 +94,12 @@ import { FieldConfig } from '../../interfaces/field-config';
 })
 export class DynamicFieldComponent implements OnInit, OnDestroy {
   @Input() field!: FieldConfig;
-  @Input() control: AbstractControl | null = null;
 
   private destroy$ = new Subject<void>();
-
+  @Input() control!: AbstractControl;
+  @Input() readOnly: boolean = false;
+  @Input() hideDescription: boolean = false;
+  
   get formControl(): FormControl {
     if (this.control instanceof FormControl) {
       return this.control;
@@ -85,13 +114,24 @@ export class DynamicFieldComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.setValidators();
     this.listenForChanges();
+    this.updateReadOnlyState();
   }
 
+  
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
+
+  private updateReadOnlyState() {
+    if (this.readOnly) {
+      this.control.disable();
+    } else {
+      this.control.enable();
+    }
+  }
+  
   setValidators() {
     const validators: ValidatorFn[] = [];
     if (this.field.required) {
@@ -117,7 +157,6 @@ export class DynamicFieldComponent implements OnInit, OnDestroy {
       console.warn(`No control found for ${this.field.name}. Cannot listen for changes.`);
       return;
     }
-
     this.formControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((value) => {

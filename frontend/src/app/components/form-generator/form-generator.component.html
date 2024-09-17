@@ -1,25 +1,25 @@
-<!--src/app/components/form-generator/form-generator.component.html-->
 <div class="form-generator">
   <h1 class="form-generatortitle">{{ parsedCode?.entryName || 'Dynamic Form Generator' }}</h1>
   @if (form) {
     <form [formGroup]="form" (ngSubmit)="onSave()" class="form-generatorform">
       <div class="form-generatorgrid">
         @for (field of fields; track field.name) {
-          <div class="form-generatorfield-container" [ngClass]="{'form-generatorfield-container--full': field.type === 'LIST' || field.type === 'TABLE' || field.type === 'STOPWATCH' || field.type === 'TIMER'}">            @switch (field.type) {
+          <div class="form-generatorfield-container" [ngClass]="{'form-generatorfield-container--full': field.type === 'LIST' || field.type === 'TABLE' || field.type === 'STOPWATCH' || field.type === 'TIMER'}">
+            @switch (field.type) {
               @case ('TEXT') {
-                <app-dynamic-field [field]="field" [control]="getFormControl(field.name)"></app-dynamic-field>
+                <app-dynamic-field [field]="field" [control]="getFormControl(field.name)" [readOnly]="isReadOnly()"></app-dynamic-field>
               }
               @case ('NUMBER') {
-                <app-dynamic-field [field]="field" [control]="getFormControl(field.name)"></app-dynamic-field>
+                <app-dynamic-field [field]="field" [control]="getFormControl(field.name)" [readOnly]="isReadOnly()"></app-dynamic-field>
               }
               @case ('DATE') {
-                <app-dynamic-field [field]="field" [control]="getFormControl(field.name)"></app-dynamic-field>
+                <app-dynamic-field [field]="field" [control]="getFormControl(field.name)" [readOnly]="isReadOnly()"></app-dynamic-field>
               }
               @case ('BOOLEAN') {
-                <app-dynamic-field [field]="field" [control]="getFormControl(field.name)"></app-dynamic-field>
+                <app-dynamic-field [field]="field" [control]="getFormControl(field.name)" [readOnly]="isReadOnly()"></app-dynamic-field>
               }
               @case ('SCALE') {
-                <app-dynamic-field [field]="field" [control]="getFormControl(field.name)"></app-dynamic-field>
+                <app-dynamic-field [field]="field" [control]="getFormControl(field.name)" [readOnly]="isReadOnly()"></app-dynamic-field>
               }
               @case ('LIST') {
                 <div class="form-generatorlist">
@@ -34,24 +34,22 @@
                               <app-dynamic-field
                                 [field]="listField"
                                 [control]="item.get(listField.name)!"
+                                [readOnly]="isReadOnly()"
                               ></app-dynamic-field>
                             }
                           }
                         </div>
-                        <button mat-icon-button color="warn" (click)="removeListItem(field.name, $index)" type="button" [disabled]="isTemplate || readOnly">
+                        <button mat-icon-button color="warn" (click)="removeListItem(field.name, $index)" type="button" [disabled]="isReadOnly() || !isFieldEditable(field)">
                           <mat-icon>delete</mat-icon>
                         </button>
-                        
                       </div>
                     }
                   </div>
-                  <button mat-raised-button color="primary" (click)="addListItem(field)" type="button" [disabled]="isTemplate || readOnly">
+                  <button mat-raised-button color="primary" (click)="addListItem(field)" type="button" [disabled]="isReadOnly() || !isFieldEditable(field)">
                     Add Item
                   </button>
-                  
                 </div>
               }
-
               @case ('TABLE') {
                 <div class="form-generatortable">
                   <h3 class="form-generatortable-title">
@@ -60,16 +58,21 @@
                       <span class="required-indicator">*</span>
                     }
                   </h3>
-                  <p class="form-generatortable-description">{{ field.description }}</p>
                   <div class="form-generatortable-container">
                     <table mat-table [dataSource]="getTableDataSource(field.name)" class="form-generatormat-table">
-                      
                       @for (column of field.options.columns || []; track column.name) {
                         <ng-container [matColumnDef]="column.name">
-                          <th mat-header-cell *matHeaderCellDef>{{ column.description }}</th>
+                          <th mat-header-cell *matHeaderCellDef>
+                            {{ column.description }}
+                          </th>
                           <td mat-cell *matCellDef="let rowGroup">
                             <div [formGroup]="rowGroup">
-                              <app-dynamic-field [field]="column" [control]="rowGroup.get(column.name)"></app-dynamic-field>
+                              <app-dynamic-field 
+                                [field]="column"
+                                [control]="rowGroup.get(column.name)"
+                                [readOnly]="isReadOnly()"
+                                [hideDescription]="true"
+                              ></app-dynamic-field>
                             </div>
                           </td>
                         </ng-container>
@@ -77,10 +80,9 @@
                       <ng-container matColumnDef="actions">
                         <th mat-header-cell *matHeaderCellDef>Actions</th>
                         <td mat-cell *matCellDef="let rowGroup; let rowIndex = index">
-                          <button mat-icon-button color="warn" type="button" (click)="removeTableRow(field, rowIndex)" [disabled]="isTemplate || readOnly">
+                          <button mat-icon-button color="warn" type="button" (click)="removeTableRow(field, rowIndex)" [disabled]="isReadOnly() || !isFieldEditable(field)">
                             <mat-icon>delete</mat-icon>
                           </button>
-                        
                         </td>
                       </ng-container>
                       <tr mat-header-row *matHeaderRowDef="getTableColumns(field)"></tr>
@@ -90,7 +92,7 @@
                       </tr>
                     </table>
                   </div>
-                  <button mat-raised-button color="accent" type="button" (click)="addTableRow(field)" [disabled]="isTemplate">
+                  <button mat-raised-button color="accent" type="button" (click)="addTableRow(field)" [disabled]="isReadOnly() || !isFieldEditable(field)">
                     <mat-icon>add</mat-icon> Add Row
                   </button>
                   @if (field.required && !isTemplate && getTableDataSource(field.name).data.length === 0) {
@@ -98,8 +100,8 @@
                   }
                 </div>
               }
-  
               @case ('STOPWATCH') {
+                @defer {
                 <app-time-management
                   [label]="field.name"
                   [description]="field.description"
@@ -107,28 +109,31 @@
                   [settings]="getStopwatchSettings(field)"
                   [savedData]="getSavedTimeManagementData(field.name)"
                   [isSubmittedInstance]="isSubmittedInstance"
-                  [readOnly]="readOnly"
+                  [readOnly]="isReadOnly() || !isFieldEditable(field)"
                   (valueChange)="onTimeManagementValueChange(field.name, $event)">
                 </app-time-management>
+                        }
               }
               @case ('TIMER') {
-                <app-time-management
-                  [label]="field.name"
-                  [description]="field.description"
-                  [type]="'timer'"
-                  [settings]="getTimerSettings(field)"
-                  [savedData]="getSavedTimeManagementData(field.name)"
-                  [isSubmittedInstance]="isSubmittedInstance"
-                  [readOnly]="readOnly"
-                  (valueChange)="onTimeManagementValueChange(field.name, $event)">
-                </app-time-management>
+                @defer {
+                  <app-time-management
+                    [label]="field.name"
+                    [description]="field.description"
+                    [type]="'timer'"
+                    [settings]="getTimerSettings(field)"
+                    [savedData]="getSavedTimeManagementData(field.name)"
+                    [isSubmittedInstance]="isSubmittedInstance"
+                    [readOnly]="isReadOnly() || !isFieldEditable(field)"
+                    (valueChange)="onTimeManagementValueChange(field.name, $event)">
+                  </app-time-management>
+                        }
               }
             }
           </div>
         }
       </div>
       <div class="form-generator__actions">
-        <button mat-raised-button color="primary" type="submit" [disabled]="!isFillable()">
+        <button mat-raised-button color="primary" type="submit" [disabled]="isReadOnly() || !isFillable()">
           {{ isTemplate ? 'Save Template' : 'Submit Form' }}
         </button>
       </div>
@@ -137,4 +142,3 @@
     <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
   }
 </div>
-

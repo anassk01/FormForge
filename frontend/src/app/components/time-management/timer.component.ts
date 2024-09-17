@@ -1,3 +1,4 @@
+//src/app/components/time-management/timer.component.ts
 import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';

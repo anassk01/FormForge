@@ -1,3 +1,4 @@
+//src/app/components/time-management/time-management.types.ts
 export interface StopwatchSettings {
     laps?: number;
     minLaps?: number;
